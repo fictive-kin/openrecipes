@@ -29,7 +29,7 @@ When we read about the [acquisition shutdown of Punchfork](http://punchfork.com/
 
 This part of the story isn't unique, but it continues. When one of our Studiomates spoke up about her disappointment, we listened. Then, [we acted](https://hugspoon.com/punchfork). What happens next surprised us. The CEO of Punchfork [took issue](https://twitter.com/JeffMiller/status/314899821351821312) with our good deed and demanded that we not save any data, even the data (likes) of users who asked us to save their data.
 
-Here's the thing. None of the recipes belonged to Punchfork. They were scraped from various [publishers](https://github.com/fictivekin/therecipedb/wiki/Publishers) to begin with. But, we don't wanna ruffle any feathers, so we're starting over.
+Here's the thing. None of the recipes belonged to Punchfork. They were scraped from various [publishers](https://github.com/fictivekin/openrecipes/wiki/Publishers) to begin with. But, we don't wanna ruffle any feathers, so we're starting over.
 
 Use the force; seek the source?
 
@@ -37,14 +37,14 @@ Use the force; seek the source?
 
 Wanna help? Fantastic. We knew we liked you.
 
-We're gonna be using [the wiki](https://github.com/fictivekin/therecipedb/wiki) to help organize this effort. Right now, there are two simple ways to help:
+We're gonna be using [the wiki](https://github.com/fictivekin/openrecipes/wiki) to help organize this effort. Right now, there are two simple ways to help:
 
-1. Add a [publisher](https://github.com/fictivekin/therecipedb/wiki/Publishers). We wanna have the most complete list of recipe publishers. This is the easiest way to contribute. Please also add [an issue](https://github.com/fictivekin/therecipedb/issues) and tag it `publisher`.
+1. Add a [publisher](https://github.com/fictivekin/openrecipes/wiki/Publishers). We wanna have the most complete list of recipe publishers. This is the easiest way to contribute. Please also add [an issue](https://github.com/fictivekin/openrecipes/issues) and tag it `publisher`.
 2. Claim a publisher.
 
 Claiming a publisher means you are taking responsibility for figuring out how to parse recipes from this particular publisher into the [schema.org Recipe format](http://schema.org/Recipe), which will allow us to regularly pull recipes to add to the database.
 
-Each publisher is a [GitHub issue](https://github.com/fictivekin/therecipedb/issues), so you can claim a publisher by claiming an issue. Just like a bug, and just as delicious.
+Each publisher is a [GitHub issue](https://github.com/fictivekin/openrecipes/issues), so you can claim a publisher by claiming an issue. Just like a bug, and just as delicious.
 
 ## Feedback?
 
