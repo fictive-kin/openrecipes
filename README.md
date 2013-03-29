@@ -1,8 +1,8 @@
-# The Recipe DB
+# Open Recipes
 
 ## About
 
-The Recipe DB is an open database of recipes.
+Open Recipes is an open database of recipes.
 
 Our goals are simple:
 
@@ -15,7 +15,7 @@ That's pretty much it. We're not trying to save the world. We're just trying to 
 
 Regular snapshots of the database will be provided as a JSON file. The format will mirror the [schema.org Recipe format](http://schema.org/Recipe). Here's an example:
 
-[therecipedb.json](http://therecipedb.org/therecipedb.json)
+[recipes.json](http://openrecip.es/recipes.json)
 
 As long as the source of a recipe still exists, preparation instructions will not be provided in the database. For preparation instructions, please link to the source.
 
