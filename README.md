@@ -27,7 +27,7 @@ When we read about the [acquisition shutdown of Punchfork](http://punchfork.com/
 
 > We're excited to share the news that we're gonna be rich! To celebrate, we're shutting down the site and taking all your data down with it. So long, suckers!
 
-This part of the story isn't at all unique, but it continues. When one of our Studiomates spoke up about her disappointment, we listened. Then, [we acted](https://hugspoon.com/punchfork). This is where the story takes a surprising turn. The CEO of Punchfork [took issue](https://twitter.com/JeffMiller/status/314899821351821312) with our good deed and demanded that we not save any data, even users' likes.
+This part of the story isn't unique, but it continues. When one of our Studiomates spoke up about her disappointment, we listened. Then, [we acted](https://hugspoon.com/punchfork). What happens next surprised us. The CEO of Punchfork [took issue](https://twitter.com/JeffMiller/status/314899821351821312) with our good deed and demanded that we not save any data, even the data (likes) of users who asked us to save their data.
 
 Here's the thing. None of the recipes belonged to Punchfork. They were scraped from various [publishers](https://github.com/fictivekin/therecipedb/wiki/Publishers) to begin with. But, we don't wanna ruffle any feathers, so we're starting over.
 
@@ -39,7 +39,7 @@ Wanna help? Fantastic. We knew we liked you.
 
 We're gonna be using [the wiki](https://github.com/fictivekin/therecipedb/wiki) to help organize this effort. Right now, there are two simple ways to help:
 
-1. Add a [publisher](https://github.com/fictivekin/therecipedb/wiki/Publishers). We wanna have the most complete list of recipe publishers.
+1. Add a [publisher](https://github.com/fictivekin/therecipedb/wiki/Publishers). We wanna have the most complete list of recipe publishers. This is the easiest way to contribute. Please also add [an issue](https://github.com/fictivekin/therecipedb/issues) and tag it `publisher`.
 2. Claim a publisher.
 
 Claiming a publisher means you are taking responsibility for figuring out how to parse recipes from this particular publisher into the [schema.org Recipe format](http://schema.org/Recipe), which will allow us to regularly pull recipes to add to the database.
@@ -48,4 +48,4 @@ Each publisher is a [GitHub issue](https://github.com/fictivekin/therecipedb/iss
 
 ## Feedback?
 
-FEED. Get it? Seriously, we're just trying to do the right thing, so we value your feedback as we go. You can ping [Chris](https://github.com/shiflett), [Ed](https://github.com/funkatron), or anyone from [Fictive Kin](https://github.com/fictivekin).
+We're just trying to do the right thing, so we value your feedback as we go. You can ping [Chris](https://github.com/shiflett), [Ed](https://github.com/funkatron), or anyone from [Fictive Kin](https://github.com/fictivekin).
