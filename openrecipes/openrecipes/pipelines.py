@@ -32,10 +32,8 @@ class DuplicaterecipePipeline(object):
                          item['url'].encode('utf-8'))
         hash_id = hashlib.md5(base).hexdigest()
 
-        log.msg("Dupecheck %s:%s" % (base, hash_id), level=log.INFO)
-
         if hash_id in self.ids_seen:
-            raise DropItem("Duplicate name/url: %s" % item)
+            raise DropItem("Duplicate name/url: %s" % base)
 
         else:
             self.ids_seen.add(hash_id)
