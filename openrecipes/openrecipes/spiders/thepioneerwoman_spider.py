@@ -6,7 +6,6 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
-from scrapy import log
 from openrecipes.items import RecipeItem
 
 
@@ -34,11 +33,11 @@ class ThepioneerwomancrawlSpider(CrawlSpider):
         description_path = '//meta[@property="og:description"]/@content'
         url_path = '//meta[@property="og:url"]/@content'
         image_path = '//meta[@property="og:image"][1]/@content'
-        prepTime_path = '*//*[@itemprop="prepTime"]/text()'
-        cookTime_path = '*//*[@itemprop="cookTime"]/text()'
+        prepTime_path = '*//*[@itemprop="prepTime"]/@datetime'
+        cookTime_path = '*//*[@itemprop="cookTime"]/@datetime'
         recipeYield_path = '*//*[@itemprop="yield"]/text()'
         ingredients_path = '*//*[@itemprop="ingredient"]'
-        recipeInstructions_path = '*[@itemprop="instructions"]/*'
+        datePublished = '*/*[@itemprop="published"]/@datetime'
 
         recipes = []
         for r_scope in recipes_scopes:
@@ -62,7 +61,7 @@ class ThepioneerwomancrawlSpider(CrawlSpider):
                 ingredients.append("%s %s" % (amount, name))
             item['ingredients'] = ingredients
 
-            item['recipeInstructions'] = r_scope.select(recipeInstructions_path).extract()
+            item['datePublished'] = r_scope.select(datePublished).extract()
 
             recipes.append(item)
 
