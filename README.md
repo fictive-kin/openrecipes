@@ -48,7 +48,7 @@ Each publisher is a [GitHub issue](https://github.com/fictivekin/openrecipes/iss
 
 ## The Tech
 
-To gather data for Open Recipes, we are building spiders based on [scrapy](http://scrapy.org), a web scraping framework written in Python. We are using [Scrapy v0.16](http://doc.scrapy.org/en/0.16/) at the moment. To contribute spiders for sites, you should have basic familiarity with:
+To gather data for Open Recipes, we are building spiders based on [Scrapy](http://scrapy.org), a web scraping framework written in Python. We are using [Scrapy v0.16](http://doc.scrapy.org/en/0.16/) at the moment. To contribute spiders for sites, you should have basic familiarity with:
 
 * Python
 * git
