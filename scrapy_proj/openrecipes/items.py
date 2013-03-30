@@ -1,8 +1,3 @@
-# Define here the models for your scraped items
-#
-# See documentation in:
-# http://doc.scrapy.org/topics/items.html
-
 from scrapy.item import Item, Field
 
 
@@ -10,6 +5,12 @@ class RecipeItem(Item):
     """
     based on the structure of a recipe from schema.org
     http://schema.org/Recipe
+
+    We don't have to fill ALL of these, but we should try to get as many as
+    possible. We absolutely MUST get these:
+    - name
+    - url
+    - ingredients
     """
 
     # Thing
@@ -19,10 +20,10 @@ class RecipeItem(Item):
     url = Field()  # URL
 
     # CreativeWork
-    creator = Field()  # Organization or Person
-    dateCreated = Field()  # ISO 8601 Date
-    dateModified = Field()  # ISO 8601 Date
-    datePublished = Field()  # ISO 8601 Date
+    creator = Field()  # Organization or Person -- not sure yet how to handle
+    dateCreated = Field()  # ISO 8601 Date -- the orig item, not our copy
+    dateModified = Field()  # ISO 8601 Date -- the orig item, not our copy
+    datePublished = Field()  # ISO 8601 Date -- the orig item, not our copy
     keywords = Field()
 
     # Recipe
@@ -32,7 +33,7 @@ class RecipeItem(Item):
     prepTime = Field()    # ISO 8601 Duration
     recipeCategory = Field()
     recipeCuisine = Field()
-    recipeInstructions = Field()
+    recipeInstructions = Field()  # we don't currently populate this
     recipeYield = Field()
     totalTime = Field()  # ISO 8601 Duration
 

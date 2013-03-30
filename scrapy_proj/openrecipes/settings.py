@@ -3,7 +3,7 @@
 # For simplicity, this file contains only the most important settings by
 # default. All the other settings are documented here:
 #
-#     http://doc.scrapy.org/topics/settings.html
+#     http://doc.scrapy.org/en/0.16/topics/settings.html
 #
 
 BOT_NAME = 'openrecipes'
@@ -11,14 +11,19 @@ BOT_NAME = 'openrecipes'
 SPIDER_MODULES = ['openrecipes.spiders']
 NEWSPIDER_MODULE = 'openrecipes.spiders'
 
+# all items will be passed through these pipelines
 ITEM_PIPELINES = [
     'openrecipes.pipelines.MakestringsPipeline',
     'openrecipes.pipelines.DuplicaterecipePipeline',
 ]
 
+# keep this low to avoid hammering the source site
 CONCURRENT_REQUESTS_PER_DOMAIN = 2
 
+# a reasonable delay means we're less likely to get blocked
 DOWNLOAD_DELAY = 0.5
 RANDOMIZE_DOWNLOAD_DELAY = True
 
-USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31 openrecipes (+http://openrecip.es)'
+# report like a regular browser, but add our info at the end so folks can
+# contact us if need be
+USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31 Open Recipes (+http://openrecip.es)'
