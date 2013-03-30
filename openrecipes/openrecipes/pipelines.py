@@ -9,7 +9,7 @@ import bleach
 
 class MakestringsPipeline(object):
     def process_item(self, item, spider):
-        if item['ingredients']:
+        if item.get('ingredients', False):
             for k, v in item.iteritems():
                 if k == 'ingredients':
                     item[k] = "\n".join(v)
