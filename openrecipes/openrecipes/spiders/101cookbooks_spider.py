@@ -13,6 +13,7 @@ class OnehundredonecookbookscrawlSpider(CrawlSpider):
     name = "101cookbooks.com"
     allowed_domains = ["101cookbooks.com"]
     start_urls = [
+        # all of the recipes are linked from this page
         "http://www.101cookbooks.com/archives.html",
     ]
 
