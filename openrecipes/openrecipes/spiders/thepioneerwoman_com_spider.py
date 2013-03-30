@@ -6,6 +6,7 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
+from scrapy import log
 from openrecipes.items import RecipeItem
 
 
@@ -13,11 +14,13 @@ class ThepioneerwomancrawlSpider(CrawlSpider):
     name = "thepioneerwoman.com"
     allowed_domains = ["thepioneerwoman.com"]
     start_urls = [
-        "http://thepioneerwoman.com/cooking/category/all-pw-recipes/?posts_per_page=1000",
+        "http://thepioneerwoman.com/cooking/category/all-pw-recipes/?posts_per_page=60",
     ]
 
     rules = (
-        Rule(SgmlLinkExtractor(allow=('cooking\/\d\d\d\d\/\d\d\/[a-zA-Z_]+', )), callback='parse_item'),
+        Rule(SgmlLinkExtractor(allow=('/cooking/category/all-pw-recipes/page/\d+/'))),
+        Rule(SgmlLinkExtractor(allow=('cooking\/\d\d\d\d\/\d\d\/[a-zA-Z_]+')),
+             callback='parse_item'),
     )
 
     def parse_item(self, response):
