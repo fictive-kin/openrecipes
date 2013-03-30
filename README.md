@@ -100,8 +100,8 @@ Once you have `pip` and `virtualenv`, you can clone our repo and install require
 
 For now, we recommend looking at the following spider definitions to get a feel for writing them:
 
-* [spiders/thepioneerwoman_spider.py](/blob/master/scrapy_proj/openrecipes/spiders/thepioneerwoman_spider.py)
-* [spiders/thepioneerwoman_feedspider.py](blob/master/scrapy_proj/openrecipes/spiders/thepioneerwoman_feedspider.py)
+* [spiders/thepioneerwoman_spider.py](scrapy_proj/openrecipes/spiders/thepioneerwoman_spider.py)
+* [spiders/thepioneerwoman_feedspider.py](scrapy_proj/openrecipes/spiders/thepioneerwoman_feedspider.py)
 
 Both files are extensively documented, and should give you an idea of what's involved. If you have questions, check the [Feedback section](#feedback) and hit us up.
 
