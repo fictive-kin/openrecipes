@@ -4,7 +4,7 @@
 # See: http://doc.scrapy.org/topics/item-pipeline.html
 from scrapy.exceptions import DropItem
 import hashlib
-from scrapy import log
+import bleach
 
 
 class MakestringsPipeline(object):
@@ -17,6 +17,9 @@ class MakestringsPipeline(object):
                     item[k] = "\n".join(v)
                 else:
                     item[k] = "".join(v)
+                # strips all HTML tags
+                item[k] = bleach.clean(item[k], tags=[], attributes={},
+                                       styles=[], strip=True)
             return item
         else:
             raise DropItem("Missing ingredients in %s" % item)
