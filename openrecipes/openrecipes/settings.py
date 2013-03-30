@@ -16,5 +16,11 @@ ITEM_PIPELINES = [
     'openrecipes.pipelines.DuplicaterecipePipeline',
 ]
 
+CONCURRENT_REQUESTS_PER_DOMAIN = 2
+
+DOWNLOAD_DELAY = 0.5
+RANDOMIZE_DOWNLOAD_DELAY = True
+DOWNLOADER_DEBUG = True
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = 'openrecipes (+http://openrecip.es)'
+USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.43 Safari/537.31 openrecipes (+http://openrecip.es)'
