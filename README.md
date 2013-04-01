@@ -17,9 +17,7 @@ The recipes in Open Recipes do not include preparation instructions. This is why
 
 ## The Database
 
-Regular snapshots of the database will be provided as a JSON file. The format will mirror the [schema.org Recipe format](http://schema.org/Recipe). Here's an example:
-
-[recipes.json](http://openrecip.es/recipes.json)
+Regular snapshots of the database will be provided as JSON. The format will mirror the [schema.org Recipe format](http://schema.org/Recipe). We've [posted an example dump of data](http://openrecipes.s3.amazonaws.com/openrecipes.txt) so you can get a feel for it.
 
 ## The Story
 
@@ -47,6 +45,8 @@ We're gonna be using [the wiki](https://github.com/fictivekin/openrecipes/wiki) 
 Claiming a publisher means you are taking responsibility for writing a simple parser for the recipes from this particular publisher. Our tech ([see below](#the-tech)) will store this in an object type based on the [schema.org Recipe format](http://schema.org/Recipe), and can convert it into other formats for easy storage and discovery.
 
 Each publisher is a [GitHub issue](https://github.com/fictivekin/openrecipes/issues), so you can claim a publisher by claiming an issue. Just like a bug, and just as delicious.
+
+When you have a working parser (what we call "spiders" below), you contribute it to this project by submitting a [Github pull request](https://help.github.com/articles/using-pull-requests). We'll use it to periodically bring recipe data into our database. The database will be available intially as data dumps.
 
 ## The Tech
 
@@ -106,6 +106,8 @@ For now, we recommend looking at the following spider definitions to get a feel 
 * [spiders/thepioneerwoman_feedspider.py](scrapy_proj/openrecipes/spiders/thepioneerwoman_feedspider.py)
 
 Both files are extensively documented, and should give you an idea of what's involved. If you have questions, check the [Feedback section](#feedback) and hit us up.
+
+We'll use the ["fork & pull" development model](https://help.github.com/articles/fork-a-repo) for collaboration, so if you plan to contribute, make sure to fork your own repo off of ours. Then you can send us a pull request when you have something to contribute.
 
 ## Feedback?
 
