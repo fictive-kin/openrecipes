@@ -51,12 +51,12 @@ Each publisher is a [GitHub issue](https://github.com/fictivekin/openrecipes/iss
 To gather data for Open Recipes, we are building spiders based on [Scrapy](http://scrapy.org), a web scraping framework written in Python. We are using [Scrapy v0.16](http://doc.scrapy.org/en/0.16/) at the moment. To contribute spiders for sites, you should have basic familiarity with:
 
 * Python
-* git
+* Git
 * HTML and/or XML
 
 ### Setting up a dev environment
 
-*Note: this is strongly biased towards OS X. Feel free to contribute instructions for other operating systems.*
+> Note: this is strongly biased towards OS X. Feel free to contribute instructions for other operating systems.
 
 To get things going, you will need the following tools:
 
@@ -69,11 +69,11 @@ You will probably already have the first two. If you don't have `pip`, follow [t
 
 Once you have `pip` and `virtualenv`, you can clone our repo and install requirements with the following steps:
 
-1. Open a terminal and `cd` to the directory that will contain your repo clone. **For these instructions, we'll assume you `cd ~/src`**.
-2. `git clone https://github.com/fictivekin/openrecipes.git` to clone the repo. This will make an `~/src/openrecipes` directory that contains your local repo.
+1. Open a terminal and `cd` to the directory that will contain your repo clone. For these instructions, we'll assume you `cd ~/src`.
+2. `git clone https://github.com/fictivekin/openrecipes.git` to clone the repo. This will make a `~/src/openrecipes` directory that contains your local repo.
 3. `cd ./openrecipes` to move into the newly-cloned repo.
 4. `virtualenv --no-site-packages venv` to create a Python virtual environment inside `~/src/openrecipes/venv`.
-5. `source venv/bin/activate` to activate your new Python virtual environment
+5. `source venv/bin/activate` to activate your new Python virtual environment.
 6. `pip install -r requirements.txt` to install the required Python libraries, including Scrapy.
 7. `scrapy -h` to confirm that the `scrapy` command was installed. You should get a dump of the help docs.
 8. `cd scrapy_proj` to move into the Scrapy project directory
