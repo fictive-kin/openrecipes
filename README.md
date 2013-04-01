@@ -2,7 +2,7 @@
 
 ## About
 
-Open Recipes is an open database of recipes.
+Open Recipes is an open database of recipe bookmarks.
 
 Our goals are simple:
 
@@ -11,13 +11,15 @@ Our goals are simple:
 
 That's pretty much it. We're not trying to save the world. We're just trying to save some recipes.
 
+## Recipe Bookmarks?
+
+The recipes in Open Recipes do not include preparation instructions. This is why we like to think of Open Recipes as a database of recipe bookmarks. We think this database should provide everything you need to *find* a great recipe, but not everything you need to *prepare* a great recipe. For preparation instructions, please link to the source.
+
 ## The Database
 
 Regular snapshots of the database will be provided as a JSON file. The format will mirror the [schema.org Recipe format](http://schema.org/Recipe). Here's an example:
 
 [recipes.json](http://openrecip.es/recipes.json)
-
-As long as the source of a recipe still exists, preparation instructions will not be provided in the database. For preparation instructions, please link to the source.
 
 ## The Story
 
@@ -108,3 +110,5 @@ Both files are extensively documented, and should give you an idea of what's inv
 ## Feedback?
 
 We're just trying to do the right thing, so we value your feedback as we go. You can ping [Chris](https://github.com/shiflett), [Ed](https://github.com/funkatron), or anyone from [Fictive Kin](https://github.com/fictivekin).
+
+We're also gonna be on IRC, so please feel free to join us if you have any questions or comments. We'll be hanging out in #openrecipes on Freenode. See you there!
