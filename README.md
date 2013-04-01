@@ -13,9 +13,7 @@ That's pretty much it. We're not trying to save the world. We're just trying to 
 
 ## The Database
 
-Regular snapshots of the database will be provided as a JSON file. The format will mirror the [schema.org Recipe format](http://schema.org/Recipe). Here's an example:
-
-[recipes.json](http://openrecip.es/recipes.json)
+Regular snapshots of the database will be provided as a JSON file. The format will mirror the [schema.org Recipe format](http://schema.org/Recipe).
 
 As long as the source of a recipe still exists, preparation instructions will not be provided in the database. For preparation instructions, please link to the source.
 
