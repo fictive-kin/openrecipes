@@ -42,7 +42,7 @@ We're gonna be using [the wiki](https://github.com/fictivekin/openrecipes/wiki) 
 1. Add a [publisher](https://github.com/fictivekin/openrecipes/wiki/Publishers). We wanna have the most complete list of recipe publishers. This is the easiest way to contribute. Please also add [an issue](https://github.com/fictivekin/openrecipes/issues) and tag it `publisher`.
 2. Claim a publisher.
 
-Claiming a publisher means you are taking responsibility for figuring out how to parse recipes from this particular publisher into the [schema.org Recipe format](http://schema.org/Recipe), which will allow us to regularly pull recipes to add to the database.
+Claiming a publisher means you are taking responsibility for writing a simple parser for the recipes from this particular publisher. Our tech ([see below](#the-tech)) will store this in an object type based on the [schema.org Recipe format](http://schema.org/Recipe), and can convert it into other formats for easy storage and discovery.
 
 Each publisher is a [GitHub issue](https://github.com/fictivekin/openrecipes/issues), so you can claim a publisher by claiming an issue. Just like a bug, and just as delicious.
 
