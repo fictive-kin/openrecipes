@@ -46,6 +46,8 @@ Claiming a publisher means you are taking responsibility for writing a simple pa
 
 Each publisher is a [GitHub issue](https://github.com/fictivekin/openrecipes/issues), so you can claim a publisher by claiming an issue. Just like a bug, and just as delicious.
 
+When you have a working parser (what we call "spiders" below), you contribute it to this project by submitting a [Github pull request](https://help.github.com/articles/using-pull-requests). We'll use it to periodically bring recipe data into our database. The database will be available intially as data dumps.
+
 ## The Tech
 
 To gather data for Open Recipes, we are building spiders based on [Scrapy](http://scrapy.org), a web scraping framework written in Python. We are using [Scrapy v0.16](http://doc.scrapy.org/en/0.16/) at the moment. To contribute spiders for sites, you should have basic familiarity with:
@@ -104,6 +106,8 @@ For now, we recommend looking at the following spider definitions to get a feel 
 * [spiders/thepioneerwoman_feedspider.py](scrapy_proj/openrecipes/spiders/thepioneerwoman_feedspider.py)
 
 Both files are extensively documented, and should give you an idea of what's involved. If you have questions, check the [Feedback section](#feedback) and hit us up.
+
+We'll use the ["fork & pull" development model](https://help.github.com/articles/fork-a-repo) for collaboration, so if you plan to contribute, make sure to fork your own repo off of ours. Then you can send us a pull request when you have something to contribute.
 
 ## Feedback?
 
