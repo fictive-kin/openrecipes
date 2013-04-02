@@ -16,7 +16,7 @@ class BBCfoodMixin(object):
         recipes_scopes = hxs.select(base_path)
 
         name_path = '//h1/text()'
-        description_path = '//div[@id="description"]/span[@class="summary"]/text()'
+        description_path = '//div[@id="description"]//span[@class="summary"]/text()'
         image_path = '//img[@id="food-image"]/@src'
         prepTime_path = '//span[@class="prepTime"]/span[@class="value-title"]/@title'
         cookTime_path = '//span[@class="cookTime"]/span[@class="value-title"]/@title'
