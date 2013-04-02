@@ -62,7 +62,7 @@ To gather data for Open Recipes, we are building spiders based on [Scrapy](http:
 
 To get things going, you will need the following tools:
 
-1. Python 2.7
+1. Python 2.7 (including headers)
 1. Git
 1. `pip`
 1. `virtualenv`
