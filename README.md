@@ -67,7 +67,9 @@ To get things going, you will need the following tools:
 1. `pip`
 1. `virtualenv`
 
-You will probably already have the first two. If you don't have `pip`, follow [the installation instructions in the pip docs](http://www.pip-installer.org/en/latest/installing.html). Then you can [install `virtualenv` using pip](http://www.virtualenv.org/en/latest/#installation).
+You will probably already have the first two, although you may need to install Python headers on Linux with something like `apt-get install python-dev`.
+
+If you don't have `pip`, follow [the installation instructions in the pip docs](http://www.pip-installer.org/en/latest/installing.html). Then you can [install `virtualenv` using pip](http://www.virtualenv.org/en/latest/#installation).
 
 Once you have `pip` and `virtualenv`, you can clone our repo and install requirements with the following steps:
 
