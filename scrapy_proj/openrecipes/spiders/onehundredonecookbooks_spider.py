@@ -5,6 +5,11 @@ from openrecipes.items import RecipeItem
 
 
 class OnehundredonecookbooksMixin(object):
+
+    # this is the source string we'll store in the DB to aggregate stuff
+    # from a single source
+    source = '101cookbooks'
+
     def parse_item(self, response):
         hxs = HtmlXPathSelector(response)
 
@@ -34,6 +39,8 @@ class OnehundredonecookbooksMixin(object):
         recipes = []
         for r_scope in recipes_scopes:
             item = RecipeItem()
+            item['source'] = self.source
+
             item['name'] = r_scope.select(name_path).extract()
             item['image'] = r_scope.select(image_path).extract()
             item['url'] = r_scope.select(url_path).extract()

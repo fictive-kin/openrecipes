@@ -11,6 +11,10 @@ class DelishhhMixin(object):
     Using this as a mixin lets us reuse the parse_item method more easily
     """
 
+    # this is the source string we'll store in the DB to aggregate stuff
+    # from a single source
+    source = 'delishhh'
+
     def parse_item(self, response):
         """
         this site is a mess, with LOTS of inconsistencies in formatting. We will
@@ -52,6 +56,9 @@ class DelishhhMixin(object):
         for r_scope in recipes_scopes:
             # make an empty RecipeItem
             item = RecipeItem()
+
+            item['source'] = self.source
+
             item['name'] = r_scope.select(name_path).extract()
             item['image'] = r_scope.select(image_path).extract()
             item['url'] = r_scope.select(url_path).extract()
@@ -97,6 +104,9 @@ class DelishhhMixin(object):
         for r_scope in recipes_scopes:
             # make an empty RecipeItem
             item = RecipeItem()
+
+            item['source'] = self.source
+
             item['name'] = r_scope.select(name_path).extract()
             item['image'] = r_scope.select(image_path).extract()
             item['url'] = r_scope.select(url_path).extract()
