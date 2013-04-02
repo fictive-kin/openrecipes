@@ -1,24 +1,24 @@
 from scrapy.spider import BaseSpider
 from scrapy.http import Request
 from scrapy.selector import XmlXPathSelector
-from openrecipes.spiders.thepioneerwoman_spider import ThepioneerwomanMixin
+from openrecipes.spiders.onehundredonecookbooks_spider import OnehundredonecookbooksMixin
 
 
-class ThepioneerwomanfeedSpider(BaseSpider, ThepioneerwomanMixin):
+class OnehundredonecookbooksfeedSpider(BaseSpider, OnehundredonecookbooksMixin):
     """
-    This parses the RSS feed for thepioneerwoman.com, grabs the original
+    This parses the RSS feed for 101cookbooks.com, grabs the original
     links to each entry, and scrapes just those pages. This should be used
     to keep up to date after we have backfilled the existing recipes by
     crawling the whole site
     """
-    name = "thepioneerwoman.feed"
+    name = "101cookbooks.feed"
     allowed_domains = [
-        "thepioneerwoman.com",
-        "feeds.feedburner.com",
+        "101cookbooks.com",
+        "feeds.101cookbooks.com",
         "feedproxy.google.com"
     ]
     start_urls = [
-        "http://feeds.feedburner.com/pwcooks",
+        "http://feeds.101cookbooks.com/101cookbooks",
     ]
 
     def parse(self, response):
@@ -32,6 +32,5 @@ class ThepioneerwomanfeedSpider(BaseSpider, ThepioneerwomanMixin):
         """
         xxs = XmlXPathSelector(response)
         links = xxs.select("//item/*[local-name()='origLink']/text()").extract()
-
-        # self.parse_item comes from ThepioneerwomanMixin
+        # self.parse_item comes from OnehundredonecookbooksMixin
         return [Request(x, callback=self.parse_item) for x in links]

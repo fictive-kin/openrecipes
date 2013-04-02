@@ -4,19 +4,7 @@ from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem
 
 
-class OnehundredonecookbookscrawlSpider(CrawlSpider):
-    name = "101cookbooks.com"
-    allowed_domains = ["101cookbooks.com"]
-    start_urls = [
-        # all of the recipes are linked from this page
-        "http://www.101cookbooks.com/archives.html",
-    ]
-
-    rules = (
-        Rule(SgmlLinkExtractor(allow=('archives/.+\.html')),
-             callback='parse_item'),
-    )
-
+class OnehundredonecookbooksMixin(object):
     def parse_item(self, response):
         hxs = HtmlXPathSelector(response)
 
@@ -62,3 +50,17 @@ class OnehundredonecookbookscrawlSpider(CrawlSpider):
             recipes.append(item)
 
         return recipes
+
+
+class OnehundredonecookbookscrawlSpider(CrawlSpider):
+    name = "101cookbooks.com"
+    allowed_domains = ["101cookbooks.com"]
+    start_urls = [
+        # all of the recipes are linked from this page
+        "http://www.101cookbooks.com/archives.html",
+    ]
+
+    rules = (
+        Rule(SgmlLinkExtractor(allow=('archives/.+\.html')),
+             callback='parse_item'),
+    )
