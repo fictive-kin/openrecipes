@@ -17,7 +17,7 @@ class DelishhhMixin(object):
 
         # this is the base XPath string for the element that contains the recipe
         # info
-        base_path = """//div[@class="recipe hrecipe"]"""
+        base_path = """//blockquote[@class="recipe hrecipe"]"""
 
         # the select() method will return a list of HtmlXPathSelector objects.
         # On this site we will almost certainly either get back just one, if
