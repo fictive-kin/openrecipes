@@ -44,7 +44,7 @@ We're gonna be using [the wiki](https://github.com/fictivekin/openrecipes/wiki) 
 
 Claiming a publisher means you are taking responsibility for writing a simple parser for the recipes from this particular publisher. Our tech ([see below](#the-tech)) will store this in an object type based on the [schema.org Recipe format](http://schema.org/Recipe), and can convert it into other formats for easy storage and discovery.
 
-Each publisher is a [GitHub issue](https://github.com/fictivekin/openrecipes/issues), so you can claim a publisher by claiming an issue. Just like a bug, and just as delicious.
+Each publisher is a [GitHub issue](https://github.com/fictivekin/openrecipes/issues), so you can claim a publisher by claiming an issue. Just like a bug, and just as delicious.  Just leave a comment on the issue claiming it, and it's all yours.
 
 When you have a working parser (what we call "spiders" below), you contribute it to this project by submitting a [Github pull request](https://help.github.com/articles/using-pull-requests). We'll use it to periodically bring recipe data into our database. The database will be available intially as data dumps.
 
