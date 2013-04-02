@@ -111,6 +111,6 @@ We'll use the ["fork & pull" development model](https://help.github.com/articles
 
 ## Feedback?
 
-We're just trying to do the right thing, so we value your feedback as we go. You can ping [Chris](https://github.com/shiflett), [Ed](https://github.com/funkatron), or anyone from [Fictive Kin](https://github.com/fictivekin).
+We're just trying to do the right thing, so we value your feedback as we go. You can ping [Chris](https://github.com/shiflett), [Andreas](https://github.com/andbirkebaek), [Ed](https://github.com/funkatron), or anyone from [Fictive Kin](https://github.com/fictivekin).
 
 We're also gonna be on IRC, so please feel free to join us if you have any questions or comments. We'll be hanging out in #openrecipes on Freenode. See you there!
