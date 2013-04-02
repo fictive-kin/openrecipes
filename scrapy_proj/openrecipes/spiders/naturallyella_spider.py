@@ -20,7 +20,16 @@ class NaturallyEllaMixin(object):
         name_path = '//meta[@property="og:title"]/@content'
         url_path = '//meta[@property="og:url"]/@content'
 
-        ingredients_path = '//li[@itemprop="ingredients"]/text()';
+        date_published_path = '//div[@class="metabar-pad"]//time/@datetime'
+        author_path = '//span[@itemprop="author"]/text()'
+
+        ingredients_path = '//li[@itemprop="ingredients"]/text()'
+
+        cook_time_path = '//time[@itemprop="cookTime"]/@datetime'
+        prep_time_path = '//time[@itemprop="prepTime"]/@datetime'
+        category_path = '//span[@itemprop="recipeCategory"]/text()'        
+        yield_path = '//span[@itemprop="recipeYield"]/text()'        
+        total_time_path = '//time[@itemprop="totalTime"]/@datetime'
 
         recipes = []
         for recipe_scope in recipes_scope:
@@ -33,6 +42,9 @@ class NaturallyEllaMixin(object):
             item['name'] = recipe_scope.select(name_path).extract()
             item['url'] = recipe_scope.select(url_path).extract()
 
+            item['datePublished'] = recipe_scope.select(date_published_path).extract()
+            item['creator'] = recipe_scope.select(author_path).extract()
+
             ingredients = []
             ingredient_scopes = recipe_scope.select(ingredients_path)
             for ingredient_scope in ingredient_scopes:
@@ -40,6 +52,12 @@ class NaturallyEllaMixin(object):
                 if (ingredient):
                     ingredients.append(ingredient) 
             item['ingredients'] = ingredients
+
+            item['cookTime'] = recipe_scope.select(cook_time_path).extract()
+            item['prepTime'] = recipe_scope.select(prep_time_path).extract()
+            item['recipeCategory'] = recipe_scope.select(category_path).extract()
+            item['recipeYield'] = recipe_scope.select(yield_path).extract()
+            item['totalTime'] = recipe_scope.select(total_time_path).extract()
 
             recipes.append(item)
 
