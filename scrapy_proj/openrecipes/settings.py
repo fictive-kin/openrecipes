@@ -21,7 +21,7 @@ ITEM_PIPELINES = [
 CONCURRENT_REQUESTS_PER_DOMAIN = 2
 
 # a reasonable delay means we're less likely to get blocked
-DOWNLOAD_DELAY = 0.5
+DOWNLOAD_DELAY = 2.0
 RANDOMIZE_DOWNLOAD_DELAY = True
 
 # report like a regular browser, but add our info at the end so folks can
