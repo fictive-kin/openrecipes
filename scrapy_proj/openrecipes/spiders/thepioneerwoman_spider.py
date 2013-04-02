@@ -4,32 +4,11 @@ from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem
 
 
-class ThepioneerwomancrawlSpider(CrawlSpider):
+class ThepioneerwomanMixin(object):
 
-    # this is the name you'll use to run this spider from the CLI
-    name = "thepioneerwoman.com"
-
-    # URLs not under this set of domains will be ignored
-    allowed_domains = ["thepioneerwoman.com"]
-
-    # the set of URLs the crawler with start with. We're starting on the first
-    # page of the site's recipe archive
-    start_urls = [
-        "http://thepioneerwoman.com/cooking/category/all-pw-recipes/?posts_per_page=60",
-    ]
-
-    # a tuple of Rules that are used to extract links from the HTML page
-    rules = (
-        # this rule has no callback, so these links will be followed and mined
-        # for more URLs. This lets us page through the recipe archives
-        Rule(SgmlLinkExtractor(allow=('/cooking/category/all-pw-recipes/page/\d+/'))),
-
-        # this rule is for recipe posts themselves. The callback argument will
-        # process the HTML on the page, extract the recipe information, and
-        # return a RecipeItem object
-        Rule(SgmlLinkExtractor(allow=('cooking\/\d\d\d\d\/\d\d\/[a-zA-Z_]+')),
-             callback='parse_item'),
-    )
+    """
+    Using this as a mixin lets us reuse the parse_item method more easily
+    """
 
     def parse_item(self, response):
 
@@ -94,3 +73,31 @@ class ThepioneerwomancrawlSpider(CrawlSpider):
         # more processing is done by the openrecipes.pipelines. Look at that
         # file to see transforms that are applied to each RecipeItem
         return recipes
+
+
+class ThepioneerwomancrawlSpider(CrawlSpider, ThepioneerwomanMixin):
+
+    # this is the name you'll use to run this spider from the CLI
+    name = "thepioneerwoman.com"
+
+    # URLs not under this set of domains will be ignored
+    allowed_domains = ["thepioneerwoman.com"]
+
+    # the set of URLs the crawler with start with. We're starting on the first
+    # page of the site's recipe archive
+    start_urls = [
+        "http://thepioneerwoman.com/cooking/category/all-pw-recipes/?posts_per_page=60",
+    ]
+
+    # a tuple of Rules that are used to extract links from the HTML page
+    rules = (
+        # this rule has no callback, so these links will be followed and mined
+        # for more URLs. This lets us page through the recipe archives
+        Rule(SgmlLinkExtractor(allow=('/cooking/category/all-pw-recipes/page/\d+/'))),
+
+        # this rule is for recipe posts themselves. The callback argument will
+        # process the HTML on the page, extract the recipe information, and
+        # return a RecipeItem object
+        Rule(SgmlLinkExtractor(allow=('cooking\/\d\d\d\d\/\d\d\/[a-zA-Z_]+')),
+             callback='parse_item'),
+    )
