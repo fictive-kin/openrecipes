@@ -1,7 +1,7 @@
 # scrapy stuff
 .scrapy
 dbs/
-
+settings.py
 
 .DS_Store
 .AppleDouble
