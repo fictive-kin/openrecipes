@@ -4,10 +4,9 @@ from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem
 
 class BBCfoodMixin(object):
-
-    """
-    Using this as a mixin lets us reuse the parse_item method more easily
-    """
+    # this is the source string we'll store in the DB to aggregate stuff
+    # from a single source
+    source = 'bbcfood'
 
     def parse_item(self, response):
         hxs = HtmlXPathSelector(response)
@@ -23,22 +22,22 @@ class BBCfoodMixin(object):
         cookTime_path = '//span[@class="cookTime"]/span[@class="value-title"]/@title'
         recipeYield_path = '//h3[@class="yield"]/text()'
         ingredients_path = '//p[@class="ingredient"]'
-        url_path = '//body/@id'
 
         recipes = []
 
         for r_scope in recipes_scopes:
             item = RecipeItem()
 
+            item['source'] = self.source
+
             item['name'] = r_scope.select(name_path).extract()
             item['image'] = r_scope.select(image_path).extract()
+            item['url'] = response.url
             item['description'] = r_scope.select(description_path).extract()
+
             item['prepTime'] = r_scope.select(prepTime_path).extract()
             item['cookTime'] = r_scope.select(cookTime_path).extract()
             item['recipeYield'] = r_scope.select(recipeYield_path).extract()
-
-            # could not locate full url within the page
-            item['url'] = 'http://www.bbc.co.uk/food/recipes/' + r_scope.select(url_path).extract()[0]
 
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
@@ -65,6 +64,6 @@ class BBCfoodcrawlSpider(CrawlSpider, BBCfoodMixin):
     rules = (
         Rule(SgmlLinkExtractor(allow=('/food/chefs/.+'))),
 
-        Rule(SgmlLinkExtractor(allow=('food/recipes/.+')),
+        Rule(SgmlLinkExtractor(allow=('food/recipes/(?!search).+')),
              callback='parse_item'),
     )
