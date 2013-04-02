@@ -32,6 +32,6 @@ class DelishhhfeedSpider(BaseSpider, DelishhhMixin):
         """
         xxs = XmlXPathSelector(response)
         links = xxs.select("//item/*[local-name()='origLink']/text()").extract()
-        
+
         # self.parse_item comes from OnehundredonecookbooksMixin
         return [Request(x, callback=self.parse_item) for x in links]
