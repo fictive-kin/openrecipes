@@ -39,12 +39,12 @@ Wanna help? Fantastic. We knew we liked you.
 
 We're gonna be using [the wiki](https://github.com/fictivekin/openrecipes/wiki) to help organize this effort. Right now, there are two simple ways to help:
 
-1. Add a [publisher](https://github.com/fictivekin/openrecipes/wiki/Publishers). We wanna have the most complete list of recipe publishers. This is the easiest way to contribute. Please also add [an issue](https://github.com/fictivekin/openrecipes/issues) and tag it `publisher`.
+1. Add a [publisher](https://github.com/fictivekin/openrecipes/wiki/Publishers). We wanna have the most complete list of recipe publishers. This is the easiest way to contribute. Please also add [an issue](https://github.com/fictivekin/openrecipes/issues) and tag it `publisher`. If you don't have a github account you can also email us suggestions at openrecipes@fictivekin.com
 2. Claim a publisher.
 
 Claiming a publisher means you are taking responsibility for writing a simple parser for the recipes from this particular publisher. Our tech ([see below](#the-tech)) will store this in an object type based on the [schema.org Recipe format](http://schema.org/Recipe), and can convert it into other formats for easy storage and discovery.
 
-Each publisher is a [GitHub issue](https://github.com/fictivekin/openrecipes/issues), so you can claim a publisher by claiming an issue. Just like a bug, and just as delicious.
+Each publisher is a [GitHub issue](https://github.com/fictivekin/openrecipes/issues), so you can claim a publisher by claiming an issue. Just like a bug, and just as delicious.  Just leave a comment on the issue claiming it, and it's all yours.
 
 When you have a working parser (what we call "spiders" below), you contribute it to this project by submitting a [Github pull request](https://help.github.com/articles/using-pull-requests). We'll use it to periodically bring recipe data into our database. The database will be available intially as data dumps.
 
@@ -62,12 +62,14 @@ To gather data for Open Recipes, we are building spiders based on [Scrapy](http:
 
 To get things going, you will need the following tools:
 
-1. Python 2.7
+1. Python 2.7 (including headers)
 1. Git
 1. `pip`
 1. `virtualenv`
 
-You will probably already have the first two. If you don't have `pip`, follow [the installation instructions in the pip docs](http://www.pip-installer.org/en/latest/installing.html). Then you can [install `virtualenv` using pip](http://www.virtualenv.org/en/latest/#installation).
+You will probably already have the first two, although you may need to install Python headers on Linux with something like `apt-get install python-dev`.
+
+If you don't have `pip`, follow [the installation instructions in the pip docs](http://www.pip-installer.org/en/latest/installing.html). Then you can [install `virtualenv` using pip](http://www.virtualenv.org/en/latest/#installation).
 
 Once you have `pip` and `virtualenv`, you can clone our repo and install requirements with the following steps:
 
@@ -111,6 +113,6 @@ We'll use the ["fork & pull" development model](https://help.github.com/articles
 
 ## Feedback?
 
-We're just trying to do the right thing, so we value your feedback as we go. You can ping [Chris](https://github.com/shiflett), [Andreas](https://github.com/andbirkebaek), [Ed](https://github.com/funkatron), or anyone from [Fictive Kin](https://github.com/fictivekin).
+We're just trying to do the right thing, so we value your feedback as we go. You can ping [Ed](https://github.com/funkatron), [Chris](https://github.com/shiflett), [Andreas](https://github.com/andbirkebaek), or anyone from [Fictive Kin](https://github.com/fictivekin). General suggestions and feedback to [openrecipes@fictivekin.com](mailto:openrecipes@fictivekin.com) are welcome, too.
 
 We're also gonna be on IRC, so please feel free to join us if you have any questions or comments. We'll be hanging out in #openrecipes on Freenode. See you there!
