@@ -25,11 +25,11 @@ class NaturallyEllaMixin(object):
 
         ingredients_path = '//li[@itemprop="ingredients"]/text()'
 
-        cook_time_path = '//time[@itemprop="cookTime"]/@datetime'
-        prep_time_path = '//time[@itemprop="prepTime"]/@datetime'
-        category_path = '//span[@itemprop="recipeCategory"]/text()'        
-        yield_path = '//span[@itemprop="recipeYield"]/text()'        
-        total_time_path = '//time[@itemprop="totalTime"]/@datetime'
+        cook_time_path = './/time[@itemprop="cookTime"]//*[starts-with(@title, "PT")]/@title | .//time[@itemprop="cookTime"]/@datetime'
+        prep_time_path = './/time[@itemprop="prepTime"]//*[starts-with(@title, "PT")]/@title | .//time[@itemprop="prepTime"]/@datetime'
+        category_path = '//span[@itemprop="recipeCategory"]/text()'
+        yield_path = '//span[@itemprop="recipeYield"]/text()'
+        total_time_path = './/time[@itemprop="totalTime"]//*[starts-with(@title, "PT")]/@title | .//time[@itemprop="totalTime"]/@datetime'
 
         recipes = []
         for recipe_scope in recipes_scope:
