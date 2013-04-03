@@ -70,7 +70,7 @@ class NaturallyEllaCrawlSpider(CrawlSpider, NaturallyEllaMixin):
     allowed_domains = ["naturallyella.com"]
     
     start_urls = [  
-        "http://naturallyella.com/recipes/appetizers/"
+        "http://naturallyella.com/recipes/appetizers/",
         "http://naturallyella.com/recipes/breads/",
         "http://naturallyella.com/recipes/breakfast/",
         "http://naturallyella.com/recipes/cookies-and-bars/",
