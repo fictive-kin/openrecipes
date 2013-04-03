@@ -13,6 +13,9 @@ class RecipeItem(Item):
     - ingredients
     """
 
+    # our internal stuff
+    source = Field()
+
     # Thing
     description = Field()
     image = Field()  # URL

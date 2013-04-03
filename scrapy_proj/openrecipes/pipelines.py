@@ -14,30 +14,41 @@ class MakestringsPipeline(object):
     """
 
     def process_item(self, item, spider):
-        if item.get('ingredients', False):
-            for k, v in item.iteritems():
-                if k == 'ingredients':
-                    # with ingredients, we want to separate each entry with a
-                    # newline character
-                    item[k] = "\n".join(v)
-                else:
-                    # otherwise just smash them together with nothing between.
-                    # We expect these to always just be lists with 1 or 0
-                    # elements, so it effectively converts the list into a
-                    # string
-                    item[k] = "".join(v)
+        if not item.get('source', False):
+            raise DropItem("Missing 'source' in %s" % item)
 
-                # Use Bleach to strip all HTML tags. The tags could be a source
-                # of code injection, and it's generally not safe to keep them.
-                # We may consider storing a whitelisted subset in special
-                # properties for the sake of presentation.
-                item[k] = bleach.clean(item[k], tags=[], attributes={},
-                                       styles=[], strip=True)
-            return item
-        else:
-            # if ingredients is not present, we say this is not a RecipeItem
-            # and drop it
-            raise DropItem("Missing ingredients in %s" % item)
+        if not item.get('name', False):
+            raise DropItem("Missing 'name' in %s" % item)
+
+        if not item.get('url', False):
+            raise DropItem("Missing 'url' in %s" % item)
+
+        if not item.get('ingredients', False):
+            raise DropItem("Missing 'ingredients' in %s" % item)
+
+        for k, v in item.iteritems():
+            if k == 'ingredients':
+                # with ingredients, we want to separate each entry with a
+                # newline character
+                item[k] = "\n".join(v)
+            else:
+                # otherwise just smash them together with nothing between.
+                # We expect these to always just be lists with 1 or 0
+                # elements, so it effectively converts the list into a
+                # string
+                item[k] = "".join(v)
+
+            # Use Bleach to strip all HTML tags. The tags could be a source
+            # of code injection, and it's generally not safe to keep them.
+            # We may consider storing a whitelisted subset in special
+            # properties for the sake of presentation.
+            item[k] = bleach.clean(item[k], tags=[], attributes={},
+                                   styles=[], strip=True)
+
+            # trim whitespace
+            item[k] = item[k].strip()
+
+        return item
 
 
 class DuplicaterecipePipeline(object):
