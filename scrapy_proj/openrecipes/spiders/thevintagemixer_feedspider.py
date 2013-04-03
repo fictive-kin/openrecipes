@@ -6,7 +6,7 @@ from openrecipes.spiders.thevintagemixer_spider import TheVintageMixerMixin
 
 class TheVintageMixerFeedSpider(BaseSpider, TheVintageMixerMixin):
 
-    name = "thevintagespider.feed",
+    name = "thevintagemixer.feed"
     allowed_domains = [
         "thevintagemixer.com"
     ]

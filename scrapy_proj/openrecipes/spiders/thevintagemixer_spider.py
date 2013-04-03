@@ -48,3 +48,20 @@ class TheVintageMixerMixin(object):
             recipes.append(item)
 
         return recipes
+
+class TheVintageMixerCrawlSpider(CrawlSpider, TheVintageMixerMixin):
+
+    name = "thevintagemixer.com"
+
+    allowed_domains = ["thevintagemixer.com"]
+
+    start_urls = [
+        "http://www.thevintagemixer.com/category/vintage-mixer/recipes/",
+    ]
+
+    rules = (
+        
+        Rule(SgmlLinkExtractor(allow=('/category/vintage-mixer/recipes/page/\d+/'))),
+
+        Rule(SgmlLinkExtractor(allow=('/\d{4}/\d{2}//[a-z-]+/')), callback='parse_item'),
+    )

@@ -82,6 +82,6 @@ class NaturallyEllaCrawlSpider(CrawlSpider, NaturallyEllaMixin):
     ]
 
     rules = (
-        Rule(SgmlLinkExtractor(allow=('\d{4}/\d{2}/\d{2}/[a-z-]+/')),
+        Rule(SgmlLinkExtractor(allow=('/\d{4}/\d{2}/\d{2}/[a-z-]+/')),
              callback='parse_item'),
     )
