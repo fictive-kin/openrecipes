@@ -9,7 +9,7 @@ class NaturallyEllaMixin(object):
     source = 'naturallyella'
 
     def parse_item(self, response):
-        
+
         hxs = HtmlXPathSelector(response)
 
         base_path = """//div[@itemtype="http://schema.org/Recipe"]"""
@@ -50,7 +50,7 @@ class NaturallyEllaMixin(object):
             for ingredient_scope in ingredient_scopes:
                 ingredient = ingredient_scope.extract().strip()
                 if (ingredient):
-                    ingredients.append(ingredient) 
+                    ingredients.append(ingredient)
             item['ingredients'] = ingredients
 
             item['cookTime'] = recipe_scope.select(cook_time_path).extract()
@@ -63,13 +63,14 @@ class NaturallyEllaMixin(object):
 
         return recipes
 
+
 class NaturallyEllaCrawlSpider(CrawlSpider, NaturallyEllaMixin):
 
     name = "naturallyella.com"
-    
+
     allowed_domains = ["naturallyella.com"]
-    
-    start_urls = [  
+
+    start_urls = [
         "http://naturallyella.com/recipes/appetizers/",
         "http://naturallyella.com/recipes/breads/",
         "http://naturallyella.com/recipes/breakfast/",
