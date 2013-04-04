@@ -1,0 +1,6 @@
+## THIS IS A PROTOTYPING SITE ##
+
+source ../venv/bin/activate
+easy_install pycurl (might need to on Debian GNU/Linux distributions ... sudo apt-get install librtmp-dev libgnutls-dev)
+easy_install web.py
+python openrecipes.py

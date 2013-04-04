@@ -1,0 +1,10 @@
+$def with (recipes) 
+
+$if recipes:
+    $for each_recipe in recipes:
+        <div class="recipe">
+            <span class="recipe_box name" style="display:block">NAME: $each_recipe['name']</span>
+            <span class="recipe_box url" style="display:block">URL: $each_recipe['url']</span>
+        </div>
+$else:
+    <div class="error">ERROR: Could not render recipes!</div>
