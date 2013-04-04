@@ -15,7 +15,7 @@ class SeriouseatsMixin(object):
     source = 'seriouseats'
 
     def parse_item(self, response):
-        
+
         # we use this to run XPath commands against the HTML in the response
         hxs = HtmlXPathSelector(response)
 
@@ -50,18 +50,18 @@ class SeriouseatsMixin(object):
             item['name'] = r_scope.select(name_path).extract()
             item['image'] = r_scope.select(image_path).extract()
             item['url'] = response.url
-            
+
             item['prepTime'] = r_scope.select(prepTime_path).extract()
             item['cookTime'] = r_scope.select(cookTime_path).extract()
             item['recipeYield'] = r_scope.select(recipeYield_path).extract()
-            
-            
+
+
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
             for i_scope in ingredient_scopes:
                 ingredients.append(i_scope.extract())
             item['ingredients'] = ingredients
-            
+
             item['datePublished'] = r_scope.select(datePublished).extract()
 
             # stick this RecipeItem in the array of recipes we will return
