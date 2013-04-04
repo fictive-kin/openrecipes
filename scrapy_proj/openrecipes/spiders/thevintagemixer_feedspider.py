@@ -15,7 +15,7 @@ class TheVintageMixerFeedSpider(BaseSpider, TheVintageMixerMixin):
     ]
 
     def parse(self, response):
-        
+
         xxs = XmlXPathSelector(response)
         links = xxs.select('//item/*[local-name()="link"]/text()').extract()
 
