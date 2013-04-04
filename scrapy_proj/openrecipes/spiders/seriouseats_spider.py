@@ -55,7 +55,6 @@ class SeriouseatsMixin(object):
             item['cookTime'] = r_scope.select(cookTime_path).extract()
             item['recipeYield'] = r_scope.select(recipeYield_path).extract()
 
-
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
             for i_scope in ingredient_scopes:
