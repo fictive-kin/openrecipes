@@ -72,7 +72,7 @@ class SeriouseatsMixin(object):
 		return recipes
 
 
-class ThepioneerwomancrawlSpider(CrawlSpider, SeriouseatsMixin):
+class SeriouseatscrawlSpider(CrawlSpider, SeriouseatsMixin):
 
 	# this is the name you'll use to run this spider from the CLI
 	name = "seriouseats.com"
