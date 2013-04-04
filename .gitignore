@@ -1,5 +1,6 @@
 # scrapy stuff
 .scrapy
+scrapy_proj/setup.py
 dbs/
 
 
