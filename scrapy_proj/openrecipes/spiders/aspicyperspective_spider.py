@@ -14,7 +14,7 @@ class AspicyperspectivecrawlSpider(CrawlSpider):
 
     # a tuple of Rules that are used to extract links from the HTML page
     rules = (
-        Rule(SgmlLinkExtractor(allow=('/page/'))),
+        Rule(SgmlLinkExtractor(allow=('/page/\d+'))),
         Rule(SgmlLinkExtractor(allow=('/\d\d\d\d/\d\d/.+\.html')),callback='parse_item'),
     )
 
@@ -26,19 +26,18 @@ class AspicyperspectivecrawlSpider(CrawlSpider):
         recipes_scopes = hxs.select(base_path)
 
         name_path = '//h2[@class="fn"]'
-        url_path = '//meta[@property="og:url"]/@content'
-        image_path = '//meta[@property="og:image"][1]/@content'
+        image_path = '//img[@class="photo"]/@src'
         prepTime_path = '//span[@class="preptime"]'
-        cookTime_path = '*//span[@class="cooktime"]'
+        cookTime_path = '//span[@class="cooktime"]'
         recipeYield_path = '//span[@class="yield"]'
-        ingredients_path = '//div[@class="ingredient"]'
+        ingredients_path = '//div[@class="ingredient"]/ul'
 
         recipes = []
         for r_scope in recipes_scopes:
             item = RecipeItem()
             item['name'] = r_scope.select(name_path).extract()
             item['image'] = r_scope.select(image_path).extract()
-            item['url'] = r_scope.select(url_path).extract()
+            item['url'] = response.url
 
             item['prepTime'] = r_scope.select(prepTime_path).extract()
             item['cookTime'] = r_scope.select(cookTime_path).extract()
@@ -47,7 +46,7 @@ class AspicyperspectivecrawlSpider(CrawlSpider):
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
             for i_scope in ingredient_scopes:
-                ingredient_item = i_scope.select('*[@p]/text()').extract()
+                ingredient_item = i_scope.select('li/text()').extract()
                 ingredients.append("%s"  % ingredient_item)
             item['ingredients'] = ingredients
 
