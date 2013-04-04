@@ -79,8 +79,7 @@ class SeriouseatscrawlSpider(CrawlSpider, SeriouseatsMixin):
     # URLs not under this set of domains will be ignored
     allowed_domains = ["seriouseats.com"]
 
-    # the set of URLs the crawler with start with. We're starting on the first
-    # page of the site's recipe archive
+    # the set of URLs the crawler will start from
     start_urls = [
         "http://www.seriouseats.com/recipes/2013/03/24-week/",
     ]
