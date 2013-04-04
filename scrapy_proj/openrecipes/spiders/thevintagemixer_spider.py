@@ -5,7 +5,7 @@ from openrecipes.items import RecipeItem
 
 
 class TheVintageMixerMixin(object):
-   
+
     source = 'thevintagemixer'
 
     def parse_item(self, response):
@@ -15,7 +15,7 @@ class TheVintageMixerMixin(object):
         base_path = '//div[@itemtype="http://schema.org/Recipe"]'
         recipes_scope = hxs.select(base_path)
 
-        ingredients_path = '//li[@itemprop="ingredients"]/text()';
+        ingredients_path = '//li[@itemprop="ingredients"]/text()'
 
         image_path = '(//div[@class="entry"]//img/@src)[1]'
         name_path = '//div[@itemprop="name"]/text()'
@@ -39,7 +39,7 @@ class TheVintageMixerMixin(object):
             for ingredient_scope in ingredient_scopes:
                 ingredient = ingredient_scope.extract().strip()
                 if (ingredient):
-                    ingredients.append(ingredient) 
+                    ingredients.append(ingredient)
             item['ingredients'] = ingredients
 
             item['recipeYield'] = recipe_scope.select(yield_path).extract()
@@ -48,6 +48,7 @@ class TheVintageMixerMixin(object):
             recipes.append(item)
 
         return recipes
+
 
 class TheVintageMixerCrawlSpider(CrawlSpider, TheVintageMixerMixin):
 
@@ -60,7 +61,7 @@ class TheVintageMixerCrawlSpider(CrawlSpider, TheVintageMixerMixin):
     ]
 
     rules = (
-        
+
         Rule(SgmlLinkExtractor(allow=('/category/vintage-mixer/recipes/page/\d+/'))),
 
         Rule(SgmlLinkExtractor(allow=('/\d{4}/\d{2}//[a-z-]+/')), callback='parse_item'),
