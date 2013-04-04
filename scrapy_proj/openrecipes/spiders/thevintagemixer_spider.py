@@ -17,7 +17,7 @@ class TheVintageMixerMixin(object):
 
         ingredients_path = '//li[@itemprop="ingredients"]/text()';
 
-        image_path = '//div[@class="entry"]//img[1]/@src'
+        image_path = '(//div[@class="entry"]//img/@src)[1]'
         name_path = '//div[@itemprop="name"]/text()'
         url_path = '//h2[@class="title"]/a/@href'
 
