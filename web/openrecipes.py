@@ -1,5 +1,5 @@
+import math
 import os.path
-
 import pycurl
 import web
 
@@ -52,7 +52,10 @@ def get_recipes():
 ## Functionality
 class index:
     def GET(self):
-        return render.index(get_recipes())
+        PAGINATE = 20
+        recipes = get_recipes()
+        number_pages = int(math.ceil(len(recipes) / PAGINATE))
+        return render.index(recipes, number_pages)
 
 
 ## Start it up!

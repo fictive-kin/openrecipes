@@ -1,10 +1,18 @@
-$def with (recipes) 
+$def with (recipes, number_pages) 
 
 $if recipes:
+    $ max = 20
+    $ count = 0
     $for each_recipe in recipes:
+        $ count += 1 
+        $code: 
+            if count > max:
+                break
         <div class="recipe">
-            <span class="recipe_box name" style="display:block">NAME: $each_recipe['name']</span>
-            <span class="recipe_box url" style="display:block">URL: $each_recipe['url']</span>
+            <span class="recipe_box name" style="display:block">$each_recipe['name']</span>
+            <span class="recipe_box image" style="display:block">
+                <a href="$each_recipe['url']"><img src="$each_recipe['image']" /></a>
+            </span>
         </div>
 $else:
     <div class="error">ERROR: Could not render recipes!</div>
