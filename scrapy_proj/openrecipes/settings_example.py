@@ -16,14 +16,14 @@ ITEM_PIPELINES = [
     'openrecipes.pipelines.MakestringsPipeline',
     'openrecipes.pipelines.DuplicaterecipePipeline',
     # uncomment if you want to insert results into MongoDB
-    # 'scrapy_mongodb.MongoDBPipeline',
+    # 'openrecipes.pipelines.MongoDBPipeline',
 ]
 
 # keep this low to avoid hammering the source site
 CONCURRENT_REQUESTS_PER_DOMAIN = 2
 
 # a reasonable delay means we're less likely to get blocked
-DOWNLOAD_DELAY = 0.3
+DOWNLOAD_DELAY = 2.0
 RANDOMIZE_DOWNLOAD_DELAY = True
 
 # report like a regular browser, but add our info at the end so folks can
@@ -32,7 +32,7 @@ USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_3) AppleWebKit/537.31 
 
 # MongoDB stuff, if needed
 MONGODB_URI = 'mongodb://localhost:27017'
-MONGODB_DATABASE = 'openrecipes'
+MONGODB_DB = 'openrecipes'
 MONGODB_COLLECTION = 'recipeitems'
 MONGODB_UNIQUE_KEY = 'url'
 MONGODB_ADD_TIMESTAMP = True
