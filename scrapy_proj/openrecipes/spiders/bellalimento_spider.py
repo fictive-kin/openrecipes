@@ -40,7 +40,7 @@ class BellalimentocrawlSpider(CrawlSpider):
                 item['image'] = image_scope.extract()[0]
             else:
                 sel = CSSSelector('img.size-full, img.size-large')
-                images = r_scope.select(sel.path).select('@src').extract()
+                images = hxs.select(sel.path).select('@src').extract()
                 if images:
                     item['image'] = images[0]
                 else:
