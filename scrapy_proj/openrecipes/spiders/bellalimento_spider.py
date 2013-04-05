@@ -32,6 +32,7 @@ class BellalimentocrawlSpider(CrawlSpider):
         recipes = []
         for r_scope in recipes_scopes:
             item = RecipeItem()
+            item['source'] = 'bellalimento'
             item['name'] = r_scope.select(name_path).extract()
             name = item['name']
             image_path = '//img[contains(@title, "' + name[0] + '")]/@src'

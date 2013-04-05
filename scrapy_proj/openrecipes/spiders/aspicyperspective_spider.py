@@ -35,6 +35,7 @@ class AspicyperspectivecrawlSpider(CrawlSpider):
         recipes = []
         for r_scope in recipes_scopes:
             item = RecipeItem()
+            item['source'] = 'aspicyperspective'
             item['name'] = r_scope.select(name_path).extract()
             item['image'] = r_scope.select(image_path).extract()
             item['url'] = response.url

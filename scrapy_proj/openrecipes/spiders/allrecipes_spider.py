@@ -50,6 +50,7 @@ class AllrecipescrawlSpider(CrawlSpider):
         recipes = []
         for r_scope in recipes_scopes:
             item = RecipeItem()
+            item['source'] = 'allrecipes'
             item['name'] = r_scope.select(name_path).extract()
             item['image'] = r_scope.select(image_path).extract()
             item['url'] = r_scope.select(url_path).extract()
