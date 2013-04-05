@@ -15,7 +15,7 @@ class AspicyperspectivecrawlSpider(CrawlSpider):
     # a tuple of Rules that are used to extract links from the HTML page
     rules = (
         Rule(SgmlLinkExtractor(allow=('/page/\d+'))),
-        Rule(SgmlLinkExtractor(allow=('/\d\d\d\d/\d\d/.+\.html')),callback='parse_item'),
+        Rule(SgmlLinkExtractor(allow=('/\d\d\d\d/\d\d/.+\.html')), callback='parse_item'),
     )
 
     def parse_item(self, response):
@@ -47,7 +47,7 @@ class AspicyperspectivecrawlSpider(CrawlSpider):
             ingredients = []
             for i_scope in ingredient_scopes:
                 ingredient_item = i_scope.select('li/text()').extract()
-                ingredients.append("%s"  % ingredient_item)
+                ingredients.append("%s" % ingredient_item)
             item['ingredients'] = ingredients
 
             recipes.append(item)
