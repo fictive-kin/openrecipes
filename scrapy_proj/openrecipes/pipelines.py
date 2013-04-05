@@ -100,10 +100,9 @@ class MongoDBPipeline(object):
         db = connection[self.db]
         self.collection = db[self.col]
 
-        if settings['MONGODB_UNIQUE_KEY']:
-            self.collection.ensure_index(settings['MONGODB_UNIQUE_KEY'],
-                                         unique=True)
-            log.msg('Ensuring index for key %s' % settings['MONGODB_UNIQUE_KEY'])
+        self.collection.ensure_index(settings['MONGODB_UNIQUE_KEY'],
+                                     unique=True)
+        log.msg('Ensuring index for key %s' % settings['MONGODB_UNIQUE_KEY'])
 
     def process_item(self, item, spider):
 
