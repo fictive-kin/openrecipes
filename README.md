@@ -81,7 +81,8 @@ Once you have `pip` and `virtualenv`, you can clone our repo and install require
 6. `pip install -r requirements.txt` to install the required Python libraries, including Scrapy.
 7. `scrapy -h` to confirm that the `scrapy` command was installed. You should get a dump of the help docs.
 8. `cd scrapy_proj` to move into the Scrapy project directory
-9. `scrapy crawl thepioneerwoman.feed` to test the feed spider written for [thepioneerwoman.com](http://thepioneerwoman.com). You should get output like the following:
+9. `cp settings.py.default settings.py` to set up a working settings module for the project
+10. `scrapy crawl thepioneerwoman.feed` to test the feed spider written for [thepioneerwoman.com](http://thepioneerwoman.com). You should get output like the following:
 
 	<pre>
     2013-03-30 14:35:37-0400 [scrapy] INFO: Scrapy 0.16.4 started (bot: openrecipes)
@@ -109,7 +110,7 @@ For now, we recommend looking at the following spider definitions to get a feel 
 
 Both files are extensively documented, and should give you an idea of what's involved. If you have questions, check the [Feedback section](#feedback) and hit us up.
 
-We'll use the ["fork & pull" development model](https://help.github.com/articles/fork-a-repo) for collaboration, so if you plan to contribute, make sure to fork your own repo off of ours. Then you can send us a pull request when you have something to contribute.
+We'll use the ["fork & pull" development model](https://help.github.com/articles/fork-a-repo) for collaboration, so if you plan to contribute, make sure to fork your own repo off of ours. Then you can send us a pull request when you have something to contribute. Please follow ["PEP 8 - Style Guide for Python Code"](http://www.python.org/dev/peps/pep-0008/) for code you write.
 
 ## Feedback?
 

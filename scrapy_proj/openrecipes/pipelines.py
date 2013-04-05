@@ -3,8 +3,12 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: http://doc.scrapy.org/en/0.16/topics/item-pipeline.html
 from scrapy.exceptions import DropItem
+from scrapy import log
+from scrapy.conf import settings
+import pymongo
 import hashlib
 import bleach
+import datetime
 
 
 class MakestringsPipeline(object):
@@ -31,7 +35,7 @@ class MakestringsPipeline(object):
                 # with ingredients, we want to separate each entry with a
                 # newline character
                 item[k] = "\n".join(v)
-            else:
+            elif isinstance(item[k], list):
                 # otherwise just smash them together with nothing between.
                 # We expect these to always just be lists with 1 or 0
                 # elements, so it effectively converts the list into a
@@ -80,3 +84,49 @@ class DuplicaterecipePipeline(object):
             # otherwise add the has to the list of seen IDs
             self.ids_seen.add(hash_id)
             return item
+
+
+class MongoDBPipeline(object):
+    """
+    modified from http://snipplr.com/view/65894/
+    some ideas from https://github.com/sebdah/scrapy-mongodb/blob/master/scrapy_mongodb.py
+    """
+
+    def __init__(self):
+        self.uri = settings['MONGODB_URI']
+        self.db = settings['MONGODB_DB']
+        self.col = settings['MONGODB_COLLECTION']
+        connection = pymongo.mongo_client.MongoClient(self.uri)
+        db = connection[self.db]
+        self.collection = db[self.col]
+
+        self.collection.ensure_index(settings['MONGODB_UNIQUE_KEY'],
+                                     unique=True)
+        log.msg('Ensuring index for key %s' % settings['MONGODB_UNIQUE_KEY'])
+
+    def process_item(self, item, spider):
+
+        # mongo takes a dict
+        item_dict = dict(item)
+
+        err_msg = ''
+
+        # add timestamp automatically if requested
+        if settings['MONGODB_ADD_TIMESTAMP']:
+            item_dict['ts'] = datetime.datetime.utcnow()
+
+        try:
+            self.collection.insert(item_dict)
+
+        except Exception, e:
+            err_msg = 'Insert to MongoDB %s/%s FAILED: %s' % (self.db,
+                                                              self.col,
+                                                              e.message)
+        if err_msg:
+            log.msg(err_msg,
+                level=log.WARNING, spider=spider)
+            return item
+
+        log.msg('Item written to MongoDB database %s/%s' % (self.db, self.col),
+                level=log.DEBUG, spider=spider)
+        return item

@@ -1,7 +1,8 @@
 # scrapy stuff
 .scrapy
+scrapy_proj/setup.py
 dbs/
-
+settings.py
 
 .DS_Store
 .AppleDouble
