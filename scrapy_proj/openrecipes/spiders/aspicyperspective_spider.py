@@ -30,7 +30,7 @@ class AspicyperspectivecrawlSpider(CrawlSpider):
         prepTime_path = '//span[@class="preptime"]/text()'
         cookTime_path = '//span[@class="cooktime"]/text()'
         recipeYield_path = '//span[@class="yield"]/text()'
-        ingredients_path = '//div[@class="ingredient"]/ul'
+        ingredients_path = '//div[@class="ingredient"]/node()//text()'
 
         recipes = []
         for r_scope in recipes_scopes:
@@ -46,8 +46,10 @@ class AspicyperspectivecrawlSpider(CrawlSpider):
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
             for i_scope in ingredient_scopes:
-                ingredient_item = i_scope.select('li/text()').extract()
-                ingredients.append("%s" % ingredient_item)
+                ingredient = i_scope.extract().strip()
+                if ingredient != '':
+                    ingredients.append(ingredient.encode('utf-8'))
+
             item['ingredients'] = ingredients
 
             recipes.append(item)
