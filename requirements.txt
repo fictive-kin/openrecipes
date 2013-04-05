@@ -7,3 +7,4 @@ pyOpenSSL==0.13
 w3lib==1.2
 wsgiref==0.1.2
 zope.interface==4.0.5
+isodate==0.4.9
