@@ -109,7 +109,7 @@ For now, we recommend looking at the following spider definitions to get a feel 
 
 Both files are extensively documented, and should give you an idea of what's involved. If you have questions, check the [Feedback section](#feedback) and hit us up.
 
-We'll use the ["fork & pull" development model](https://help.github.com/articles/fork-a-repo) for collaboration, so if you plan to contribute, make sure to fork your own repo off of ours. Then you can send us a pull request when you have something to contribute.
+We'll use the ["fork & pull" development model](https://help.github.com/articles/fork-a-repo) for collaboration, so if you plan to contribute, make sure to fork your own repo off of ours. Then you can send us a pull request when you have something to contribute. Please follow ["PEP 8 - Style Guide for Python Code"](http://www.python.org/dev/peps/pep-0008/) for code you write.
 
 ## Feedback?
 
