@@ -2,6 +2,7 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem
+from lxml.cssselect import CSSSelector
 
 
 class BellalimentocrawlSpider(CrawlSpider):
@@ -15,7 +16,7 @@ class BellalimentocrawlSpider(CrawlSpider):
     # a tuple of Rules that are used to extract links from the HTML page
     rules = (
         Rule(SgmlLinkExtractor(allow=('/category/.+'))),
-        Rule(SgmlLinkExtractor(allow=('/\d\d\d\d/\d\d/\d\d/')),callback='parse_item'),
+        Rule(SgmlLinkExtractor(allow=('/\d\d\d\d/\d\d/\d\d/')), callback='parse_item'),
     )
 
     def parse_item(self, response):
@@ -34,14 +35,23 @@ class BellalimentocrawlSpider(CrawlSpider):
             item['name'] = r_scope.select(name_path).extract()
             name = item['name']
             image_path = '//img[contains(@title, "' + name[0] + '")]/@src'
-            item['image'] = r_scope.select(image_path).extract()[0]
+            image_scope = r_scope.select(image_path)
+            if image_scope:
+                item['image'] = image_scope.extract()[0]
+            else:
+                sel = CSSSelector('img.size-full, img.size-large')
+                images = r_scope.select(sel.path).select('@src').extract()
+                if images:
+                    item['image'] = images[0]
+                else:
+                    item['image'] = None
             item['url'] = response.url
 
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
             for i_scope in ingredient_scopes:
                 ingredient_item = i_scope.select('text()').extract()
-                ingredients.append("%s"  % ingredient_item)
+                ingredients.append(ingredient_item[0].strip().encode('utf-8'))
             item['ingredients'] = ingredients
 
             recipes.append(item)
