@@ -1,5 +1,14 @@
+import isodate
+import datetime
+
+zeroInterval = datetime.timedelta()
+
+
 def parse_iso_date(scope):
     try:
-        return scope.select('@content | @datetime').extract()[0]
+        return sum(
+            (isodate.parse_duration(time) for time in scope.select('@content | @datetime').extract()),
+            zeroInterval
+        )
     except:
-        return ''
+        return scope.select('text()').extract()
