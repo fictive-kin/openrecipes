@@ -2,6 +2,7 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem
+from ..util import JQ
 
 
 class ChezUsMixin(object):
@@ -16,18 +17,20 @@ class ChezUsMixin(object):
 
         recipes_scopes = hxs.select(base_path)
 
-        name_path = '//*[@itemprop="name"]/text()'
         description_path = '//*[@data-role="content"]/p/text()'
         ingredients_path = '//*[@itemprop="ingredients"]/text()'
 
         recipes = []
 
         for r_scope in recipes_scopes:
+            jq = JQ(r_scope)
             item = RecipeItem()
 
             item['source'] = self.source
 
-            item['name'] = r_scope.select(name_path).extract()
+            item['name'] = jq.select('[itemprop="name"]').text()
+            if not item['name']:
+                item['name'] = [''.join(jq.select('.article-title').text()).split('|')[-1].strip()]
             name = item['name'][0]
 
             image_path = '//img[contains(@alt, "' + name + '")]/@src'
@@ -38,6 +41,8 @@ class ChezUsMixin(object):
 
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = [i.strip() for i in ingredient_scopes.extract()]
+            if not ingredients:
+                ingredients = jq.select('ul li').text()
             item['ingredients'] = ingredients
 
             recipes.append(item)
