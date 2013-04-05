@@ -25,11 +25,11 @@ class AspicyperspectivecrawlSpider(CrawlSpider):
 
         recipes_scopes = hxs.select(base_path)
 
-        name_path = '//h2[@class="fn"]'
+        name_path = '//h2[@class="fn"]/text()'
         image_path = '//img[@class="photo"]/@src'
-        prepTime_path = '//span[@class="preptime"]'
-        cookTime_path = '//span[@class="cooktime"]'
-        recipeYield_path = '//span[@class="yield"]'
+        prepTime_path = '//span[@class="preptime"]/text()'
+        cookTime_path = '//span[@class="cooktime"]/text()'
+        recipeYield_path = '//span[@class="yield"]/text()'
         ingredients_path = '//div[@class="ingredient"]/ul'
 
         recipes = []
