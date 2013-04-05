@@ -31,7 +31,7 @@ class MakestringsPipeline(object):
                 # with ingredients, we want to separate each entry with a
                 # newline character
                 item[k] = "\n".join(v)
-            else:
+            elif isinstance(item[k], list):
                 # otherwise just smash them together with nothing between.
                 # We expect these to always just be lists with 1 or 0
                 # elements, so it effectively converts the list into a
