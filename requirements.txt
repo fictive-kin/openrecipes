@@ -6,6 +6,8 @@ html5lib==0.95
 isodate==0.4.9
 lxml==3.1.0
 pyOpenSSL==0.13
+pymongo==2.5
+scrapy-mongodb==0.5.0
 w3lib==1.2
 wsgiref==0.1.2
 zope.interface==4.0.5
