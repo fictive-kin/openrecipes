@@ -81,7 +81,8 @@ Once you have `pip` and `virtualenv`, you can clone our repo and install require
 6. `pip install -r requirements.txt` to install the required Python libraries, including Scrapy.
 7. `scrapy -h` to confirm that the `scrapy` command was installed. You should get a dump of the help docs.
 8. `cd scrapy_proj` to move into the Scrapy project directory
-9. `scrapy crawl thepioneerwoman.feed` to test the feed spider written for [thepioneerwoman.com](http://thepioneerwoman.com). You should get output like the following:
+9. `cp settings.py.default settings.py` to set up a working settings module for the project
+10. `scrapy crawl thepioneerwoman.feed` to test the feed spider written for [thepioneerwoman.com](http://thepioneerwoman.com). You should get output like the following:
 
 	<pre>
     2013-03-30 14:35:37-0400 [scrapy] INFO: Scrapy 0.16.4 started (bot: openrecipes)
