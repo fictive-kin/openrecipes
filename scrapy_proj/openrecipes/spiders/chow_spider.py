@@ -2,6 +2,7 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem
+from ..util import parse_iso_date
 
 
 class ChowMixin(object):
@@ -33,13 +34,13 @@ class ChowMixin(object):
         recipeYield_path = '//span[@itemprop="yield"]/text()'
         description_path = '//meta[@name="description"]/@content'
         image_path = '//img[@class="recipe_image"]/@src'
-        cookTime_path = '//time[@itemprop="totalTime"]/text()'
-        prepTime_path = '//time[@itemprop="activeTime"]/text()'
+        cookTime_path = '//time[@itemprop="totalTime"]'
+        prepTime_path = '//time[@itemprop="activeTime"]'
 
         # There are some inconsistencies in the format of ingredients,
         # so we'll scrape both: if the first yields nothing, we go
         # with the second.
-        ingredients_path = '//span[@itemprop="ingredient"]/text()'
+        ingredients_path = '//span[@itemprop="ingredient"]'
         ingredients_alt_path = '//div[@id="ingredients"]/ul/li/text()'
 
         # init an empty list
@@ -56,20 +57,21 @@ class ChowMixin(object):
             item['image'] = r_scope.select(image_path).extract()
             item['description'] = r_scope.select(description_path).extract()
             item['url'] = response.url
-            item['prepTime'] = r_scope.select(prepTime_path).extract()
-            item['cookTime'] = r_scope.select(cookTime_path).extract()
+            item['prepTime'] = parse_iso_date(r_scope.select(prepTime_path))
+            item['cookTime'] = parse_iso_date(r_scope.select(cookTime_path))
             item['recipeYield'] = r_scope.select(recipeYield_path).extract()
 
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
             for i_scope in ingredient_scopes:
-                ingredients.append(i_scope.extract())
+                ingredient = i_scope.select('node()/text() | text()').extract()
+                ingredients.append(' '.join(i.strip() for i in ingredient).encode('utf-8'))
 
             # Again, checking to see if our first XPath was a failure.
-            if not len(ingredients):
+            if not ingredients:
                 ingredient_scopes = r_scope.select(ingredients_alt_path)
                 for i_scope in ingredient_scopes:
-                    ingredients.append(i_scope.extract())
+                    ingredients.append(i_scope.extract().strip().encode('utf-8'))
 
             item['ingredients'] = ingredients
 

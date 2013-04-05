@@ -2,8 +2,7 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem
-import isodate
-import datetime
+from ..util import parse_iso_date
 
 
 class AllrecipescrawlSpider(CrawlSpider):
@@ -29,7 +28,6 @@ class AllrecipescrawlSpider(CrawlSpider):
     )
 
     def parse_item(self, response):
-        zeroInterval = datetime.timedelta(0)
         hxs = HtmlXPathSelector(response)
 
         base_path = '//*[@itemtype="http://schema.org/Recipe"]'
@@ -42,8 +40,8 @@ class AllrecipescrawlSpider(CrawlSpider):
         image_path = '//*[@itemprop="image"]/@src'
         recipeYield_path = '*//*[@itemprop="recipeYield"]/text()'
 
-        prepTime_path = '//*[@itemprop="prepTime"]/@datetime'
-        cookTime_path = '//*[@itemprop="cookTime"]/@datetime'
+        prepTime_path = '//*[@itemprop="prepTime"]'
+        cookTime_path = '//*[@itemprop="cookTime"]'
 
         ingredients_path = '//*[@itemprop="ingredients"]'
 
@@ -56,12 +54,13 @@ class AllrecipescrawlSpider(CrawlSpider):
             item['url'] = r_scope.select(url_path).extract()
             item['description'] = r_scope.select(description_path).extract()
 
-            prepTime = r_scope.select(prepTime_path).extract()
-            item['prepTime'] = sum((isodate.parse_duration(time) for time in prepTime), zeroInterval)
+            prepTime = r_scope.select(prepTime_path)
+            item['prepTime'] = parse_iso_date(prepTime)
 
-            cookTime = r_scope.select(cookTime_path).extract()
-            item['cookTime'] = sum((isodate.parse_duration(time) for time in cookTime), zeroInterval)
+            cookTime = r_scope.select(cookTime_path)
+            item['cookTime'] = parse_iso_date(cookTime)
             item['recipeYield'] = r_scope.select(recipeYield_path).extract()
+            print item
 
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
