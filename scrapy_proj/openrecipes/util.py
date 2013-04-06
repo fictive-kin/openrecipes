@@ -12,6 +12,15 @@ class JQ(object):
     def __init__(self, root):
         self.root = root
 
+    def __getitem__(self, key):
+        return self.root[key]
+
+    def __len__(self):
+        return len(self.root)
+
+    def __iter__(self):
+        return iter(self.root)
+
     def select(self, selector):
         return JQ(self.root.select(CSSSelector(selector).path))
 
