@@ -25,8 +25,8 @@ class BellalimentocrawlSpider(CrawlSpider):
         jq = JQ(hxs)
         item = RecipeItem()
         item['source'] = 'bellalimento'
-        item['name'] = jq.select('#zlrecipe-title,.title').text()
-        name = item['name'][0]
+        item['name'] = jq.select('#zlrecipe-title,.title').text()[0]
+        name = item['name']
 
         item['image'] = jq.select('img[title~="%s"],img[alt~="%s"],img[title="%s"],img[alt="%s"]' % (name, name, name, name)).attr('src')
         if not item['image']:
