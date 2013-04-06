@@ -20,12 +20,12 @@ class EpicuriousMixin(object):
 
 		recipes_scopes = hxs.select(base_path)
 
-		name_path = '//meta[@property="og:title"]/@content'
+		name_path = '//h1[@class="fn"]/text()'
 		description_path = '//meta[@property="og:description"]/@content'
 		url_path = '//meta[@property="og:url"]/@content'
 		image_path = '//meta[@property="og:image"][1]/@content'
 		prepTime_path = '//span[@class="prepTime"]/span[@class="value-title"]/@title'
-		cookTime_path = '//span[@class="duration"]/span[@class="value-title"]/@title'
+		totalTime_path = '//span[@class="duration"]/span[@class="value-title"]/@title'
 		recipeYield_path = '//span[@class="yield"]/text()'
 		ingredients_path = '*//*[@class="ingredient"]'
 		datePublished_path = '//p[@id="mag_info"]/text()'
@@ -38,14 +38,13 @@ class EpicuriousMixin(object):
 
 			item['source'] = self.source
 
-			# TODO: Need to truncate the "\n at Epicurious.com" tag line appended to each recipe name
 			item['name'] = r_scope.select(name_path).extract()
 			item['image'] = r_scope.select(image_path).extract()
 			item['url'] = r_scope.select(url_path).extract()
 			item['description'] = r_scope.select(description_path).extract()
 
 			item['prepTime'] = r_scope.select(prepTime_path).extract()
-			item['totalTime'] = r_scope.select(cookTime_path).extract()
+			item['totalTime'] = r_scope.select(totalTime_path).extract()
 			item['recipeYield'] = r_scope.select(recipeYield_path).extract()
 
 			# the ingredients are pretty well formatted here, but we do need
