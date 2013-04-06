@@ -10,9 +10,7 @@ class EpicuriousfeedSpider(BaseSpider, EpicuriousMixin):
 	"""
 	name = "epicurious.feed"
 	allowed_domains = [
-		"feeds.epicurious.com",
-		"epicurious.com",
-		"www.epicurious.com"
+		"epicurious.com"
 	]
 	start_urls = [
 		"http://feeds.epicurious.com/newrecipes",
