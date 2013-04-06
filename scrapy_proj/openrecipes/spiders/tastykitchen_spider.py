@@ -37,6 +37,7 @@ class TastyKitchenMixin(object):
         ingredients_path = '//span[@itemprop="ingredient"]'
         ingredients_amounts_path = './span[@itemprop="amount"]/text()'
         ingredients_names_path = './span[@itemprop="amount"]/text()'
+        datePublished_path = '//span[@itemprop="published"]/@datetime'
 
         # init an empty list
         recipes = []
@@ -55,7 +56,10 @@ class TastyKitchenMixin(object):
             item['prepTime'] = r_scope.select(prepTime_path).extract()
             item['cookTime'] = r_scope.select(cookTime_path).extract()
             item['recipeYield'] = r_scope.select(recipeYield_path).extract()
+            item['datePublished'] = r_scope.select(datePublished_path).extract()
 
+            # Simpler to grab the amount and name spans separately,
+            # then combine them into a string.
             ingredient_scopes = r_scope.select(ingredients_path)
             amount = ingredient_scopes.select(ingredients_amounts_path).extract()
             name = ingredient_scopes.select(ingredients_names_path).extract()
@@ -88,14 +92,13 @@ class TastyKitchenSpider(CrawlSpider, TastyKitchenMixin):
 
     # a tuple of Rules that are used to extract links from the HTML page
     rules = (
+    
         # this rule has no callback, so these links will be followed and mined
         # for more URLs. This lets us page through the recipe archives
         Rule(SgmlLinkExtractor(allow=('recipes/page/\d+'))),
 
-        # this rule is for recipe posts themselves. The callback argument will
-        # process the HTML on the page, extract the recipe information, and
-        # return a RecipeItem object
-        # Added $ to prevent duplicates via referral arguments
+        # There wasn't an easy regex to specify recipe URLs, so opted
+        # for an XPath restriction instead.
         Rule(SgmlLinkExtractor(
             allow=('/recipes/.+'),
             restrict_xpaths=('//h2')
