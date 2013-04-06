@@ -13,6 +13,16 @@ class RecipeItem(Item):
     - ingredients
     """
 
+    @classmethod
+    def from_dict(kls, d):
+        item = kls()
+        for name, value in d.iteritems():
+            try:
+                item[name] = value
+            except KeyError:
+                pass
+        return item
+
     # our internal stuff
     source = Field()
 
