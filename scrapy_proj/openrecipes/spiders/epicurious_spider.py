@@ -27,8 +27,8 @@ class EpicuriousMixin(object):
 		prepTime_path = '//span[@class="prepTime"]/span[@class="value-title"]/@title'
 		cookTime_path = '//span[@class="duration"]/span[@class="value-title"]/@title'
 		recipeYield_path = '//span[@class="yield"]/text()'
-		ingredients_path = '//li[@class="ingredient"]'
-		datePublished = '//p[@id="mag_info"]/text()'
+		ingredients_path = '*//*[@class="ingredient"]'
+		datePublished_path = '//p[@id="mag_info"]/text()'
 
 		recipes = []
 
@@ -38,26 +38,31 @@ class EpicuriousMixin(object):
 
 			item['source'] = self.source
 
+			# TODO: Need to truncate the "\n at Epicurious.com" tag line appended to each recipe name
 			item['name'] = r_scope.select(name_path).extract()
 			item['image'] = r_scope.select(image_path).extract()
 			item['url'] = r_scope.select(url_path).extract()
 			item['description'] = r_scope.select(description_path).extract()
 
 			item['prepTime'] = r_scope.select(prepTime_path).extract()
-			item['cookTime'] = r_scope.select(cookTime_path).extract()
+			item['totalTime'] = r_scope.select(cookTime_path).extract()
 			item['recipeYield'] = r_scope.select(recipeYield_path).extract()
 
-			# the ingredient are pretty well formatted here, but we do need
+			# the ingredients are pretty well formatted here, but we do need
 			# to trim some trailing whitespace
 			ingredient_scopes = r_scope.select(ingredients_path)
 			ingredients = []
 			for i_scope in ingredient_scopes:
-				ingredient = i_scope.select('*/text()').extract()
-				ingredient = "".join(ingredient).rstrip()
+				ingredient = i_scope.select('text()').extract()
+				ingredient = "".join(ingredient)
 				ingredients.append(ingredient)
 			item['ingredients'] = ingredients
 
-			item['datePublished'] = r_scope.select(datePublished).extract()
+			# Date Published is formatted as [Category] | MMM YYYY
+			# Split this into a tuple on the | and keep the last part
+			datePublished = r_scope.select(datePublished_path).extract()
+			datePublished = "".join(datePublished).partition("|")[2]
+			item['datePublished'] = datePublished
 
 			recipes.append(item)
 
