@@ -1,4 +1,4 @@
-def _parse(root, schema):
+def _parse(root, schema, data={}):
     rootStr = root.extract()
     attrMap = {
         'photo': '@src',
@@ -9,7 +9,7 @@ def _parse(root, schema):
         'totalTime': '@content',
         'datePublished': '@content',
     }
-    data = {'itemtype': schema}
+    data['itemtype'] = schema
     props = root.select('.//*[@itemprop]')
     for prop in props:
         node = prop
@@ -42,6 +42,6 @@ def _parse(root, schema):
     return data
 
 
-def parse_recipes(scope):
-    name = 'http://schema.org/Recipe'
-    return [_parse(recipe, name) for recipe in scope.select('//*[@itemtype="%s"]' % name)]
+def parse_recipes(scope, data={}):
+    schema = 'http://schema.org/Recipe'
+    return [_parse(recipe, schema, data) for recipe in scope.select('//*[@itemtype="%s"]' % schema)]
