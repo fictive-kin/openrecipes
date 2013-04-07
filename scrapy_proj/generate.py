@@ -83,7 +83,7 @@ class %(crawler_name)scrawlSpider(CrawlSpider, %(crawler_name)sMixin):
 FeedSpiderTemplate = """from scrapy.spider import BaseSpider
 from scrapy.http import Request
 from scrapy.selector import XmlXPathSelector
-from openrecipes.spiders.thepioneerwoman_spider import %(crawler_name)sMixin
+from openrecipes.spiders.%(source)s_spider import %(crawler_name)sMixin
 
 
 class %(crawler_name)sfeedSpider(BaseSpider, %(crawler_name)sMixin):
