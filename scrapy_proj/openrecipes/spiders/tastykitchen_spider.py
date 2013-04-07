@@ -12,7 +12,7 @@ class TastyKitchenMixin(object):
 
     # this is the source string we'll store in the DB to aggregate stuff
     # from a single source
-    source = 'tastychicken'
+    source = 'tastykitchen'
 
     def parse_item(self, response):
 
