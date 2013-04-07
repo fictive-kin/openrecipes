@@ -11,8 +11,14 @@ class FoodnetworkMixin(object):
     def parse_item(self, response):
 
         hxs = HtmlXPathSelector(response)
-        recipes = parse_recipes(hxs, {'source': self.source, 'url': response.url})
-        return [RecipeItem.from_dict(recipe) for recipe in recipes]
+        raw_recipes = parse_recipes(hxs, {'source': self.source, 'url': response.url})
+        for recipe in raw_recipes:
+            if 'photo' in recipe:
+                recipe['photo'] = recipe['photo'].replace('_med.', '_lg.')
+            if 'image' in recipe:
+                recipe['image'] = recipe['image'].replace('_med.', '_lg.')
+
+        return [RecipeItem.from_dict(recipe) for recipe in raw_recipes]
 
 
 class FoodnetworkcrawlSpider(CrawlSpider, FoodnetworkMixin):
