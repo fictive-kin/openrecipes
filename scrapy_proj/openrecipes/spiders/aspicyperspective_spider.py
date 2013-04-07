@@ -6,7 +6,7 @@ from openrecipes.items import RecipeItem
 
 class AspicyperspectivecrawlSpider(CrawlSpider):
 
-    name = "www.aspicyperspective.com"
+    name = "aspicyperspective.com"
     allowed_domains = ["www.aspicyperspective.com"]
     start_urls = [
         "http://www.aspicyperspective.com/",
