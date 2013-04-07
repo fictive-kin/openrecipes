@@ -138,7 +138,7 @@ def generate_crawlers(args):
         if feed_domain == domain:
             values['feed_domains'] = domain
         else:
-            values['feed_domains'] = '%s,"\n        "%s' % (domain, feed_domain)
+            values['feed_domains'] = '%s",\n        "%s' % (domain, feed_domain)
         feed_filename = os.path.join(script_dir, 'openrecipes', 'spiders', '%s_feedspider.py' % name)
         with open(feed_filename, 'w') as f:
             f.write(FeedSpiderTemplate % values)
