@@ -23,7 +23,7 @@ class FoodnetworkMixin(object):
 
 class FoodnetworkcrawlSpider(CrawlSpider, FoodnetworkMixin):
 
-    name = "www.foodnetwork.com"
+    name = "foodnetwork.com"
 
     allowed_domains = ["www.foodnetwork.com"]
 
