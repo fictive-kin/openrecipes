@@ -96,13 +96,13 @@ class TastyKitchenSpider(CrawlSpider, TastyKitchenMixin):
 
         # this rule has no callback, so these links will be followed and mined
         # for more URLs. This lets us page through the recipe archives
-        Rule(SgmlLinkExtractor(allow=('recipes/page/\d+'))),
+        Rule(SgmlLinkExtractor(allow=('/recipes/page/\d{1,}/?'))),
 
         # There wasn't an easy regex to specify recipe URLs, so opted
         # for an XPath restriction instead.
         Rule(SgmlLinkExtractor(
-             allow=('/recipes/.+'),
-             restrict_xpaths=('//h2')
+             allow=('/recipes/[^/]+/[^/]+/?$'),
+             deny=('/recipes/(page|category)/[^/]+/?$')
              ),
         callback='parse_item'),
     )
