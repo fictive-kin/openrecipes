@@ -3,6 +3,7 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem
 
+
 class TastyKitchenMixin(object):
 
     """
@@ -92,7 +93,7 @@ class TastyKitchenSpider(CrawlSpider, TastyKitchenMixin):
 
     # a tuple of Rules that are used to extract links from the HTML page
     rules = (
-    
+
         # this rule has no callback, so these links will be followed and mined
         # for more URLs. This lets us page through the recipe archives
         Rule(SgmlLinkExtractor(allow=('recipes/page/\d+'))),
@@ -100,8 +101,8 @@ class TastyKitchenSpider(CrawlSpider, TastyKitchenMixin):
         # There wasn't an easy regex to specify recipe URLs, so opted
         # for an XPath restriction instead.
         Rule(SgmlLinkExtractor(
-            allow=('/recipes/.+'),
-            restrict_xpaths=('//h2')
-        ),
+             allow=('/recipes/.+'),
+             restrict_xpaths=('//h2')
+             ),
         callback='parse_item'),
     )
