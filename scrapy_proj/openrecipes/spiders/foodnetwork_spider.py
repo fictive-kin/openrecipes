@@ -5,6 +5,15 @@ from openrecipes.items import RecipeItem
 from openrecipes.schema_org_parser import parse_recipes
 
 
+def flatten(list_or_string):
+    if not list_or_string:
+        return ''
+    if isinstance(list_or_string, list):
+        return list_or_string[0]
+    else:
+        return list_or_string
+
+
 class FoodnetworkMixin(object):
     source = 'foodnetwork'
 
@@ -14,8 +23,10 @@ class FoodnetworkMixin(object):
         raw_recipes = parse_recipes(hxs, {'source': self.source, 'url': response.url})
         for recipe in raw_recipes:
             if 'photo' in recipe:
+                recipe['photo'] = flatten(recipe['photo'])
                 recipe['photo'] = recipe['photo'].replace('_med.', '_lg.')
             if 'image' in recipe:
+                recipe['image'] = flatten(recipe['image'])
                 recipe['image'] = recipe['image'].replace('_med.', '_lg.')
 
         return [RecipeItem.from_dict(recipe) for recipe in raw_recipes]
