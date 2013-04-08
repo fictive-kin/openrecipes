@@ -51,11 +51,14 @@ class JamieoliverMixin(object):
             item['url'] = response.url
             item['description'] = r_scope.select(description_path).extract()
 
+            # prepTime not available
             item['prepTime'] = None
+            # cookTime not available
             item['cookTime'] = None
             item['recipeYield'] = r_scope.select(recipeYield_path).extract()
             item['ingredients'] = r_scope.select(ingredients_path).extract()
 
+            # datePublished not available
             item['datePublished'] = None
 
             # stick this RecipeItem in the array of recipes we will return
@@ -82,13 +85,23 @@ class JamieolivercrawlSpider(CrawlSpider, JamieoliverMixin):
 
     # a tuple of Rules that are used to extract links from the HTML page
     rules = (
+        # url format for a single recipe
+        #     /recipes/{section}/{recipe-name}
+        # url formats for recipes list
+        #     /recipes/{section}
+        #     /recipes/category/{category}
+        #     /recipes/category/{category}/{sub-category}
+
         # this rule has no callback, so these links will be followed and mined
         # for more URLs. This lets us page through the recipe archives
-        #Rule(SgmlLinkExtractor(allow=('/recipes/beef/[a-zA-Z\-]+/'))),
+        Rule(SgmlLinkExtractor(allow=(
+            '/recipes/[a-zA-Z\-]+/',
+            '/recipes/category/.*'
+        ))),
 
         # this rule is for recipe posts themselves. The callback argument will
         # process the HTML on the page, extract the recipe information, and
         # return a RecipeItem object
-        Rule(SgmlLinkExtractor(allow=('recipes\/[a-zA-Z\-]+/[a-zA-Z\-]+')),
+        Rule(SgmlLinkExtractor(allow=('recipes\/[^(category)][a-zA-Z\-]+/[a-zA-Z\-]+')),
              callback='parse_item'),
     )
