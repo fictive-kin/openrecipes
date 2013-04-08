@@ -32,7 +32,7 @@ def _parse(root, schema, data={}):
         if prop.select('@itemscope'):
             value = _parse(prop, prop.select('@itemtype').extract()[0])
         else:
-            value = [''.join(prop.select(attrMap.get(name, './/text()')).extract())]
+            value = [''.join(prop.select(attrMap.get(name, ".//text()[normalize-space()]")).extract()).strip()]
 
         if prevValue is None:
             data[name] = value
