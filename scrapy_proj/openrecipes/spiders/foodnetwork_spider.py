@@ -18,6 +18,10 @@ class FoodnetworkMixin(object):
     source = 'foodnetwork'
 
     def parse_item(self, response):
+        # skip review pages, which are hard to distinguish from recipe pages
+        # in the link extractor regex
+        if '/reviews/' in response.url:
+            return []
 
         hxs = HtmlXPathSelector(response)
         raw_recipes = parse_recipes(hxs, {'source': self.source, 'url': response.url})
