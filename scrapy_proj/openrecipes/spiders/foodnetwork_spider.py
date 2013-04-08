@@ -3,15 +3,7 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem
 from openrecipes.schema_org_parser import parse_recipes
-
-
-def flatten(list_or_string):
-    if not list_or_string:
-        return ''
-    if isinstance(list_or_string, list):
-        return list_or_string[0]
-    else:
-        return list_or_string
+from openrecipes.util import flatten
 
 
 class FoodnetworkMixin(object):
