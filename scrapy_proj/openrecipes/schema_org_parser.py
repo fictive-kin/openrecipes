@@ -44,4 +44,9 @@ def _parse(root, schema, data={}):
 
 def parse_recipes(scope, data={}):
     schema = 'http://schema.org/Recipe'
-    return [_parse(recipe, schema, data) for recipe in scope.select('//*[@itemtype="%s"]' % schema)]
+    recipes = [_parse(recipe, schema, data) for recipe in scope.select('//*[@itemtype="%s"]' % schema)]
+    for recipe in recipes:
+        if 'recipeInstructions' in recipe:
+            del recipe['recipeInstructions']
+
+    return recipes
