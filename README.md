@@ -112,6 +112,29 @@ Both files are extensively documented, and should give you an idea of what's inv
 
 We'll use the ["fork & pull" development model](https://help.github.com/articles/fork-a-repo) for collaboration, so if you plan to contribute, make sure to fork your own repo off of ours. Then you can send us a pull request when you have something to contribute. Please follow ["PEP 8 - Style Guide for Python Code"](http://www.python.org/dev/peps/pep-0008/) for code you write.
 
+### Tips for writing spiders
+
+You can use the scrapy shell + python's reloading capabilities to quickly test your spiders.
+This example will use elanaspantry.com
+
+cd into the scrapy_proj directory, then:
+
+    scrapy shell
+
+    fetch('http://www.elanaspantry.com/ratio-rally-quick-breads/')
+
+    from openrecipes.spiders import elanaspantry_spider
+
+    elanaspantry_spider.ElanaspantryMixin().parse_item(response)
+
+After making edits
+
+    reload(elanaspantry_spider)
+
+    elanaspantry_spider.ElanaspantryMixin().parse_item(response)
+
+Repeat until parser is correct.
+
 ## Feedback?
 
 We're just trying to do the right thing, so we value your feedback as we go. You can ping [Ed](https://github.com/funkatron), [Chris](https://github.com/shiflett), [Andreas](https://github.com/andbirkebaek), or anyone from [Fictive Kin](https://github.com/fictivekin). General suggestions and feedback to [openrecipes@fictivekin.com](mailto:openrecipes@fictivekin.com) are welcome, too.
