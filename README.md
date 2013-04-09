@@ -80,7 +80,7 @@ Once you have `pip` and `virtualenv`, you can clone our repo and install require
 5. `source venv/bin/activate` to activate your new Python virtual environment.
 6. `pip install -r requirements.txt` to install the required Python libraries, including Scrapy.
 7. `scrapy -h` to confirm that the `scrapy` command was installed. You should get a dump of the help docs.
-8. `cd scrapy_proj` to move into the Scrapy project directory
+8. `cd scrapy_proj/openrecipes` to move into the Scrapy project directory
 9. `cp settings.py.default settings.py` to set up a working settings module for the project
 10. `scrapy crawl thepioneerwoman.feed` to test the feed spider written for [thepioneerwoman.com](http://thepioneerwoman.com). You should get output like the following:
 
