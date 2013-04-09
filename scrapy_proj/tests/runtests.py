@@ -1,8 +1,18 @@
+"""
+Put html files to test scrapers against in directory corresponding with spider
+
+For example, testing files for thepioneerwoman_spider go in:
+
+scrapy_proj/tests/thepioneerwoman/
+"""
+
 from scrapy.crawler import CrawlerProcess
 from scrapy.http import TextResponse
 from scrapy.utils.project import get_project_settings
 import re
 import os
+import unittest
+
 
 BASE_TEST_PATH = os.path.dirname(os.path.realpath(__file__))
 
@@ -40,7 +50,7 @@ def get_test_html_paths():
                 for tfile in tfiles:
                     tpath = os.path.join(troot, tfile)
                     paths[name].append(tpath)
-            return paths
+    return paths
 
 
 def test_scrape(spider, test_files_list):
@@ -58,11 +68,37 @@ def test_scrape(spider, test_files_list):
     return items
 
 
+def create_item_test(item):
+    def do_test_scraped_item(self):
+        msg = "Name is not in item %s" % (item)
+        self.assertIn('name', item, msg)
+        msg = "Ingredients is not in item %s" % (item)
+        self.assertIn('ingredients', item, msg)
+        msg = "URL is not in item %s" % (item)
+        self.assertIn('url', item, msg)
+    return do_test_scraped_item
+
+
+# we just need *a* TestCase class; we'll add test methods manually
+class CheckScrape(unittest.TestCase):
+    pass
+
+
 if __name__ == "__main__":
     spiders = get_spiders()
     test_file_paths = get_test_html_paths()
 
-    for name, spider in spiders.iteritems():
-        if name in test_file_paths:
-            print "testing %s" % name
-            print test_scrape(spider, test_file_paths[name])
+    for spider_name, spider in spiders.iteritems():
+        if spider_name in test_file_paths:
+
+            # scraping test HTML
+            items = test_scrape(spider, test_file_paths[spider_name])
+
+            # create a test method for each item
+            for k, item in enumerate(items):
+                test_method = create_item_test(item[0])
+                test_method.__name__ = 'test_expected_%s_%d' % (spider_name, k)
+                setattr(CheckScrape, test_method.__name__, test_method)
+
+    # kick off tests
+    unittest.main()
