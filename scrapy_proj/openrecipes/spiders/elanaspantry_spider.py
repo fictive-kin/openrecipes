@@ -48,7 +48,8 @@ class ElanaspantryMixin(object):
 
             item['ingredients'] = ingredients
 
-            item['datePublished'] = r_scope.select(datePublished).extract()[0].replace('Posted on', '').replace('in', '').strip()
+            datePublished = r_scope.select(datePublished).extract()[0]
+            item['datePublished'] = datePublished.replace('Posted on', '').replace('in', '').strip()
 
             recipes.append(item)
 
