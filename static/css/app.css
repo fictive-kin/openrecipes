@@ -1,0 +1,54 @@
+import
+
+
+body, h1, h2, h3, h4, h5, h6, p, li {
+	font-family: "Palatino", Georgia, Times, Serif;
+	color: #444444;
+}
+
+body {
+  background: #e7e7e7 url(../img/body-bg.png) 0 0 repeat;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  color: #6d6d6d;
+}
+
+
+#header-bar {
+	font-family: Palatino, Georgia, Times, Serif;
+	background-color: #444444;;
+	margin-bottom: 2em;
+}
+
+#header-bar a, #header-bar h1 {
+	font-size: 1em;
+	padding:10px 0 5px;
+	text-shadow: 0 1px 0 rgba(0,0,0, 0.8);
+	display: inline-block;
+}
+
+#header-bar h1 {
+	font-size: 1.2em;
+	margin:0;
+	padding:0;
+}
+
+
+#header-bar span[class*="foundicon-"] {
+	text-shadow: none;
+	color:white;
+	font-size:1.5em;
+	vertical-align: text-top;
+}
+
+ul, ol, dl {
+	margin-left: 1.5em;
+}
+
+hr {
+  height: 1px;
+  line-height: 1px;
+  margin-top: 1em;
+  padding-bottom: 1em;
+  border: none;
+  background: transparent url('../img/hr.png') 50% 0 no-repeat;
+}

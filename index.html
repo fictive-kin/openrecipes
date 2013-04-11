@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	<title>Open Recipes</title>
+
+	<link rel="stylesheet" href="/static/css/normalize.css" />
+	<link rel="stylesheet" href="/static/css/foundation.css" />
+	<link rel="stylesheet" href="/static/css/app.css" />
+
+  <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" type="text/css" href="/static/css/pygment_trac.css" media="screen" />
+
+  <!-- for icon fonts -->
+  <link rel="stylesheet" href="/static/fonts/general_foundicons.css">
+  <link rel="stylesheet" href="/static/fonts/social_foundicons.css">
+
+	<script src="/static/js/vendor/custom.modernizr.js"></script>
+
+</head>
+<body>
+
+<header id="header-bar">
+	<div class="row">
+		<div class="large-12 columns large-centered">
+			<div class="row">
+				<div class="large-6 columns">
+					<h1><a href="/">The Open Recipes project</a></h1>
+				</div>
+				<div class="large-3 columns last">
+					<a href="https://github.com/fictivekin/openrecipes"><span class="foundicon-github"></span> View on GitHub</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</header>
+
+	<div class="row">
+		<div class="large-10 columns large-centered">
+				
+    <h1>Open Recipes</h1>
+    <hr>
+
+	<div class="row">
+		<div class="large-10 columns large-centered">
+			<h2>About</h2>
+<p>Open Recipes is an open database of recipe bookmarks.</p>
+<p>Our goals are simple:</p>
+<ol>
+<li><em>Help publishers make their recipes as discoverable and consumable (get it?) as possible.</em></li>
+<li><em>Prevent good recipes from disappearing when a publisher goes away.</em></li>
+</ol>
+<p>That's pretty much it. We're not trying to save the world. We're just trying to save some recipes.</p>
+<h2>Recipe Bookmarks?</h2>
+<p><strong>The recipes in Open Recipes do not include preparation instructions</strong>. This is why we like to think of Open Recipes as a database of <em>recipe bookmarks</em>. We think this database should provide everything you need to <em>find</em> a great recipe, but not everything you need to <em>prepare</em> a great recipe. For preparation instructions, please link to the source.</p>
+<h2>The Database</h2>
+<p>Regular snapshots of the database will be provided as JSON. The format will mirror the <a href="http://schema.org/Recipe">schema.org Recipe format</a>. We've <a href="http://openrecipes.s3.amazonaws.com/openrecipes.txt">posted an example dump of data</a> so you can get a feel for it.</p>
+<h2>The Story</h2>
+<p>We're not a bunch of chefs. We're not even good cooks.</p>
+<p>When we read about the <a href="http://punchfork.com/pinterest">acquisition shutdown of Punchfork</a>, we just shook our heads. It was the same ol' story:</p>
+<blockquote>
+<p>We're excited to share the news that we're gonna be rich! To celebrate, we're shutting down the site and taking all your data down with it. So long, suckers!</p>
+</blockquote>
+<p>This part of the story isn't unique, but it continues. When one of our Studiomates spoke up about her disappointment, we listened. Then, <a href="https://hugspoon.com/punchfork">we acted</a>. What happens next surprised us. The CEO of Punchfork <a href="https://twitter.com/JeffMiller/status/314899821351821312">took issue</a> with our good deed and demanded that we not save any data, even the data (likes) of users who asked us to save their data.</p>
+<p>Here's the thing. None of the recipes belonged to Punchfork. They were scraped from various <a href="https://github.com/fictivekin/openrecipes/wiki/Publishers">publishers</a> to begin with. But, we don't wanna ruffle any feathers, so we're starting over.</p>
+<p>Use the force; seek the source?</p>
+<h2>Feedback?</h2>
+<p>We're just trying to do the right thing, so we value your feedback as we go. You can ping <a href="https://github.com/funkatron">Ed</a>, <a href="https://github.com/shiflett">Chris</a>, <a href="https://github.com/andbirkebaek">Andreas</a>, or anyone from <a href="https://github.com/fictivekin">Fictive Kin</a>. General suggestions and feedback to <a href="mailto:openrecipes@fictivekin.com">openrecipes@fictivekin.com</a> are welcome, too.</p>
+<p>We're also gonna be on IRC, so please feel free to join us if you have any questions or comments. We'll be hanging out in #openrecipes on Freenode. See you there!</p>
+		</div>
+	</div>
+
+
+		</div>
+	</div>
+
+	<script>
+	document.write('<script src=' +
+	('__proto__' in {} ? '/static/js/vendor/zepto' : '/static/js/vendor/jquery') +
+	'.js><\/script>')
+	</script>
+
+	<script src="/static/js/foundation.min.js"></script>
+	<script>
+		$(document).foundation();
+	</script>
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-40047810-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
+	</script>
+</body>
+</html>
