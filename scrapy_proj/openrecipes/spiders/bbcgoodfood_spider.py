@@ -18,7 +18,7 @@ class BBCgoodfoodMixin(object):
         name_path = '//h1/text()'
         description_path = '//div[@class="hrecipe"]/p[@class="subhead summary"]/text()'
         image_path = '//img[@class="photo"]/@src'
-        # a lot of the content is repeated inside the '#printSidebar' div, so specify that to avoid doublinf up content
+        # a lot of the content is repeated inside the '#printSidebar' div, so specify that to avoid doubling up content
         prepTime_path = '//div[@id="printSidebar"]/div[@id="prep"]/p[1]/text()'
         cookTime_path = '//div[@id="printSidebar"]/div[@id="prep"]/p[2]/text()'
         recipeYield_path = '//div[@id="printSidebar"]/div[@id="serving"]/p/text()'
