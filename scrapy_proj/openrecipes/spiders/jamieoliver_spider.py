@@ -72,7 +72,7 @@ class JamieoliverMixin(object):
 class JamieolivercrawlSpider(CrawlSpider, JamieoliverMixin):
 
     # this is the name you'll use to run this spider from the CLI
-    name = "jamieoliver"
+    name = "jamieoliver.com"
 
     # URLs not under this set of domains will be ignored
     allowed_domains = ["jamieoliver.com"]
