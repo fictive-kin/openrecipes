@@ -9,6 +9,7 @@ import pymongo
 import hashlib
 import bleach
 import datetime
+from openrecipes.util import get_isodate, get_isoduration
 
 
 class MakestringsPipeline(object):
@@ -53,6 +54,25 @@ class MakestringsPipeline(object):
             item[k] = item[k].strip()
 
         return item
+
+
+class CleanDatesTimesPipeline(object):
+    def process_item(self, item, spider):
+        #isodates
+        if item['datePublished']:
+            item['datePublished'] = get_isodate(item['datePublished'], spider)
+        if item['dateModified']:
+            item['dateModified'] = get_isodate(item['dateModified'], spider)
+        if item['dateCreated']:
+            item['dateCreated'] = get_isodate(item['dateCreated'], spider)
+
+        #isodurations
+        if item['prepTime']:
+            item['prepTime'] = get_isoduration(item['prepTime'], spider)
+        if item['cookTime']:
+            item['cookTime'] = get_isoduration(item['cookTime'], spider)
+        if item['totalTime']:
+            item['totalTime'] = get_isoduration(item['totalTime'], spider)
 
 
 class DuplicaterecipePipeline(object):

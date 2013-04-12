@@ -4,7 +4,7 @@ from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem
 
 
-class ThepioneerwomanMixin(object):
+class TastyKitchenMixin(object):
 
     """
     Using this as a mixin lets us reuse the parse_item method more easily
@@ -12,7 +12,7 @@ class ThepioneerwomanMixin(object):
 
     # this is the source string we'll store in the DB to aggregate stuff
     # from a single source
-    source = 'thepioneerwoman'
+    source = 'tastykitchen'
 
     def parse_item(self, response):
 
@@ -21,7 +21,7 @@ class ThepioneerwomanMixin(object):
 
         # this is the base XPath string for the element that contains the recipe
         # info
-        base_path = """//div[@itemtype="http://data-vocabulary.org/Recipe"]"""
+        base_path = """//div[@class="recipe-details"]"""
 
         # the select() method will return a list of HtmlXPathSelector objects.
         # On this site we will almost certainly either get back just one, if
@@ -29,15 +29,16 @@ class ThepioneerwomanMixin(object):
         recipes_scopes = hxs.select(base_path)
 
         # it's easier to define these XPath strings outside of the loop below
-        name_path = '//meta[@property="og:title"]/@content'
-        description_path = '//meta[@property="og:description"]/@content'
-        url_path = '//meta[@property="og:url"]/@content'
-        image_path = '//meta[@property="og:image"][1]/@content'
-        prepTime_path = '*//*[@itemprop="prepTime"]/@datetime'
-        cookTime_path = '*//*[@itemprop="cookTime"]/@datetime'
-        recipeYield_path = '*//*[@itemprop="yield"]/text()'
-        ingredients_path = '*//*[@itemprop="ingredient"]'
-        datePublished = '*/*[@itemprop="published"]/@datetime'
+        name_path = '//h1[@itemprop="name"]/text()'
+        recipeYield_path = '//label[@for="set_servings"]/input/@value'
+        description_path = '//span[@itemprop="summary"]/p/text()'
+        image_path = '//img[@class="the_recipe_image"]/@src'
+        cookTime_path = '//form/p/time[@itemprop="cookTime"]/@datetime'
+        prepTime_path = '//form/p/time[@itemprop="prepTime"]/@datetime'
+        ingredients_path = '//span[@itemprop="ingredient"]'
+        ingredients_amounts_path = './span[@itemprop="amount"]/text()'
+        ingredients_names_path = './span[@itemprop="amount"]/text()'
+        datePublished_path = '//span[@itemprop="published"]/@datetime'
 
         # init an empty list
         recipes = []
@@ -51,28 +52,21 @@ class ThepioneerwomanMixin(object):
 
             item['name'] = r_scope.select(name_path).extract()
             item['image'] = r_scope.select(image_path).extract()
-            item['url'] = r_scope.select(url_path).extract()
             item['description'] = r_scope.select(description_path).extract()
-
+            item['url'] = response.url
             item['prepTime'] = r_scope.select(prepTime_path).extract()
             item['cookTime'] = r_scope.select(cookTime_path).extract()
             item['recipeYield'] = r_scope.select(recipeYield_path).extract()
+            item['datePublished'] = r_scope.select(datePublished_path).extract()
 
-            # ingredients require more work on this site to extract. We first
-            # get the base elements, and then loop through to pull out each
-            # "amount" and "name." Then we build a single string to represent
-            # each one and append it to the array of ingredients
+            # Simpler to grab the amount and name spans separately,
+            # then combine them into a string.
             ingredient_scopes = r_scope.select(ingredients_path)
-            ingredients = []
-            for i_scope in ingredient_scopes:
-                amount = i_scope.select('*[@itemprop="amount"]/text()').extract()
-                name = i_scope.select('*[@itemprop="name"]/text()').extract()
-                amount = "".join(amount).strip()
-                name = "".join(name).strip()
-                ingredients.append("%s %s" % (amount, name))
-            item['ingredients'] = ingredients
+            amount = ingredient_scopes.select(ingredients_amounts_path).extract()
+            name = ingredient_scopes.select(ingredients_names_path).extract()
+            ingredients = [" ".join(ing).encode('utf-8') for ing in zip(amount, name)]
 
-            item['datePublished'] = r_scope.select(datePublished).extract()
+            item['ingredients'] = ingredients
 
             # stick this RecipeItem in the array of recipes we will return
             recipes.append(item)
@@ -82,29 +76,33 @@ class ThepioneerwomanMixin(object):
         return recipes
 
 
-class ThepioneerwomancrawlSpider(CrawlSpider, ThepioneerwomanMixin):
+class TastyKitchenSpider(CrawlSpider, TastyKitchenMixin):
 
     # this is the name you'll use to run this spider from the CLI
-    name = "thepioneerwoman.com"
+    name = "tastykitchen.com"
 
     # URLs not under this set of domains will be ignored
-    allowed_domains = ["thepioneerwoman.com"]
+    allowed_domains = [
+        "tastykitchen.com"
+    ]
 
-    # the set of URLs the crawler with start with. We're starting on the first
-    # page of the site's recipe archive
+    # the set of URLs the crawler will start from
     start_urls = [
-        "http://thepioneerwoman.com/cooking/category/all-pw-recipes/?posts_per_page=60",
+        "http://tastykitchen.com/recipes/page/1/"
     ]
 
     # a tuple of Rules that are used to extract links from the HTML page
     rules = (
+
         # this rule has no callback, so these links will be followed and mined
         # for more URLs. This lets us page through the recipe archives
-        Rule(SgmlLinkExtractor(allow=('/cooking/category/all-pw-recipes/page/\d+/'))),
+        Rule(SgmlLinkExtractor(allow=('/recipes/page/\d{1,}/?'))),
 
-        # this rule is for recipe posts themselves. The callback argument will
-        # process the HTML on the page, extract the recipe information, and
-        # return a RecipeItem object
-        Rule(SgmlLinkExtractor(allow=('cooking\/\d\d\d\d\/\d\d\/[a-zA-Z_]+/?')),
-             callback='parse_item'),
+        # There wasn't an easy regex to specify recipe URLs, so opted
+        # for an XPath restriction instead.
+        Rule(SgmlLinkExtractor(
+             allow=('/recipes/[^/]+/[^/]+/?$'),
+             deny=('/recipes/(page|category)/[^/]+/?$')
+             ),
+        callback='parse_item'),
     )
