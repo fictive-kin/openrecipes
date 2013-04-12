@@ -59,8 +59,8 @@ def get_isoduration(input):
 
         # if not, try to parse it
         try:
-            delta = (parse('3 hours') - parse(''))
-            iso_duration = isodate.date_isoformat(delta)
+            delta = (parse(input) - parse(''))
+            iso_duration = isodate.duration_isoformat(delta)
         except Exception, e:
             log.msg(e.message, level=log.WARNING)
             return None
