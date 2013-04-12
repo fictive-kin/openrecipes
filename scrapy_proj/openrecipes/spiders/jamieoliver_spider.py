@@ -95,13 +95,14 @@ class JamieolivercrawlSpider(CrawlSpider, JamieoliverMixin):
         # this rule has no callback, so these links will be followed and mined
         # for more URLs. This lets us page through the recipe archives
         Rule(SgmlLinkExtractor(allow=(
-            '/recipes/[a-zA-Z\-]+/',
             '/recipes/category/.*'
+        ), deny=(
+            '/recipes/search.+',
         ))),
 
         # this rule is for recipe posts themselves. The callback argument will
         # process the HTML on the page, extract the recipe information, and
         # return a RecipeItem object
-        Rule(SgmlLinkExtractor(allow=('recipes\/[^(category)][a-zA-Z\-]+/[a-zA-Z\-]+')),
+        Rule(SgmlLinkExtractor(allow=('/recipes\/[^\/]+\-recipes/.+')),
              callback='parse_item'),
     )
