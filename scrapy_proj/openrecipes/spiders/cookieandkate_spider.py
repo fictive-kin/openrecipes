@@ -25,12 +25,11 @@ class CookieandkateMixin(object):
         recipes_scopes = hxs.select(base_path)
 
         # it's easier to define these XPath strings outside of the loop below
-        name_path = '//div[@itemprop="name"]/text()'
-        alt_name_path = '//div[@itemprop="name"]/span/text()'
+        name_path = '//div[@itemprop="name"]/text() | //*[@itemprop="name"]//*[@class="fn"]/text()'
         description_path = '//div[@itemprop="description"]/text()'
         image_path = '//img[1]/@src'
-        prepTime_path = '//time[@itemprop="prepTime"]/text()'
-        cookTime_path = '//time[@itemprop="cookTime"]/text()'
+        prepTime_path = '//time[@itemprop="prepTime"][contains(@datetime, "PT")]/@datetime | //time[@itemprop="prepTime"]//*[@class="value-title"]/@title'
+        cookTime_path = '//time[@itemprop="cookTime"][contains(@datetime, "PT")]/@datetime | //time[@itemprop="cookTime"]//*[@class="value-title"]/@title'
         recipeYield_path = '//span[@itemprop="recipeYield"]/text()'
         ingredients_path = '//li[@itemprop="ingredients"]/text()'
         datePublished = '//abbr[@class="published"]/text()'
@@ -46,8 +45,6 @@ class CookieandkateMixin(object):
             item['source'] = self.source
 
             item['name'] = r_scope.select(name_path).extract()
-            if not item['name']:
-                item['name'] = r_scope.select(alt_name_path).extract()
 
             # There's a bunch of images for each recipe, so we just
             # grab the first.
