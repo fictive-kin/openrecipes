@@ -29,7 +29,7 @@ class BiggirlssmallkitchenMixin(object):
         recipes_scopes = hxs.select(base_path)
 
         # it's easier to define these XPath strings outside of the loop below
-        name_path = '//*[@class="content"]/p[@style="text-align: center;"]/following-sibling::p[strong]/strong/text()'
+        name_path = '//h1[@class="title"]/text() | //*[@class="content"]/p[@style="text-align: center;"]/following-sibling::p[strong]/strong/text()'
         image_path = '//*[@class="content"]/p[1]/img[contains(@class, "size-full")]/@src'
         recipeYield_path = '//*[@class="content"]/p[@style="text-align: center;"]/following-sibling::p[em and strong]/em/text()'
         datePublished = '//*[@class="phn-date"]/a[@rel="author"]/following-sibling::text()'
