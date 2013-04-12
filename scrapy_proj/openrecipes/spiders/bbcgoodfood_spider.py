@@ -18,7 +18,8 @@ class BBCgoodfoodMixin(object):
         name_path = '//h1/text()'
         description_path = '//div[@class="hrecipe"]/p[@class="subhead summary"]/text()'
         image_path = '//img[@class="photo"]/@src'
-        # a lot of the content is repeated inside the '#printSidebar' div, so specify that to avoid doubling up content
+        # a lot of the content is repeated inside the '#printSidebar' div
+        # so specify that to avoid doubling up content
         prepTime_path = '//div[@id="printSidebar"]/div[@id="prep"]/p[1]/text()'
         cookTime_path = '//div[@id="printSidebar"]/div[@id="prep"]/p[2]/text()'
         recipeYield_path = '//div[@id="printSidebar"]/div[@id="serving"]/p/text()'
@@ -50,11 +51,11 @@ class BBCgoodfoodMixin(object):
             item['cookTime'] = cookSentence.split(' ',1)[1]
 
             # the number of servings is a bit tricky
-            # check if there's a span with class 'yield' which contains the number of servings - doesn't always exist
+            # if there's a span with class 'yield' it contains the number of servings
+            # otherwise number of servings is given in the <p> element
             if r_scope.select(recipeYieldAmount_path).extract():
                 yieldAmount = r_scope.select(recipeYieldAmount_path).extract()[0].strip()
             else:
-                # number of servings is given in the <p> element
                 yieldAmount = ""
 
             yieldString = r_scope.select(recipeYield_path).extract()[0].strip()
