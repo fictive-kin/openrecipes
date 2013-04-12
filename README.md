@@ -110,30 +110,13 @@ For now, we recommend looking at the following spider definitions to get a feel 
 
 Both files are extensively documented, and should give you an idea of what's involved. If you have questions, check the [Feedback section](#feedback) and hit us up.
 
+To generate your own spider, use the included generate.py program.  From the scrapy_proj directory, run the following (make sure you are in the correct virtualenv:
+
+`python generate.py SPIDER_NAME START_URL`
+
+This will generate a basic spider for you named SPIDER_NAME that starts crawling at START_URL.  All that remains for you to do is to fill in the correct info for scraping the name, image, etc.  See `python generate.py --help' for other command line options.
+
 We'll use the ["fork & pull" development model](https://help.github.com/articles/fork-a-repo) for collaboration, so if you plan to contribute, make sure to fork your own repo off of ours. Then you can send us a pull request when you have something to contribute. Please follow ["PEP 8 - Style Guide for Python Code"](http://www.python.org/dev/peps/pep-0008/) for code you write.
-
-### Tips for writing spiders
-
-You can use the scrapy shell + python's reloading capabilities to quickly test your spiders.
-This example will use elanaspantry.com
-
-cd into the scrapy_proj directory, then:
-
-    scrapy shell
-
-    fetch('http://www.elanaspantry.com/ratio-rally-quick-breads/')
-
-    from openrecipes.spiders import elanaspantry_spider
-
-    elanaspantry_spider.ElanaspantryMixin().parse_item(response)
-
-After making edits
-
-    reload(elanaspantry_spider)
-
-    elanaspantry_spider.ElanaspantryMixin().parse_item(response)
-
-Repeat until parser is correct.
 
 ## Feedback?
 
