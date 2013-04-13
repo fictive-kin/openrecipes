@@ -3,6 +3,7 @@ from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem
 
+
 class BBCgoodfoodMixin(object):
     # this is the source string we'll store in the DB to aggregate stuff
     # from a single source
@@ -35,7 +36,7 @@ class BBCgoodfoodMixin(object):
 
             item['name'] = r_scope.select(name_path).extract()[0].strip()
             item['url'] = response.url
-            
+
             # construct base url for image by removing recipe title from url
             base_img_url = '/'.join(response.url.split('/')[:-1])
             img_name = r_scope.select(image_path).extract()[0]
@@ -46,9 +47,9 @@ class BBCgoodfoodMixin(object):
             # remove extra tabs and newlines from Prep Time and Cook Time
             prepSentence = " ".join(r_scope.select(prepTime_path).extract()[0].split())
             # also remove preceding 'Prep '
-            item['prepTime'] = prepSentence.split(' ',1)[1]
+            item['prepTime'] = prepSentence.split(' ', 1)[1]
             cookSentence = " ".join(r_scope.select(cookTime_path).extract()[0].split())
-            item['cookTime'] = cookSentence.split(' ',1)[1]
+            item['cookTime'] = cookSentence.split(' ', 1)[1]
 
             # the number of servings is a bit tricky
             # if there's a span with class 'yield' it contains the number of servings
