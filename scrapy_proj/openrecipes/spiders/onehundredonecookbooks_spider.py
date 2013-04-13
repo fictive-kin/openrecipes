@@ -59,7 +59,7 @@ class OnehundredonecookbooksMixin(object):
         return recipes
 
 
-class OnehundredonecookbookscrawlSpider(CrawlSpider):
+class OnehundredonecookbookscrawlSpider(CrawlSpider, OnehundredonecookbooksMixin):
     name = "101cookbooks.com"
     allowed_domains = ["101cookbooks.com"]
     start_urls = [
