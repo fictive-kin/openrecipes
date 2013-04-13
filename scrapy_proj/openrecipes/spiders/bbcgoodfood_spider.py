@@ -93,9 +93,13 @@ class BBCgoodfoodcrawlSpider(CrawlSpider, BBCgoodfoodMixin):
     name = "bbcgoodfood.com"
     allowed_domains = ["bbcgoodfood.com"]
     start_urls = [
-        "http://www.bbcgoodfood.com",
+        "http://www.bbcgoodfood.com/searchAZ.do",
     ]
 
     rules = (
-        Rule(SgmlLinkExtractor(allow=('/recipes/.+'))),
+        Rule(SgmlLinkExtractor(allow=('/searchAZ.do\?pager\.offset=\d+'))),
+        Rule(SgmlLinkExtractor(allow=('/searchAZ.do\?letter=[a-zA-Z]+'))),
+        Rule(SgmlLinkExtractor(allow=('/recipes/\d+/.+/?'),
+                 deny='/recipes/\d+/.+/?\?.+'),
+             callback='parse_item'),
     )
