@@ -69,8 +69,9 @@ class BBCgoodfoodMixin(object):
             else:
                 yieldAmount = ""
 
-            yieldString = r_scope.select(recipeYield_path).extract()[0].strip()
-            if yieldString:
+            yieldList = r_scope.select(recipeYield_path).extract()
+            if yieldList:
+                yieldString = yieldList[0].strip()
                 item['recipeYield'] = ('%s %s' % (yieldString, yieldAmount)).strip()
 
             ingredient_scopes = r_scope.select(ingredients_path)
