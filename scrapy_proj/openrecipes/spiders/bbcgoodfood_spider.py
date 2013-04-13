@@ -82,7 +82,7 @@ class BBCgoodfoodMixin(object):
 
 
 class BBCgoodfoodcrawlSpider(CrawlSpider, BBCgoodfoodMixin):
-    name = "bbcgoodfood"
+    name = "bbcgoodfood.com"
     allowed_domains = ["bbcgoodfood.com"]
     start_urls = [
         "http://www.bbcgoodfood.com",
