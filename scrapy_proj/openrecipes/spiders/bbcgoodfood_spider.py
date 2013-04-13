@@ -2,6 +2,7 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem
+import bleach
 
 
 class BBCgoodfoodMixin(object):
@@ -65,12 +66,9 @@ class BBCgoodfoodMixin(object):
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
             for i_scope in ingredient_scopes:
-                amount = i_scope.select('text()').extract()
-                # occasionally the name of the ingredient is inside an <a> tag
-                name = i_scope.select('a/text()').extract()
-                # interleave text and <a> elements to get plain text
-                # there's probably a better way to do this
-                combo = [y for x in map(None, amount, name) for y in x if y is not None]
+                ingredient = bleach.clean(i_scope.extract(), tags=[], attributes={},
+                                                   styles=[], strip=True)
+
                 # clean extra tabs and newlines
                 ingredient = " ".join("".join(combo).split()).strip()
                 ingredients.append(ingredient)
