@@ -105,6 +105,6 @@ class ThepioneerwomancrawlSpider(CrawlSpider, ThepioneerwomanMixin):
         # this rule is for recipe posts themselves. The callback argument will
         # process the HTML on the page, extract the recipe information, and
         # return a RecipeItem object
-        Rule(SgmlLinkExtractor(allow=('cooking\/\d\d\d\d\/\d\d\/[a-zA-Z_]+')),
+        Rule(SgmlLinkExtractor(allow=('cooking\/\d\d\d\d\/\d\d\/[a-zA-Z_]+/?')),
              callback='parse_item'),
     )
