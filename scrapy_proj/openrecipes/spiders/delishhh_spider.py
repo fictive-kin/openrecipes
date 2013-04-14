@@ -55,26 +55,26 @@ class DelishhhMixin(object):
         # loop through our recipe scopes and extract the recipe data from each
         for r_scope in recipes_scopes:
             # make an empty RecipeItem
-            item = RecipeItem()
+            il = RecipeItemLoader(item=RecipeItem())
 
-            item['source'] = self.source
+            il.add_value('source', self.source)
 
-            item['name'] = r_scope.select(name_path).extract()
-            item['image'] = r_scope.select(image_path).extract()
-            item['url'] = r_scope.select(url_path).extract()
-            item['description'] = r_scope.select(description_path).extract()
+            il.add_value('name', r_scope.select(name_path).extract())
+            il.add_value('image', r_scope.select(image_path).extract())
+            il.add_value('url', r_scope.select(url_path).extract())
+            il.add_value('description', r_scope.select(description_path).extract())
 
-            item['prepTime'] = r_scope.select(prepTime_path).extract()
-            item['cookTime'] = r_scope.select(cookTime_path).extract()
-            item['recipeYield'] = r_scope.select(recipeYield_path).extract()
+            il.add_value('prepTime', r_scope.select(prepTime_path).extract())
+            il.add_value('cookTime', r_scope.select(cookTime_path).extract())
+            il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
 
-            item['ingredients'] = r_scope.select(ingredients_path).extract()
+            il.add_value('ingredients', r_scope.select(ingredients_path).extract())
 
-            item['datePublished'] = r_scope.select(datePublished_path).extract()
-            item['dateModified'] = r_scope.select(dateModified_path).extract()
+            il.add_value('datePublished', r_scope.select(datePublished_path).extract())
+            il.add_value('dateModified', r_scope.select(dateModified_path).extract())
 
             # stick this RecipeItem in the array of recipes we will return
-            recipes.append(item)
+            recipes.append(il.load_item())
 
         # more processing is done by the openrecipes.pipelines. Look at that
         # file to see transforms that are applied to each RecipeItem
@@ -103,14 +103,14 @@ class DelishhhMixin(object):
         # loop through our recipe scopes and extract the recipe data from each
         for r_scope in recipes_scopes:
             # make an empty RecipeItem
-            item = RecipeItem()
+            il = RecipeItemLoader(item=RecipeItem())
 
-            item['source'] = self.source
+            il.add_value('source', self.source)
 
-            item['name'] = r_scope.select(name_path).extract()
-            item['image'] = r_scope.select(image_path).extract()
-            item['url'] = r_scope.select(url_path).extract()
-            item['description'] = r_scope.select(description_path).extract()
+            il.add_value('name', r_scope.select(name_path).extract())
+            il.add_value('image', r_scope.select(image_path).extract())
+            il.add_value('url', r_scope.select(url_path).extract())
+            il.add_value('description', r_scope.select(description_path).extract())
 
             # might be able to make this bit more robust, which would probably
             # let us hit more recipes on this site. Not terribly motivated, tho
@@ -120,19 +120,19 @@ class DelishhhMixin(object):
             cook_match = re.match(r'.+Cook Time:?\s([^|]+)', ypc_str, re.I)
 
             if yield_match:
-                item['recipeYield'] = yield_match.group(1)
+                il.add_value('recipeYield', yield_match.group(1))
             if prep_match:
-                item['prepTime'] = prep_match.group(1)
+                il.add_value('prepTime', prep_match.group(1))
             if cook_match:
-                item['cookTime'] = cook_match.group(1)
+                il.add_value('cookTime', cook_match.group(1))
 
-            item['ingredients'] = r_scope.select(ingredients_path).extract()
+            il.add_value('ingredients', r_scope.select(ingredients_path).extract())
 
-            item['datePublished'] = r_scope.select(datePublished_path).extract()
-            item['dateModified'] = r_scope.select(dateModified_path).extract()
+            il.add_value('datePublished', r_scope.select(datePublished_path).extract())
+            il.add_value('dateModified', r_scope.select(dateModified_path).extract())
 
             # stick this RecipeItem in the array of recipes we will return
-            recipes.append(item)
+            recipes.append(il.load_item())
 
         # more processing is done by the openrecipes.pipelines. Look at that
         # file to see transforms that are applied to each RecipeItem
