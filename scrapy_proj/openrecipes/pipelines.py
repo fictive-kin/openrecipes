@@ -8,15 +8,9 @@ from scrapy.conf import settings
 import pymongo
 import hashlib
 import datetime
-from openrecipes.util import get_isodate, get_isoduration, strip_html
 
 
-class MakestringsPipeline(object):
-    """
-    This processes all the properties of the RecipeItems, all of which are
-    lists, and turns them into strings
-    """
-
+class RejectinvalidPipeline(object):
     def process_item(self, item, spider):
         if not item.get('source', False):
             raise DropItem("Missing 'source' in %s" % item)
@@ -29,50 +23,6 @@ class MakestringsPipeline(object):
 
         if not item.get('ingredients', False):
             raise DropItem("Missing 'ingredients' in %s" % item)
-
-        for k, v in item.iteritems():
-            # don't join if this is a string
-            if not isinstance(v, basestring):
-                if k == 'ingredients':
-                    # with ingredients, we want to separate each entry with a
-                    # newline character
-                    item[k] = "\n".join(v)
-                elif isinstance(item[k], list):
-                    # otherwise just smash them together with nothing between.
-                    # We expect these to always just be lists with 1 or 0
-                    # elements, so it effectively converts the list into a
-                    # string
-                    item[k] = "".join(v)
-
-            # Use Bleach to strip all HTML tags. The tags could be a source
-            # of code injection, and it's generally not safe to keep them.
-            # We may consider storing a whitelisted subset in special
-            # properties for the sake of presentation.
-            item[k] = strip_html(item[k])
-
-            # trim whitespace
-            item[k] = item[k].strip()
-
-        return item
-
-
-class CleanDatesTimesPipeline(object):
-    def process_item(self, item, spider):
-        #isodates
-        if item.get('datePublished', None):
-            item['datePublished'] = get_isodate(item['datePublished'])
-        if item.get('dateModified', None):
-            item['dateModified'] = get_isodate(item['dateModified'])
-        if item.get('dateCreated', None):
-            item['dateCreated'] = get_isodate(item['dateCreated'])
-
-        #isodurations
-        if item.get('prepTime', None):
-            item['prepTime'] = get_isoduration(item['prepTime'])
-        if item.get('cookTime', None):
-            item['cookTime'] = get_isoduration(item['cookTime'])
-        if item.get('totalTime', None):
-            item['totalTime'] = get_isoduration(item['totalTime'])
 
         return item
 
@@ -151,4 +101,22 @@ class MongoDBPipeline(object):
 
         log.msg('Item written to MongoDB database %s/%s' % (self.db, self.col),
                 level=log.DEBUG, spider=spider)
+        return item
+
+
+class MakestringsPipeline(object):
+    """
+    DEPRECATED
+
+    This processes all the properties of the RecipeItems, all of which are
+    lists, and turns them into strings
+    """
+
+    def process_item(self, item, spider):
+        return item
+
+
+class CleanDatesTimesPipeline(object):
+    """DEPRECATED"""
+    def process_item(self, item, spider):
         return item
