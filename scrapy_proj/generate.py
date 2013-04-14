@@ -8,7 +8,7 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 SpiderTemplate = """from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
-from openrecipes.items import RecipeItem
+from openrecipes.items import RecipeItem, RecipeItemLoader
 
 
 class %(crawler_name)sMixin(object):

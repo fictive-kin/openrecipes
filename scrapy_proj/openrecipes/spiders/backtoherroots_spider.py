@@ -1,6 +1,6 @@
 from scrapy.contrib.spiders import CrawlSpider
 from scrapy.selector import HtmlXPathSelector
-from openrecipes.items import RecipeItem
+from openrecipes.items import RecipeItem, RecipeItemLoader
 
 
 class BacktoherrootsMixin(object):
