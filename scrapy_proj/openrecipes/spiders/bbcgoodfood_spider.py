@@ -2,7 +2,7 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem
-import bleach
+from openrecipes.util import strip_html
 
 
 class BBCgoodfoodMixin(object):
@@ -77,8 +77,7 @@ class BBCgoodfoodMixin(object):
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
             for i_scope in ingredient_scopes:
-                ingredient = bleach.clean(i_scope.extract(), tags=[], attributes={},
-                                                   styles=[], strip=True)
+                ingredient = strip_html(i_scope.extract())
 
                 # clean extra tabs and newlines
                 ingredient = self.remove_whitespace(ingredient)

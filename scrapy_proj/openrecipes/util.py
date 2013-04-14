@@ -1,6 +1,7 @@
 import isodate
 from dateutil.parser import parse
 from scrapy import log
+import bleach
 
 
 def parse_iso_date(scope):
@@ -21,6 +22,12 @@ def flatten(list_or_string):
 
 def get_isodate(input):
     """convert the given input string into an iso 8601 date"""
+def strip_html(html_str):
+    """removes all HTML markup using the Bleach lib"""
+    return bleach.clean(html_str, tags=[], attributes={},
+                                   styles=[], strip=True)
+
+
     iso_date = None
 
     if not input:

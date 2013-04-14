@@ -7,9 +7,8 @@ from scrapy import log
 from scrapy.conf import settings
 import pymongo
 import hashlib
-import bleach
 import datetime
-from openrecipes.util import get_isodate, get_isoduration
+from openrecipes.util import get_isodate, get_isoduration, strip_html
 
 
 class MakestringsPipeline(object):
@@ -47,8 +46,7 @@ class MakestringsPipeline(object):
             # of code injection, and it's generally not safe to keep them.
             # We may consider storing a whitelisted subset in special
             # properties for the sake of presentation.
-            item[k] = bleach.clean(item[k], tags=[], attributes={},
-                                   styles=[], strip=True)
+            item[k] = strip_html(item[k])
 
             # trim whitespace
             item[k] = item[k].strip()
