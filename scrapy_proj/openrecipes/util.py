@@ -26,6 +26,11 @@ def strip_html(html_str):
                                    styles=[], strip=True)
 
 
+def trim_whitespace(str):
+    """calls .strip() on passed str"""
+    return str.strip()
+
+
 def get_isodate(date_str):
     """convert the given date_str string into an iso 8601 date"""
     iso_date = None
