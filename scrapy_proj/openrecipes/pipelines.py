@@ -31,16 +31,18 @@ class MakestringsPipeline(object):
             raise DropItem("Missing 'ingredients' in %s" % item)
 
         for k, v in item.iteritems():
-            if k == 'ingredients':
-                # with ingredients, we want to separate each entry with a
-                # newline character
-                item[k] = "\n".join(v)
-            elif isinstance(item[k], list):
-                # otherwise just smash them together with nothing between.
-                # We expect these to always just be lists with 1 or 0
-                # elements, so it effectively converts the list into a
-                # string
-                item[k] = "".join(v)
+            # don't join if this is a string
+            if not isinstance(v, basestring):
+                if k == 'ingredients':
+                    # with ingredients, we want to separate each entry with a
+                    # newline character
+                    item[k] = "\n".join(v)
+                elif isinstance(item[k], list):
+                    # otherwise just smash them together with nothing between.
+                    # We expect these to always just be lists with 1 or 0
+                    # elements, so it effectively converts the list into a
+                    # string
+                    item[k] = "".join(v)
 
             # Use Bleach to strip all HTML tags. The tags could be a source
             # of code injection, and it's generally not safe to keep them.
