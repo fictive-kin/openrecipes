@@ -1,7 +1,7 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
-from openrecipes.items import RecipeItem
+from openrecipes.items import RecipeItem, RecipeItemLoader
 
 
 class BiggirlssmallkitchenMixin(object):
@@ -45,26 +45,26 @@ class BiggirlssmallkitchenMixin(object):
         # loop through our recipe scopes and extract the recipe data from each
         for r_scope in recipes_scopes:
             # make an empty RecipeItem
-            item = RecipeItem()
+            il = RecipeItemLoader(item=RecipeItem())
 
-            item['source'] = self.source
+            il.add_value('source', self.source)
 
-            item['name'] = r_scope.select(name_path).extract()
-            item['image'] = r_scope.select(image_path).extract()
-            item['url'] = response.url
+            il.add_value('name', r_scope.select(name_path).extract())
+            il.add_value('image', r_scope.select(image_path).extract())
+            il.add_value('url', response.url)
 
-            item['recipeYield'] = r_scope.select(recipeYield_path).extract()
+            il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
 
             # date returns something like this: "ON SATURDAY NOV 28TH, 2009 |"
             date = r_scope.select(datePublished).extract()
             if len(date) > 0:
                 date = date[0].replace('on', '', 1).replace('|', '').strip()
-                item['datePublished'] = date
+                il.add_value('datePublished', date)
 
-            item['ingredients'] = r_scope.select(ingredients_path).extract()
+            il.add_value('ingredients', r_scope.select(ingredients_path).extract())
 
             # stick this RecipeItem in the array of recipes we will return
-            recipes.append(item)
+            recipes.append(il.load_item())
 
         # more processing is done by the openrecipes.pipelines. Look at that
         # file to see transforms that are applied to each RecipeItem

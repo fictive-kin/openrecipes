@@ -1,7 +1,7 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
-from openrecipes.items import RecipeItem
+from openrecipes.items import RecipeItem, RecipeItemLoader
 
 
 class BonappetitMixin(object):
@@ -27,14 +27,14 @@ class BonappetitMixin(object):
 
         recipes = []
         for r_scope in recipes_scopes:
-            item = RecipeItem()
+            il = RecipeItemLoader(item=RecipeItem())
 
-            item['source'] = self.source
-            item['name'] = r_scope.select(name_path).extract()
-            item['image'] = r_scope.select(image_path).extract()
-            item['url'] = r_scope.select(url_path).extract()
-            item['description'] = r_scope.select(description_path).extract()
-            item['recipeYield'] = r_scope.select(recipeYield_path).extract()
+            il.add_value('source', self.source)
+            il.add_value('name', r_scope.select(name_path).extract())
+            il.add_value('image', r_scope.select(image_path).extract())
+            il.add_value('url', r_scope.select(url_path).extract())
+            il.add_value('description', r_scope.select(description_path).extract())
+            il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
 
             ingredients_scope = r_scope.select(ingredients_path)
             ingredients = []
@@ -44,11 +44,11 @@ class BonappetitMixin(object):
                 quantity = "".join(quantity).strip()
                 name = "".join(name).strip()
                 ingredients.append("%s %s" % (quantity, name))
-            item['ingredients'] = ingredients
+            il.add_value('ingredients', ingredients)
 
-            item['datePublished'] = r_scope.select(datePublished_path).extract()
+            il.add_value('datePublished', r_scope.select(datePublished_path).extract())
 
-            recipes.append(item)
+            recipes.append(il.load_item())
 
         return recipes
 

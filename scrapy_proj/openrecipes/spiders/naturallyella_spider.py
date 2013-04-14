@@ -1,7 +1,7 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
-from openrecipes.items import RecipeItem
+from openrecipes.items import RecipeItem, RecipeItemLoader
 
 
 class NaturallyEllaMixin(object):
@@ -34,16 +34,16 @@ class NaturallyEllaMixin(object):
         recipes = []
         for recipe_scope in recipes_scope:
 
-            item = RecipeItem()
-            item['source'] = self.source
+            il = RecipeItemLoader(item=RecipeItem())
+            il.add_value('source', self.source)
 
-            item['description'] = recipe_scope.select(description_path).extract()
-            item['image'] = recipe_scope.select(image_path).extract()
-            item['name'] = recipe_scope.select(name_path).extract()
-            item['url'] = recipe_scope.select(url_path).extract()
+            il.add_value('description', recipe_scope.select(description_path).extract())
+            il.add_value('image', recipe_scope.select(image_path).extract())
+            il.add_value('name', recipe_scope.select(name_path).extract())
+            il.add_value('url', recipe_scope.select(url_path).extract())
 
-            item['datePublished'] = recipe_scope.select(date_published_path).extract()
-            item['creator'] = recipe_scope.select(author_path).extract()
+            il.add_value('datePublished', recipe_scope.select(date_published_path).extract())
+            il.add_value('creator', recipe_scope.select(author_path).extract())
 
             ingredients = []
             ingredient_scopes = recipe_scope.select(ingredients_path)
@@ -51,15 +51,15 @@ class NaturallyEllaMixin(object):
                 ingredient = ingredient_scope.extract().strip()
                 if (ingredient):
                     ingredients.append(ingredient)
-            item['ingredients'] = ingredients
+            il.add_value('ingredients', ingredients)
 
-            item['cookTime'] = recipe_scope.select(cook_time_path).extract()
-            item['prepTime'] = recipe_scope.select(prep_time_path).extract()
-            item['recipeCategory'] = recipe_scope.select(category_path).extract()
-            item['recipeYield'] = recipe_scope.select(yield_path).extract()
-            item['totalTime'] = recipe_scope.select(total_time_path).extract()
+            il.add_value('cookTime', recipe_scope.select(cook_time_path).extract())
+            il.add_value('prepTime', recipe_scope.select(prep_time_path).extract())
+            il.add_value('recipeCategory', recipe_scope.select(category_path).extract())
+            il.add_value('recipeYield', recipe_scope.select(yield_path).extract())
+            il.add_value('totalTime', recipe_scope.select(total_time_path).extract())
 
-            recipes.append(item)
+            recipes.append(il.load_item())
 
         return recipes
 

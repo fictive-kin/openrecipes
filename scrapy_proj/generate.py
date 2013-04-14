@@ -8,7 +8,7 @@ script_dir = os.path.dirname(os.path.realpath(__file__))
 SpiderTemplate = """from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
-from openrecipes.items import RecipeItem
+from openrecipes.items import RecipeItem, RecipeItemLoader
 
 
 class %(crawler_name)sMixin(object):
@@ -34,28 +34,28 @@ class %(crawler_name)sMixin(object):
         recipes = []
 
         for r_scope in recipes_scopes:
-            item = RecipeItem()
+            il = RecipeItemLoader(item=RecipeItem())
 
             item['source'] = self.source
 
-            item['name'] = r_scope.select(name_path).extract()
-            item['image'] = r_scope.select(image_path).extract()
-            item['url'] = response.url
-            item['description'] = r_scope.select(description_path).extract()
+            il.add_value('name', r_scope.select(name_path).extract())
+            il.add_value('image', r_scope.select(image_path).extract())
+            il.add_value('url', response.url)
+            il.add_value('description', r_scope.select(description_path).extract())
 
-            item['prepTime'] = r_scope.select(prepTime_path).extract()
-            item['cookTime'] = r_scope.select(cookTime_path).extract()
-            item['recipeYield'] = r_scope.select(recipeYield_path).extract()
+            il.add_value('prepTime', r_scope.select(prepTime_path).extract())
+            il.add_value('cookTime', r_scope.select(cookTime_path).extract())
+            il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
 
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
             for i_scope in ingredient_scopes:
                 pass
-            item['ingredients'] = ingredients
+            il.add_value('ingredients', ingredients)
 
-            item['datePublished'] = r_scope.select(datePublished).extract()
+            il.add_value('datePublished', r_scope.select(datePublished).extract())
 
-            recipes.append(item)
+            recipes.append(il.load_item())
 
         return recipes
 
