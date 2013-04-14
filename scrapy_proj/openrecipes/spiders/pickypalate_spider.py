@@ -1,7 +1,7 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
-from openrecipes.items import RecipeItem
+from openrecipes.items import RecipeItem, RecipeItemLoader
 
 
 class PickypalateMixin(object):
@@ -15,32 +15,33 @@ class PickypalateMixin(object):
     def parse_item(self, response):
         hxs = HtmlXPathSelector(response)
 
-        base_path = """//*[@id="content"]/div/div[4]"""
+        # site has many recipes missing the semantmic markup, but not worth
+        # pursuing those IMHO. use hrecipe
+        base_path = """//*[@class="hrecipe"]"""
 
         recipes_scopes = hxs.select(base_path)
 
-        name_path = '//*[@id="content"]/div/div[4]/div[1]/h2/span/text()'
+        name_path = './/*[@class="fn"]/text()'
         url_path = '//meta[@property="og:url"]/@content'
         image_path = '//meta[@property="og:image"][1]/@content'
-        recipeYield_path = '//*[@id="content"]/div/div[4]/div[2]/div/p[3]/span/text()'
+        recipeYield_path = './/*[@class="yield"]/text()'
         ingredients_path = '*//*[@class="ingredient"]'
 
-        monthPublished = '//*[@id="content"]/div/div[1]/div/text()[1]'
-        dayPublished = '//*[@id="content"]/div/div[1]/div/div/text()'
-        yearPublished = '//*[@id="content"]/div/div[1]/div/text()[2]'
+        # get the date from rest of page, not under hrecipe
+        datePublished_path = '//*[@class="date"][1]'
 
         recipes = []
 
         for r_scope in recipes_scopes:
-            item = RecipeItem()
+            il = RecipeItemLoader(item=RecipeItem())
 
-            item['source'] = self.source
+            il.add_value('source', self.source)
 
-            item['name'] = r_scope.select(name_path).extract()
-            item['image'] = r_scope.select(image_path).extract()
-            item['url'] = r_scope.select(url_path).extract()
+            il.add_value('name', r_scope.select(name_path).extract())
+            il.add_value('image', r_scope.select(image_path).extract())
+            il.add_value('url', r_scope.select(url_path).extract())
 
-            item['recipeYield'] = r_scope.select(recipeYield_path).extract()
+            il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
 
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
@@ -50,18 +51,11 @@ class PickypalateMixin(object):
                 amount = "".join(amount).strip()
                 name = "".join(name).strip()
                 ingredients.append("%s %s" % (amount, name))
-            item['ingredients'] = ingredients
+            il.add_value('ingredients', ingredients)
 
-            month = r_scope.select(monthPublished).extract()
-            month_stripped = month[0].strip()
-            day = r_scope.select(dayPublished).extract()
-            day_stripped = day[0].strip()
-            year = r_scope.select(yearPublished).extract()
-            year_stripped = year[0].strip()
+            il.add_value('datePublished', r_scope.select(datePublished_path).extract())
 
-            item['datePublished'] = month_stripped + ' ' + day_stripped + ', ' + year_stripped
-
-            recipes.append(item)
+            recipes.append(il.load_item())
 
         return recipes
 
