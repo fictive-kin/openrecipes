@@ -59,20 +59,22 @@ class MakestringsPipeline(object):
 class CleanDatesTimesPipeline(object):
     def process_item(self, item, spider):
         #isodates
-        if item['datePublished']:
-            item['datePublished'] = get_isodate(item['datePublished'], spider)
-        if item['dateModified']:
-            item['dateModified'] = get_isodate(item['dateModified'], spider)
-        if item['dateCreated']:
-            item['dateCreated'] = get_isodate(item['dateCreated'], spider)
+        if item.get('datePublished', None):
+            item['datePublished'] = get_isodate(item['datePublished'])
+        if item.get('dateModified', None):
+            item['dateModified'] = get_isodate(item['dateModified'])
+        if item.get('dateCreated', None):
+            item['dateCreated'] = get_isodate(item['dateCreated'])
 
         #isodurations
-        if item['prepTime']:
-            item['prepTime'] = get_isoduration(item['prepTime'], spider)
-        if item['cookTime']:
-            item['cookTime'] = get_isoduration(item['cookTime'], spider)
-        if item['totalTime']:
-            item['totalTime'] = get_isoduration(item['totalTime'], spider)
+        if item.get('prepTime', None):
+            item['prepTime'] = get_isoduration(item['prepTime'])
+        if item.get('cookTime', None):
+            item['cookTime'] = get_isoduration(item['cookTime'])
+        if item.get('totalTime', None):
+            item['totalTime'] = get_isoduration(item['totalTime'])
+
+        return item
 
 
 class DuplicaterecipePipeline(object):

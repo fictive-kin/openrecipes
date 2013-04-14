@@ -31,8 +31,6 @@ def get_isodate(input):
         isodate.parse_date(input)
         return input
     except isodate.ISO8601Error, e:
-        log.msg(e.message, level=log.DEBUG)
-
         # if not, try to parse it
         try:
             iso_date = isodate.date_isoformat(parse(input))
@@ -55,8 +53,6 @@ def get_isoduration(input):
         isodate.parse_duration(input)
         return input
     except isodate.ISO8601Error, e:
-        log.msg(e.message, level=log.DEBUG)
-
         # if not, try to parse it
         try:
             delta = (parse(input) - parse(''))
