@@ -1,7 +1,7 @@
 from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
-from openrecipes.items import RecipeItem
+from openrecipes.items import RecipeItem, RecipeItemLoader
 
 
 class AspicyperspectivecrawlSpider(CrawlSpider):
@@ -34,15 +34,15 @@ class AspicyperspectivecrawlSpider(CrawlSpider):
 
         recipes = []
         for r_scope in recipes_scopes:
-            item = RecipeItem()
-            item['source'] = 'aspicyperspective'
-            item['name'] = r_scope.select(name_path).extract()
-            item['image'] = r_scope.select(image_path).extract()
-            item['url'] = response.url
+            il = RecipeItemLoader(item=RecipeItem())
+            il.add_value('source', 'aspicyperspective')
+            il.add_value('name', r_scope.select(name_path).extract())
+            il.add_value('image', r_scope.select(image_path).extract())
+            il.add_value('url', response.url)
 
-            item['prepTime'] = r_scope.select(prepTime_path).extract()
-            item['cookTime'] = r_scope.select(cookTime_path).extract()
-            item['recipeYield'] = r_scope.select(recipeYield_path).extract()
+            il.add_value('prepTime', r_scope.select(prepTime_path).extract())
+            il.add_value('cookTime', r_scope.select(cookTime_path).extract())
+            il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
 
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
@@ -51,8 +51,8 @@ class AspicyperspectivecrawlSpider(CrawlSpider):
                 if ingredient != '':
                     ingredients.append(ingredient.encode('utf-8'))
 
-            item['ingredients'] = ingredients
+            il.add_value('ingredients', ingredients)
 
-            recipes.append(item)
+            recipes.append(il.load_item())
 
         return recipes

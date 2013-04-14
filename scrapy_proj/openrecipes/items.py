@@ -1,4 +1,45 @@
+from scrapy.contrib.loader import ItemLoader
+from scrapy.contrib.loader.processor import Compose, TakeFirst, Join
 from scrapy.item import Item, Field
+from openrecipes.util import strip_html, trim_whitespace, get_isodate, get_isoduration
+
+
+class RecipeItemLoader(ItemLoader):
+
+    source_out = TakeFirst()
+
+    description_out = Compose(TakeFirst(), strip_html, trim_whitespace)
+    image_out = Compose(TakeFirst(), strip_html, trim_whitespace)
+    name_out = Compose(TakeFirst(), strip_html, trim_whitespace)
+    url_out = Compose(TakeFirst(), strip_html, trim_whitespace)
+
+    creator_out = Compose(TakeFirst(), trim_whitespace)
+    dateCreated_out = Compose(TakeFirst(), strip_html, get_isodate)
+    dateModified_out = Compose(TakeFirst(), strip_html, get_isodate)
+    datePublished_out = Compose(TakeFirst(), strip_html, get_isodate)
+    keywords_out = Compose(TakeFirst(), trim_whitespace)
+
+    cookingMethod_out = Compose(TakeFirst(), trim_whitespace)
+    cookTime_out = Compose(TakeFirst(), strip_html, get_isoduration)
+    ingredients_out = Compose(Join("\n"), strip_html, trim_whitespace)
+    prepTime_out = Compose(TakeFirst(), strip_html, get_isoduration)
+    recipeCategory_out = Compose(TakeFirst(), trim_whitespace)
+    recipeCuisine_out = Compose(TakeFirst(), trim_whitespace)
+    recipeYield_out = Compose(TakeFirst(), strip_html, trim_whitespace)
+    totalTime_out = Compose(TakeFirst(), strip_html, get_isoduration)
+
+    calories_out = Compose(TakeFirst(), trim_whitespace)
+    carbohydrateContent_out = Compose(TakeFirst(), trim_whitespace)
+    cholesterolContent_out = Compose(TakeFirst(), trim_whitespace)
+    fatContent_out = Compose(TakeFirst(), trim_whitespace)
+    fiberContent_out = Compose(TakeFirst(), trim_whitespace)
+    proteinContent_out = Compose(TakeFirst(), trim_whitespace)
+    saturatedFatContent_out = Compose(TakeFirst(), trim_whitespace)
+    servingSize_out = Compose(TakeFirst(), trim_whitespace)
+    sodiumContent_out = Compose(TakeFirst(), trim_whitespace)
+    sugarContent_out = Compose(TakeFirst(), trim_whitespace)
+    transFatContent_out = Compose(TakeFirst(), trim_whitespace)
+    unsaturatedFatContent_out = Compose(TakeFirst(), trim_whitespace)
 
 
 class RecipeItem(Item):

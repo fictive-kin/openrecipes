@@ -13,8 +13,7 @@ NEWSPIDER_MODULE = 'openrecipes.spiders'
 
 # all items will be passed through these pipelines
 ITEM_PIPELINES = [
-    'openrecipes.pipelines.MakestringsPipeline',
-    'openrecipes.pipelines.CleanDatesTimesPipeline',
+    'openrecipes.pipelines.RejectinvalidPipeline',
     'openrecipes.pipelines.DuplicaterecipePipeline',
     # uncomment if you want to insert results into MongoDB
     # 'openrecipes.pipelines.MongoDBPipeline',
