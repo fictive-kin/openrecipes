@@ -34,14 +34,14 @@ class EpicuriousMixin(object):
 
         for r_scope in recipes_scopes:
 
-            item = RecipeItem()
+            il = RecipeItemLoader(item=RecipeItem())
 
-            item['source'] = self.source
+            il.add_value('source', self.source)
 
-            item['name'] = r_scope.select(name_path).extract()
-            item['image'] = r_scope.select(image_path).extract()
-            item['url'] = r_scope.select(url_path).extract()
-            item['description'] = r_scope.select(description_path).extract()
+            il.add_value('name', r_scope.select(name_path).extract())
+            il.add_value('image', r_scope.select(image_path).extract())
+            il.add_value('url', r_scope.select(url_path).extract())
+            il.add_value('description', r_scope.select(description_path).extract())
 
             # time isn't stored in semantic markup on this site, which
             # makes it a pretty big disaster. ickiness ahead
@@ -50,14 +50,14 @@ class EpicuriousMixin(object):
                 prep_pattern = '\s?Prep Time:\s?(\d{1,}\s(?:second|minute|hour|day)s?)'
                 prep_time_re = re.match(prep_pattern, time_str, re.I)
                 if (prep_time_re):
-                    item['prepTime'] = prep_time_re.group(1)
+                    il.add_value('prepTime', prep_time_re.group(1))
 
                 cook_pattern = '.+\s?Cook Time:\s?(\d{1,}\s(?:second|minute|hour|day)s?)'
                 cook_time_re = re.match(cook_pattern, time_str, re.I)
                 if (cook_time_re):
-                    item['cookTime'] = cook_time_re.group(1)
+                    il.add_value('cookTime', cook_time_re.group(1))
 
-            item['recipeYield'] = r_scope.select(recipeYield_path).extract()
+            il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
 
             # the ingredients are pretty well formatted here, but we do need
             # to trim some trailing whitespace
@@ -67,15 +67,15 @@ class EpicuriousMixin(object):
                 ingredient = i_scope.select('text()').extract()
                 ingredient = "".join(ingredient)
                 ingredients.append(ingredient)
-            item['ingredients'] = ingredients
+            il.add_value('ingredients', ingredients)
 
             # Date Published is formatted as [Category] | MMM YYYY
             # Split this into a tuple on the | and keep the last part
             datePublished = r_scope.select(datePublished_path).extract()
             datePublished = "".join(datePublished).partition("|")[2]
-            item['datePublished'] = datePublished
+            il.add_value('datePublished', datePublished)
 
-            recipes.append(item)
+            recipes.append(il.load_item())
 
         return recipes
 
