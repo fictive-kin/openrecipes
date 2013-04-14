@@ -27,12 +27,12 @@ class TheVintageMixerMixin(object):
         recipes = []
         for recipe_scope in recipes_scope:
 
-            item = RecipeItem()
-            item['source'] = self.source
+            il = RecipeItemLoader(item=RecipeItem())
+            il.add_value('source', self.source)
 
-            item['image'] = recipe_scope.select(image_path).extract()
-            item['name'] = recipe_scope.select(name_path).extract()
-            item['url'] = recipe_scope.select(url_path).extract()
+            il.add_value('image', recipe_scope.select(image_path).extract())
+            il.add_value('name', recipe_scope.select(name_path).extract())
+            il.add_value('url', recipe_scope.select(url_path).extract())
 
             ingredients = []
             ingredient_scopes = recipe_scope.select(ingredients_path)
@@ -40,12 +40,12 @@ class TheVintageMixerMixin(object):
                 ingredient = ingredient_scope.extract().strip()
                 if (ingredient):
                     ingredients.append(ingredient)
-            item['ingredients'] = ingredients
+            il.add_value('ingredients', ingredients)
 
-            item['recipeYield'] = recipe_scope.select(yield_path).extract()
-            item['totalTime'] = recipe_scope.select(total_time_path).extract()
+            il.add_value('recipeYield', recipe_scope.select(yield_path).extract())
+            il.add_value('totalTime', recipe_scope.select(total_time_path).extract())
 
-            recipes.append(item)
+            recipes.append(il.load_item())
 
         return recipes
 
