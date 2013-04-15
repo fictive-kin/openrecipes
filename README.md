@@ -84,7 +84,7 @@ Once you have `pip` and `virtualenv`, you can clone our repo and install require
 9. `cp settings.py.default settings.py` to set up a working settings module for the project
 10. `scrapy crawl thepioneerwoman.feed` to test the feed spider written for [thepioneerwoman.com](http://thepioneerwoman.com). You should get output like the following:
 
-	<pre>
+    <pre>
     2013-03-30 14:35:37-0400 [scrapy] INFO: Scrapy 0.16.4 started (bot: openrecipes)
     2013-03-30 14:35:37-0400 [scrapy] DEBUG: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, SpiderState
     2013-03-30 14:35:37-0400 [scrapy] DEBUG: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, RedirectMiddleware, CookiesMiddleware, HttpCompressionMiddleware, ChunkedTransferMiddleware, DownloaderStats
@@ -97,7 +97,7 @@ Once you have `pip` and `virtualenv`, you can clone our repo and install require
     2013-03-30 14:35:38-0400 [thepioneerwoman.feed] DEBUG: Crawled (200) <GET http://feeds.feedburner.com/pwcooks> (referer: None)
     2013-03-30 14:35:38-0400 [thepioneerwoman.feed] DEBUG: Crawled (200) <GET http://thepioneerwoman.com/cooking/2013/03/beef-fajitas/> (referer: http://feeds.feedburner.com/pwcooks)
     ...
-	</pre>
+    </pre>
 
     If you do, [*baby you got a stew going!*](http://www.youtube.com/watch?v=5lFZAyZPjV0)
 
