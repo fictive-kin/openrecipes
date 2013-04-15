@@ -123,3 +123,18 @@ We'll use the ["fork & pull" development model](https://help.github.com/articles
 We're just trying to do the right thing, so we value your feedback as we go. You can ping [Ed](https://github.com/funkatron), [Chris](https://github.com/shiflett), [Andreas](https://github.com/andbirkebaek), or anyone from [Fictive Kin](https://github.com/fictivekin). General suggestions and feedback to [openrecipes@fictivekin.com](mailto:openrecipes@fictivekin.com) are welcome, too.
 
 We're also gonna be on IRC, so please feel free to join us if you have any questions or comments. We'll be hanging out in #openrecipes on Freenode. See you there!
+
+## CHANGELOG
+
+*Not every change, but notable ones that require action for contributors*
+
+* 2013-04-15: `pipelines.MakestringsPipeline` and `pipelines.CleanDatesTimesPipeline` have been deprecated, and `pipelines.RejectinvalidPipeline` has been added. Your `ITEM_PIPELINES` config in `settings.py` should look something like this:
+
+    ```python
+    ITEM_PIPELINES = [
+        'openrecipes.pipelines.RejectinvalidPipeline',
+        'openrecipes.pipelines.DuplicaterecipePipeline',
+        # uncomment if you want to insert results into MongoDB
+        # 'openrecipes.pipelines.MongoDBPipeline',
+    ]
+    ```
