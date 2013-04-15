@@ -44,7 +44,7 @@ class ThepioneerwomanMixin(object):
 
         # loop through our recipe scopes and extract the recipe data from each
         for r_scope in recipes_scopes:
-            # make an empty RecipeItem
+            # make an empty RecipeItemLoader
             il = RecipeItemLoader(item=RecipeItem())
 
             il.add_value('source', self.source)
@@ -74,7 +74,9 @@ class ThepioneerwomanMixin(object):
 
             il.add_value('datePublished', r_scope.select(datePublished).extract())
 
-            # stick this RecipeItem in the array of recipes we will return
+            # il.load_item() returns a RecipeItem passed through the
+            # RecipeItemLoader's property formatters. Apppend the RecipeItem
+            # to the recipes list
             recipes.append(il.load_item())
 
         # more processing is done by the openrecipes.pipelines. Look at that
