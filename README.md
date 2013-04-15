@@ -126,7 +126,7 @@ We're also gonna be on IRC, so please feel free to join us if you have any quest
 
 ## CHANGELOG
 
-*Not every change, but notable ones that require action for contributors*
+*Not every change, but notable ones that may require action*
 
 * 2013-04-15: `pipelines.MakestringsPipeline` and `pipelines.CleanDatesTimesPipeline` have been deprecated, and `pipelines.RejectinvalidPipeline` has been added. Your `ITEM_PIPELINES` config in `settings.py` should look something like this:
 
