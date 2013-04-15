@@ -138,3 +138,11 @@ We're also gonna be on IRC, so please feel free to join us if you have any quest
         # 'openrecipes.pipelines.MongoDBPipeline',
     ]
     ```
+* 2013-04-14: Spiders now use a RecipeItemLoader to store data scraped from a page. This allows us to do cleanup of properties without relying on a pipeline class, which makes testing significantly easier. See [spiders/thepioneerwoman.py](https://github.com/fictivekin/openrecipes/blob/f0f7acb1ed23098258f198b2496f53aa0e8cfe3f/scrapy_proj/openrecipes/spiders/thepioneerwoman_spider.py) with updated comments to see the new approach. Example:
+
+    ```python
+    il = RecipeItemLoader(item=RecipeItem())
+    il.add_value('name', r_scope.select(name_path).extract())
+    # [...]
+    recipes.append(il.load_item())
+    ```
