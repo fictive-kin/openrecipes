@@ -41,8 +41,8 @@ class DuplicaterecipePipeline(object):
 
     def process_item(self, item, spider):
         # create a string that's just a concatenation of name & url
-        base = "%s%s" % (item['name'].encode('utf-8'),
-                         item['url'].encode('utf-8'))
+        base = "%s%s" % (''.join(item['name']).encode('utf-8'),
+                         ''.join(item['url']).encode('utf-8'))
 
         # generate an ID based on that string
         hash_id = hashlib.md5(base).hexdigest()
