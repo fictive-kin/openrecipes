@@ -1,5 +1,5 @@
 import isodate
-from dateutil.parser import parse
+import timelib
 from scrapy import log
 import bleach
 
@@ -45,7 +45,7 @@ def get_isodate(date_str):
     except isodate.ISO8601Error, e:
         # if not, try to parse it
         try:
-            iso_date = isodate.date_isoformat(parse(date_str))
+            iso_date = isodate.date_isoformat(timelib.strtodatetime(date_str))
         except Exception, e:
             log.msg(e.message, level=log.WARNING)
             return None
@@ -67,7 +67,7 @@ def get_isoduration(date_str):
     except isodate.ISO8601Error, e:
         # if not, try to parse it
         try:
-            delta = (parse(date_str) - parse(''))
+            delta = (timelib.strtodatetime(date_str) - timelib.strtodatetime('now'))
             iso_duration = isodate.duration_isoformat(delta)
         except Exception, e:
             log.msg(e.message, level=log.WARNING)
