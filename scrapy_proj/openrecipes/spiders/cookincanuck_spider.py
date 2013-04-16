@@ -27,7 +27,7 @@ class CookincanuckMixin(object):
         recipeYield_path = '*//*[@itemprop="recipeYield"]/text()'
 
         ingredients_path = '*//*[@itemprop="ingredients"]'
-        datePublished = '*/*[@itemprop="published"]/@datetime'
+        datePublished = '//*[@class="time_stamp_month"]'
 
         recipes = []
 
