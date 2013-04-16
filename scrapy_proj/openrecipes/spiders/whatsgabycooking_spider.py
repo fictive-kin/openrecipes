@@ -5,7 +5,6 @@ from openrecipes.items import RecipeItem
 from openrecipes.schema_org_parser import parse_recipes
 
 
-
 class WhatsgabycookingMixin(object):
     source = 'whatsgabycooking'
 
@@ -16,14 +15,10 @@ class WhatsgabycookingMixin(object):
 
         image_path = hxs.select("descendant-or-self::img[@class and contains(@class, 'wp-image')][1]/@src").extract()
 
-
-        for recipe in raw_recipes :
+        for recipe in raw_recipes:
             recipe['image'] = image_path
-            
-        return [RecipeItem.from_dict(recipe) for recipe in raw_recipes]
 
-      
-            
+        return [RecipeItem.from_dict(recipe) for recipe in raw_recipes]
 
 
 class WhatsgabycookingcrawlSpider(CrawlSpider, WhatsgabycookingMixin):
@@ -37,10 +32,8 @@ class WhatsgabycookingcrawlSpider(CrawlSpider, WhatsgabycookingMixin):
     ]
 
     rules = (
-        Rule(SgmlLinkExtractor(allow=('TODO'))),
+        Rule(SgmlLinkExtractor(allow=('/category/categories/.*/'))),
 
-        Rule(SgmlLinkExtractor(allow=('TODO')),
+        Rule(SgmlLinkExtractor(allow=('/[^/]+/'), deny=('/category/categories/.*/')),
              callback='parse_item'),
     )
-
-
