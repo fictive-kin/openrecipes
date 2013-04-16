@@ -56,13 +56,13 @@ class RecipeItem(Item):
 
     @classmethod
     def from_dict(kls, d):
-        item = kls()
+        il = RecipeItemLoader(item=kls())
         for name, value in d.iteritems():
             try:
-                item[name] = value
+                il.add_value(name, value)
             except KeyError:
                 pass
-        return item
+        return il.load_item()
 
     # our internal stuff
     source = Field()
