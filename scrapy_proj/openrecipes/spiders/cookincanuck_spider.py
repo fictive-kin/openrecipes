@@ -10,8 +10,6 @@ class CookincanuckMixin(object):
     Using this as a mixin lets us reuse the parse_item method more easily
     """
 
-    # this is the source string we'll store in the DB to aggregate stuff
-    # from a single source
     source = 'cookincanuck'
 
     def parse_item(self, response):
@@ -20,13 +18,15 @@ class CookincanuckMixin(object):
         base_path = """//div[@id="zlrecipe-innerdiv"]"""
         recipes_scopes = hxs.select(base_path)
 
-        name_path = '*//*[@itemprop="name"]/text()' # OK
+        name_path = '*//*[@itemprop="name"]/text()'
         url_path = '//link[@rel="canonical"]/@href'
-        image_path = '//meta[@property="og:image"][1]/@content' # OK
-        prepTime_path = '*//*[@itemprop="prepTime"]/@content' # OK
-        cookTime_path = '*//*[@itemprop="cookTime"]/@content' # OK
-        recipeYield_path = '*//*[@itemprop="recipeYield"]/text()' # OK
-        ingredients_path = '*//*[@itemprop="ingredients"]' # OK
+        image_path = '//meta[@property="og:image"][1]/@content'
+
+        prepTime_path = '*//*[@itemprop="prepTime"]/@content'
+        cookTime_path = '*//*[@itemprop="cookTime"]/@content'
+        recipeYield_path = '*//*[@itemprop="recipeYield"]/text()'
+
+        ingredients_path = '*//*[@itemprop="ingredients"]'
         datePublished = '*/*[@itemprop="published"]/@datetime'
 
         recipes = []
