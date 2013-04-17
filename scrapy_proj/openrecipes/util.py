@@ -102,13 +102,15 @@ def parse_isoduration(iso_duration):
 
 
 def ingredient_heuristic(container):
-    ingredient_regexp = re.compile(r'^(\d+[^\.]|salt|pepper|few|handful|pinch|some|dash)', re.IGNORECASE)
+    ordinal_regex = re.compile(r'^\d(st|nd|rd|th)')
+    ingredient_regexp = re.compile(r'^(\d+[^\.]|salt|garlic|pine|parmesan|pepper|few|handful|pinch|some|dash)', re.IGNORECASE)
     text_nodes = container.select('text()')
     if len(text_nodes) == 0:
         return 0
     numbercount = 0
     for node in text_nodes:
-        if ingredient_regexp.match(node.extract().strip()):
+        text = node.extract().strip()
+        if ingredient_regexp.match(text) and not ordinal_regex.match(text):
             numbercount += 1
 
     return float(numbercount) / len(text_nodes)
