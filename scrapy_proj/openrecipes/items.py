@@ -1,7 +1,11 @@
 from scrapy.contrib.loader import ItemLoader
-from scrapy.contrib.loader.processor import Compose, TakeFirst, Join
+from scrapy.contrib.loader.processor import Compose, MapCompose, TakeFirst, Join
 from scrapy.item import Item, Field
 from openrecipes.util import strip_html, trim_whitespace, get_isodate, get_isoduration
+
+
+def filter_ingredients(x):
+    return None if 'ingredient' in x.lower() else x
 
 
 class RecipeItemLoader(ItemLoader):
@@ -21,7 +25,7 @@ class RecipeItemLoader(ItemLoader):
 
     cookingMethod_out = Compose(TakeFirst(), trim_whitespace)
     cookTime_out = Compose(TakeFirst(), strip_html, get_isoduration)
-    ingredients_out = Compose(Join("\n"), strip_html, trim_whitespace)
+    ingredients_out = Compose(MapCompose(trim_whitespace, filter_ingredients), Join("\n"), strip_html)
     prepTime_out = Compose(TakeFirst(), strip_html, get_isoduration)
     recipeCategory_out = Compose(TakeFirst(), trim_whitespace)
     recipeCuisine_out = Compose(TakeFirst(), trim_whitespace)
