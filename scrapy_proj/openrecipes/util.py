@@ -1,5 +1,5 @@
 import isodate
-from dateutil.parser import parse
+import timelib
 from scrapy import log
 import bleach
 import re
@@ -46,7 +46,7 @@ def get_isodate(date_str):
     except isodate.ISO8601Error, e:
         # if not, try to parse it
         try:
-            iso_date = isodate.date_isoformat(parse(date_str))
+            iso_date = isodate.date_isoformat(timelib.strtodatetime(date_str))
         except Exception, e:
             log.msg(e.message, level=log.WARNING)
             return None
@@ -68,7 +68,7 @@ def get_isoduration(date_str):
     except isodate.ISO8601Error, e:
         # if not, try to parse it
         try:
-            delta = (parse(date_str) - parse(''))
+            delta = (timelib.strtodatetime(date_str) - timelib.strtodatetime('now'))
             iso_duration = isodate.duration_isoformat(delta)
         except Exception, e:
             log.msg(e.message, level=log.WARNING)
@@ -123,3 +123,8 @@ RECIPE_THRESHOLD = 2/3
 
 def is_ingredient_container(container):
     return ingredient_heuristic(container) > RECIPE_THRESHOLD
+
+
+def select_class(scope, css_class):
+    path = "descendant-or-self::*[@class and contains(concat(' ', normalize-space(@class), ' '), ' %s ')]" % css_class
+    return scope.select(path)
