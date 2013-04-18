@@ -48,8 +48,6 @@ class ThelittlekitchenMixin(object):
                 ingredients.append(ingredient)
             il.add_value('ingredients', ingredients)
             
-            #pubDate = r_scope.select(datePublished).extract()
-            #raise Exception('Pub date is %s' % pubDate)
             il.add_value('datePublished', r_scope.select(datePublished).extract())
 
             recipes.append(il.load_item())
