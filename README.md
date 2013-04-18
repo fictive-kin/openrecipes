@@ -37,16 +37,8 @@ Use the force; seek the source?
 
 Wanna help? Fantastic. We knew we liked you.
 
-We're gonna be using [the wiki](https://github.com/fictivekin/openrecipes/wiki) to help organize this effort. Right now, there are two simple ways to help:
+Head over to [the wiki](https://github.com/fictivekin/openrecipes/wiki) to see how you can help out.
 
-1. Add a [publisher](https://github.com/fictivekin/openrecipes/wiki/Publishers). We wanna have the most complete list of recipe publishers. This is the easiest way to contribute. Please also add [an issue](https://github.com/fictivekin/openrecipes/issues) and tag it `publisher`. If you don't have a github account you can also email us suggestions at openrecipes@fictivekin.com
-2. Claim a publisher.
-
-Claiming a publisher means you are taking responsibility for writing a simple parser for the recipes from this particular publisher. Our tech ([see below](#the-tech)) will store this in an object type based on the [schema.org Recipe format](http://schema.org/Recipe), and can convert it into other formats for easy storage and discovery.
-
-Each publisher is a [GitHub issue](https://github.com/fictivekin/openrecipes/issues), so you can claim a publisher by claiming an issue. Just like a bug, and just as delicious.  Just leave a comment on the issue claiming it, and it's all yours.
-
-When you have a working parser (what we call "spiders" below), you contribute it to this project by submitting a [Github pull request](https://help.github.com/articles/using-pull-requests). We'll use it to periodically bring recipe data into our database. The database will be available intially as data dumps.
 
 ## Feedback?
 
