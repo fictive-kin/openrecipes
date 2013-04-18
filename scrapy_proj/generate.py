@@ -36,7 +36,7 @@ class %(crawler_name)sMixin(object):
         for r_scope in recipes_scopes:
             il = RecipeItemLoader(item=RecipeItem())
 
-            item['source'] = self.source
+            il.add_value('source', self.source)
 
             il.add_value('name', r_scope.select(name_path).extract())
             il.add_value('image', r_scope.select(image_path).extract())
@@ -76,8 +76,6 @@ class %(crawler_name)scrawlSpider(CrawlSpider, %(crawler_name)sMixin):
         Rule(SgmlLinkExtractor(allow=('TODO')),
              callback='parse_item'),
     )
-
-
 """
 
 FeedSpiderTemplate = """from scrapy.spider import BaseSpider
