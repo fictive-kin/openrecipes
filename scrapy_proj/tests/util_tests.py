@@ -23,6 +23,9 @@ class ISODateTests(unittest.TestCase):
         delta = datetime.timedelta(minutes=15)
         self.assertEqual(delta, parse_isoduration('PT15M'))
 
+    def test_parse_isoduration_invalid(self):
+        self.assertEqual(None, parse_isoduration('PT1HPT1H'))
+
 
 class StripHTMLTests(unittest.TestCase):
 

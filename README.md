@@ -37,86 +37,8 @@ Use the force; seek the source?
 
 Wanna help? Fantastic. We knew we liked you.
 
-We're gonna be using [the wiki](https://github.com/fictivekin/openrecipes/wiki) to help organize this effort. Right now, there are two simple ways to help:
+Head over to [the wiki](https://github.com/fictivekin/openrecipes/wiki) to see how you can help out.
 
-1. Add a [publisher](https://github.com/fictivekin/openrecipes/wiki/Publishers). We wanna have the most complete list of recipe publishers. This is the easiest way to contribute. Please also add [an issue](https://github.com/fictivekin/openrecipes/issues) and tag it `publisher`. If you don't have a github account you can also email us suggestions at openrecipes@fictivekin.com
-2. Claim a publisher.
-
-Claiming a publisher means you are taking responsibility for writing a simple parser for the recipes from this particular publisher. Our tech ([see below](#the-tech)) will store this in an object type based on the [schema.org Recipe format](http://schema.org/Recipe), and can convert it into other formats for easy storage and discovery.
-
-Each publisher is a [GitHub issue](https://github.com/fictivekin/openrecipes/issues), so you can claim a publisher by claiming an issue. Just like a bug, and just as delicious.  Just leave a comment on the issue claiming it, and it's all yours.
-
-When you have a working parser (what we call "spiders" below), you contribute it to this project by submitting a [Github pull request](https://help.github.com/articles/using-pull-requests). We'll use it to periodically bring recipe data into our database. The database will be available intially as data dumps.
-
-## The Tech
-
-To gather data for Open Recipes, we are building spiders based on [Scrapy](http://scrapy.org), a web scraping framework written in Python. We are using [Scrapy v0.16](http://doc.scrapy.org/en/0.16/) at the moment. To contribute spiders for sites, you should have basic familiarity with:
-
-* Python
-* Git
-* HTML and/or XML
-
-### Setting up a dev environment
-
-> Note: this is strongly biased towards OS X. Feel free to contribute instructions for other operating systems.
-
-To get things going, you will need the following tools:
-
-1. Python 2.7 (including headers)
-1. Git
-1. `pip`
-1. `virtualenv`
-
-You will probably already have the first two, although you may need to install Python headers on Linux with something like `apt-get install python-dev`.
-
-If you don't have `pip`, follow [the installation instructions in the pip docs](http://www.pip-installer.org/en/latest/installing.html). Then you can [install `virtualenv` using pip](http://www.virtualenv.org/en/latest/#installation).
-
-Once you have `pip` and `virtualenv`, you can clone our repo and install requirements with the following steps:
-
-1. Open a terminal and `cd` to the directory that will contain your repo clone. For these instructions, we'll assume you `cd ~/src`.
-2. `git clone https://github.com/fictivekin/openrecipes.git` to clone the repo. This will make a `~/src/openrecipes` directory that contains your local repo.
-3. `cd ./openrecipes` to move into the newly-cloned repo.
-4. `virtualenv --no-site-packages venv` to create a Python virtual environment inside `~/src/openrecipes/venv`.
-5. `source venv/bin/activate` to activate your new Python virtual environment.
-6. `pip install -r requirements.txt` to install the required Python libraries, including Scrapy.
-7. `scrapy -h` to confirm that the `scrapy` command was installed. You should get a dump of the help docs.
-8. `cd scrapy_proj/openrecipes` to move into the Scrapy project directory
-9. `cp settings.py.default settings.py` to set up a working settings module for the project
-10. `scrapy crawl thepioneerwoman.feed` to test the feed spider written for [thepioneerwoman.com](http://thepioneerwoman.com). You should get output like the following:
-
-    <pre>
-    2013-03-30 14:35:37-0400 [scrapy] INFO: Scrapy 0.16.4 started (bot: openrecipes)
-    2013-03-30 14:35:37-0400 [scrapy] DEBUG: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, SpiderState
-    2013-03-30 14:35:37-0400 [scrapy] DEBUG: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, RedirectMiddleware, CookiesMiddleware, HttpCompressionMiddleware, ChunkedTransferMiddleware, DownloaderStats
-    2013-03-30 14:35:37-0400 [scrapy] DEBUG: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
-    2013-03-30 14:35:37-0400 [scrapy] DEBUG: Enabled item pipelines: MakestringsPipeline, DuplicaterecipePipeline
-    2013-03-30 14:35:37-0400 [thepioneerwoman.feed] INFO: Spider opened
-    2013-03-30 14:35:37-0400 [thepioneerwoman.feed] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
-    2013-03-30 14:35:37-0400 [scrapy] DEBUG: Telnet console listening on 0.0.0.0:6023
-    2013-03-30 14:35:37-0400 [scrapy] DEBUG: Web service listening on 0.0.0.0:6080
-    2013-03-30 14:35:38-0400 [thepioneerwoman.feed] DEBUG: Crawled (200) <GET http://feeds.feedburner.com/pwcooks> (referer: None)
-    2013-03-30 14:35:38-0400 [thepioneerwoman.feed] DEBUG: Crawled (200) <GET http://thepioneerwoman.com/cooking/2013/03/beef-fajitas/> (referer: http://feeds.feedburner.com/pwcooks)
-    ...
-    </pre>
-
-    If you do, [*baby you got a stew going!*](http://www.youtube.com/watch?v=5lFZAyZPjV0)
-
-### Writing your own spiders
-
-For now, we recommend looking at the following spider definitions to get a feel for writing them:
-
-* [spiders/thepioneerwoman_spider.py](scrapy_proj/openrecipes/spiders/thepioneerwoman_spider.py)
-* [spiders/thepioneerwoman_feedspider.py](scrapy_proj/openrecipes/spiders/thepioneerwoman_feedspider.py)
-
-Both files are extensively documented, and should give you an idea of what's involved. If you have questions, check the [Feedback section](#feedback) and hit us up.
-
-To generate your own spider, use the included generate.py program.  From the scrapy_proj directory, run the following (make sure you are in the correct virtualenv:
-
-`python generate.py SPIDER_NAME START_URL`
-
-This will generate a basic spider for you named SPIDER_NAME that starts crawling at START_URL.  All that remains for you to do is to fill in the correct info for scraping the name, image, etc.  See `python generate.py --help' for other command line options.
-
-We'll use the ["fork & pull" development model](https://help.github.com/articles/fork-a-repo) for collaboration, so if you plan to contribute, make sure to fork your own repo off of ours. Then you can send us a pull request when you have something to contribute. Please follow ["PEP 8 - Style Guide for Python Code"](http://www.python.org/dev/peps/pep-0008/) for code you write.
 
 ## Feedback?
 

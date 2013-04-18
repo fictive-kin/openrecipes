@@ -1,7 +1,8 @@
 import isodate
-from dateutil.parser import parse
+import timelib
 from scrapy import log
 import bleach
+import re
 
 
 def parse_iso_date(scope):
@@ -45,7 +46,7 @@ def get_isodate(date_str):
     except isodate.ISO8601Error, e:
         # if not, try to parse it
         try:
-            iso_date = isodate.date_isoformat(parse(date_str))
+            iso_date = isodate.date_isoformat(timelib.strtodatetime(date_str))
         except Exception, e:
             log.msg(e.message, level=log.WARNING)
             return None
@@ -67,7 +68,7 @@ def get_isoduration(date_str):
     except isodate.ISO8601Error, e:
         # if not, try to parse it
         try:
-            delta = (parse(date_str) - parse(''))
+            delta = (timelib.strtodatetime(date_str) - timelib.strtodatetime('now'))
             iso_duration = isodate.duration_isoformat(delta)
         except Exception, e:
             log.msg(e.message, level=log.WARNING)
@@ -98,3 +99,32 @@ def parse_isoduration(iso_duration):
         log.msg(e.message, level=log.WARNING)
 
     return delta
+
+
+def ingredient_heuristic(container):
+    ordinal_regex = re.compile(r'^\d(st|nd|rd|th)')
+    ingredient_regexp = re.compile(r'^(\d+[^\.]|salt|garlic|pine|parmesan|pepper|few|handful|pinch|some|dash)', re.IGNORECASE)
+    text_nodes = container.select('text()')
+    if len(text_nodes) == 0:
+        return 0
+    numbercount = 0
+    for node in text_nodes:
+        text = node.extract().strip()
+        if ingredient_regexp.match(text) and not ordinal_regex.match(text):
+            numbercount += 1
+
+    return float(numbercount) / len(text_nodes)
+
+
+# made up number that governs how many ingredient-seeming things need to be in a
+# word container before we decide that it's a list of ingredients
+RECIPE_THRESHOLD = float(2)/3
+
+
+def is_ingredient_container(container):
+    return ingredient_heuristic(container) > RECIPE_THRESHOLD
+
+
+def select_class(scope, css_class):
+    path = "descendant-or-self::*[@class and contains(concat(' ', normalize-space(@class), ' '), ' %s ')]" % css_class
+    return scope.select(path)
