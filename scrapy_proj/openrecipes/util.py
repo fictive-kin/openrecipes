@@ -2,6 +2,7 @@ import isodate
 import timelib
 from scrapy import log
 import bleach
+import re
 
 
 def parse_iso_date(scope):
@@ -98,3 +99,27 @@ def parse_isoduration(iso_duration):
         log.msg(e.message, level=log.WARNING)
 
     return delta
+
+
+def ingredient_heuristic(container):
+    ordinal_regex = re.compile(r'^\d(st|nd|rd|th)')
+    ingredient_regexp = re.compile(r'^(\d+[^\.]|salt|garlic|pine|parmesan|pepper|few|handful|pinch|some|dash)', re.IGNORECASE)
+    text_nodes = container.select('text()')
+    if len(text_nodes) == 0:
+        return 0
+    numbercount = 0
+    for node in text_nodes:
+        text = node.extract().strip()
+        if ingredient_regexp.match(text) and not ordinal_regex.match(text):
+            numbercount += 1
+
+    return float(numbercount) / len(text_nodes)
+
+
+# made up number that governs how many ingredient-seeming things need to be in a
+# word container before we decide that it's a list of ingredients
+RECIPE_THRESHOLD = 2/3
+
+
+def is_ingredient_container(container):
+    return ingredient_heuristic(container) > RECIPE_THRESHOLD
