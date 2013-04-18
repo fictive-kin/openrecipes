@@ -70,7 +70,7 @@ class CookincanuckcrawlSpider(CrawlSpider, CookincanuckMixin):
     ]
 
     rules = (
-        Rule(SgmlLinkExtractor(allow=('/category/\d+/'))),
+        Rule(SgmlLinkExtractor(allow=('/category/[^/]+/?'))),
 
         Rule(SgmlLinkExtractor(allow=('\/\d\d\d\d\/\d\d\/[a-zA-Z_]+/?')),
              callback='parse_item'),
