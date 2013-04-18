@@ -48,59 +48,6 @@ Each publisher is a [GitHub issue](https://github.com/fictivekin/openrecipes/iss
 
 When you have a working parser (what we call "spiders" below), you contribute it to this project by submitting a [Github pull request](https://help.github.com/articles/using-pull-requests). We'll use it to periodically bring recipe data into our database. The database will be available intially as data dumps.
 
-## The Tech
-
-To gather data for Open Recipes, we are building spiders based on [Scrapy](http://scrapy.org), a web scraping framework written in Python. We are using [Scrapy v0.16](http://doc.scrapy.org/en/0.16/) at the moment. To contribute spiders for sites, you should have basic familiarity with:
-
-* Python
-* Git
-* HTML and/or XML
-
-### Setting up a dev environment
-
-> Note: this is strongly biased towards OS X. Feel free to contribute instructions for other operating systems.
-
-To get things going, you will need the following tools:
-
-1. Python 2.7 (including headers)
-1. Git
-1. `pip`
-1. `virtualenv`
-
-You will probably already have the first two, although you may need to install Python headers on Linux with something like `apt-get install python-dev`.
-
-If you don't have `pip`, follow [the installation instructions in the pip docs](http://www.pip-installer.org/en/latest/installing.html). Then you can [install `virtualenv` using pip](http://www.virtualenv.org/en/latest/#installation).
-
-Once you have `pip` and `virtualenv`, you can clone our repo and install requirements with the following steps:
-
-1. Open a terminal and `cd` to the directory that will contain your repo clone. For these instructions, we'll assume you `cd ~/src`.
-2. `git clone https://github.com/fictivekin/openrecipes.git` to clone the repo. This will make a `~/src/openrecipes` directory that contains your local repo.
-3. `cd ./openrecipes` to move into the newly-cloned repo.
-4. `virtualenv --no-site-packages venv` to create a Python virtual environment inside `~/src/openrecipes/venv`.
-5. `source venv/bin/activate` to activate your new Python virtual environment.
-6. `pip install -r requirements.txt` to install the required Python libraries, including Scrapy.
-7. `scrapy -h` to confirm that the `scrapy` command was installed. You should get a dump of the help docs.
-8. `cd scrapy_proj/openrecipes` to move into the Scrapy project directory
-9. `cp settings.py.default settings.py` to set up a working settings module for the project
-10. `scrapy crawl thepioneerwoman.feed` to test the feed spider written for [thepioneerwoman.com](http://thepioneerwoman.com). You should get output like the following:
-
-    <pre>
-    2013-03-30 14:35:37-0400 [scrapy] INFO: Scrapy 0.16.4 started (bot: openrecipes)
-    2013-03-30 14:35:37-0400 [scrapy] DEBUG: Enabled extensions: LogStats, TelnetConsole, CloseSpider, WebService, CoreStats, SpiderState
-    2013-03-30 14:35:37-0400 [scrapy] DEBUG: Enabled downloader middlewares: HttpAuthMiddleware, DownloadTimeoutMiddleware, UserAgentMiddleware, RetryMiddleware, DefaultHeadersMiddleware, RedirectMiddleware, CookiesMiddleware, HttpCompressionMiddleware, ChunkedTransferMiddleware, DownloaderStats
-    2013-03-30 14:35:37-0400 [scrapy] DEBUG: Enabled spider middlewares: HttpErrorMiddleware, OffsiteMiddleware, RefererMiddleware, UrlLengthMiddleware, DepthMiddleware
-    2013-03-30 14:35:37-0400 [scrapy] DEBUG: Enabled item pipelines: MakestringsPipeline, DuplicaterecipePipeline
-    2013-03-30 14:35:37-0400 [thepioneerwoman.feed] INFO: Spider opened
-    2013-03-30 14:35:37-0400 [thepioneerwoman.feed] INFO: Crawled 0 pages (at 0 pages/min), scraped 0 items (at 0 items/min)
-    2013-03-30 14:35:37-0400 [scrapy] DEBUG: Telnet console listening on 0.0.0.0:6023
-    2013-03-30 14:35:37-0400 [scrapy] DEBUG: Web service listening on 0.0.0.0:6080
-    2013-03-30 14:35:38-0400 [thepioneerwoman.feed] DEBUG: Crawled (200) <GET http://feeds.feedburner.com/pwcooks> (referer: None)
-    2013-03-30 14:35:38-0400 [thepioneerwoman.feed] DEBUG: Crawled (200) <GET http://thepioneerwoman.com/cooking/2013/03/beef-fajitas/> (referer: http://feeds.feedburner.com/pwcooks)
-    ...
-    </pre>
-
-    If you do, [*baby you got a stew going!*](http://www.youtube.com/watch?v=5lFZAyZPjV0)
-
 ## Feedback?
 
 We're just trying to do the right thing, so we value your feedback as we go. You can ping [Ed](https://github.com/funkatron), [Chris](https://github.com/shiflett), [Andreas](https://github.com/andbirkebaek), or anyone from [Fictive Kin](https://github.com/fictivekin). General suggestions and feedback to [openrecipes@fictivekin.com](mailto:openrecipes@fictivekin.com) are welcome, too.
