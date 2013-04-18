@@ -98,3 +98,8 @@ def parse_isoduration(iso_duration):
         log.msg(e.message, level=log.WARNING)
 
     return delta
+
+
+def select_class(scope, css_class):
+    path = "descendant-or-self::*[@class and contains(concat(' ', normalize-space(@class), ' '), ' %s ')]" % css_class
+    return scope.select(path)
