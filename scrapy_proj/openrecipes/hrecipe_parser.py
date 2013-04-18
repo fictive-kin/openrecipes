@@ -1,7 +1,7 @@
 from openrecipes.util import select_class
 
 
-def parse_recipes(scope, data={}):
+def parse_recipe(scope, data={}):
     root = select_class(scope, 'hrecipe')
     data['name'] = select_class(root, 'fn').select('.//text()').extract()
     data['yield'] = select_class(root, 'yield').select('.//text()').extract()
