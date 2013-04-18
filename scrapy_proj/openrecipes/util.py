@@ -118,7 +118,7 @@ def ingredient_heuristic(container):
 
 # made up number that governs how many ingredient-seeming things need to be in a
 # word container before we decide that it's a list of ingredients
-RECIPE_THRESHOLD = 2/3
+RECIPE_THRESHOLD = float(2)/3
 
 
 def is_ingredient_container(container):
