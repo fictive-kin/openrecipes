@@ -28,25 +28,16 @@ class BrownEyedBakerMixin(object):
 
         for r_scope in recipes_scopes:
             il = RecipeItemLoader(item=RecipeItem())
-            #item = RecipeItem()
-
             il.add_value('source', self.source)
-
             il.add_value('name', r_scope.select(name_path).extract())
             il.add_value('url', response.url)
-            
             il.add_value('image', r_scope.select(image_path).extract())
-
             il.add_value('description', r_scope.select(description_path).extract())
-
             il.add_value('prepTime', r_scope.select(prepTime_path).extract())
             il.add_value('cookTime', r_scope.select(cookTime_path).extract())
             il.add_value('totalTime', r_scope.select(totalTime_path).extract())
-
             il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
-
             il.add_value('ingredients', r_scope.select(ingredients_path).extract())
-
             recipes.append(il.load_item())
 
         return recipes
