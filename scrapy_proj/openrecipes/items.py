@@ -5,7 +5,8 @@ from openrecipes.util import strip_html, trim_whitespace, get_isodate, get_isodu
 
 
 def filter_ingredients(x):
-    return None if 'ingredient' in x.lower() else x
+    return x
+    # return None if 'ingredient' in x.lower() else x
 
 
 class RecipeItemLoader(ItemLoader):
