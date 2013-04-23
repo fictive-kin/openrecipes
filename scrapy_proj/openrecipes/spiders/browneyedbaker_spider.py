@@ -23,7 +23,7 @@ class BrownEyedBakerMixin(object):
         cookTime_path = '//*[@class="cooktime"]/text()'
         totalTime_path = '//*[@class="duration"]/text()'
         recipeYield_path = '//*[@class="yield"]/text()'
-        ingredients_path = '//*[@class="ingredient"]/p/text()'
+        ingredients_path = '//*[@class="ingredient"]/p/text() | //*[@class="ingredient"]/span/text()'
 
         recipes = []
 
