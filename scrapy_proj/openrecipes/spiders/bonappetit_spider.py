@@ -23,7 +23,7 @@ class BonappetitMixin(object):
         image_path = '//meta[@property="og:image"]/@content'
         recipeYield_path = '//div[@class="time-and-yield"]/*/span[@class="yield"]/text()'
         ingredients_path = '//ul[@class="ingredients"]/li/span[@class="ingredient"]'
-        datePublished_path = '//div[@class="intro"]/div[@class="display-date"]/text()[last()]' # skip HTML comment
+        datePublished_path = '//div[@class="intro"]/div[@class="display-date"]/text()[last()]'  # skip HTML comment
 
         recipes = []
         for r_scope in recipes_scopes:
