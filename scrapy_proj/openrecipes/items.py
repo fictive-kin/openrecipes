@@ -25,7 +25,7 @@ class RecipeItemLoader(ItemLoader):
 
     cookingMethod_out = Compose(TakeFirst(), trim_whitespace)
     cookTime_out = Compose(TakeFirst(), strip_html, get_isoduration)
-    ingredients_out = Compose(MapCompose(trim_whitespace, filter_ingredients), Join("\n"), strip_html)
+    ingredients_out = Compose(MapCompose(strip_html, trim_whitespace, filter_ingredients), Join("\n"))
     prepTime_out = Compose(TakeFirst(), strip_html, get_isoduration)
     recipeCategory_out = Compose(TakeFirst(), trim_whitespace)
     recipeCuisine_out = Compose(TakeFirst(), trim_whitespace)
