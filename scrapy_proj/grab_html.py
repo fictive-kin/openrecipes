@@ -3,6 +3,7 @@ import os
 import errno
 import lxml
 import lxml.html
+import re
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -25,8 +26,10 @@ def grab_html(args):
     make_sure_path_exists(htmldir)
     t = lxml.html.parse(args.url)
     title = t.find(".//title").text
-
-    with open(os.path.join(htmldir, title + '.html'), 'w') as f:
+    title = title.strip()
+    title = "item_%s" % (re.sub(r"([^a-zA-Z0-9\._-]+)", "_", title))
+    filename = os.path.join(htmldir, title + '.html')
+    with open(filename, 'w') as f:
         f.write(lxml.etree.tostring(t, pretty_print=True))
     # print response.content
 
@@ -60,6 +63,7 @@ def grab_html(args):
     #     with open(feed_filename, 'w') as f:
     #         f.write(FeedSpiderTemplate % values)
 
+        print "Wrote %s" % filename
 
 epilog = """
 Example usage: python grab_html.py cookincanuck http://www.cookincanuck.com/2013/04/10-minute-thai-shrimp-cucumber-avocado-salad-recipe/
