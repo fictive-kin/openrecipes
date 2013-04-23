@@ -58,7 +58,7 @@ class SteamykitchenMixin(object):
         return recipes
 
 
-class CookincanuckcrawlSpider(CrawlSpider, SteamykitchenMixin):
+class SteamykitchenSpider(CrawlSpider, SteamykitchenMixin):
 
     name = "steamykitchen.com"
     allowed_domains = ["steamykitchen.com"]
