@@ -1,5 +1,7 @@
 # Open Recipes
 
+***[Download the latest DB dump](http://openrecipes.s3.amazonaws.com/recipeitems-latest.json.gz)***
+
 ## About
 
 Open Recipes is an open database of recipe bookmarks.
