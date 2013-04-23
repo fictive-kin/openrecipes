@@ -73,10 +73,13 @@ def create_item_t(item):
     def do_test_scraped_item(self):
         msg = "Name is not in item %s" % (item)
         self.assertIn('name', item, msg)
+        self.assertNotEqual(item['name'], '', msg)
         msg = "Ingredients is not in item %s" % (item)
         self.assertIn('ingredients', item, msg)
+        self.assertNotEqual(item['ingredients'], '', msg)
         msg = "URL is not in item %s" % (item)
         self.assertIn('url', item, msg)
+        self.assertNotEqual(item['url'], '', msg)
     return do_test_scraped_item
 
 
