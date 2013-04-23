@@ -47,9 +47,8 @@ class CookincanuckMixin(object):
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
             for i_scope in ingredient_scopes:
-                ind = i_scope.extract()
-                ind = ind.strip()
-                ingredients.append("%s " % (ind))
+                ind = i_scope.select('.//text()').extract()
+                ingredients.append(''.join(ind).strip())
             il.add_value('ingredients', ingredients)
 
             il.add_value('datePublished', r_scope.select(datePublished).extract())
