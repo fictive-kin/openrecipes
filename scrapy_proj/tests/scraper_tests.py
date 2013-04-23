@@ -49,8 +49,10 @@ def get_html_paths():
             for troot, tdirs, tfiles in os.walk(os.path.join(root, name),
                                                 topdown=False):
                 for tfile in tfiles:
-                    tpath = os.path.join(troot, tfile)
-                    paths[name].append(tpath)
+                    # only include files that end in .html
+                    if re.search(r"\.html$", tfile):
+                        tpath = os.path.join(troot, tfile)
+                        paths[name].append(tpath)
     return paths
 
 
