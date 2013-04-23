@@ -37,7 +37,7 @@ class TastyKitchenMixin(object):
         prepTime_path = '//form/p/time[@itemprop="prepTime"]/@datetime'
         ingredients_path = '//span[@itemprop="ingredient"]'
         ingredients_amounts_path = './span[@itemprop="amount"]/text()'
-        ingredients_names_path = './span[@itemprop="amount"]/text()'
+        ingredients_names_path = './span[@itemprop="name"]/text()'
         datePublished_path = '//span[@itemprop="published"]/@datetime'
 
         # init an empty list
