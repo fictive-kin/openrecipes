@@ -12,7 +12,6 @@ class EattheloveMixin(object):
 
         hxs = HtmlXPathSelector(response)
         raw_recipes = parse_recipes(hxs, {'source': self.source, 'url': response.url})
-        print raw_recipes
 
         return [RecipeItem.from_dict(recipe) for recipe in raw_recipes]
 
