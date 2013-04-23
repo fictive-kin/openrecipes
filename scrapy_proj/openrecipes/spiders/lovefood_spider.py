@@ -64,7 +64,7 @@ class LovefoodcrawlSpider(CrawlSpider, LovefoodMixin):
     ]
 
     rules = (
-        Rule(SgmlLinkExtractor(allow=('/guide/recipes?page=(\d+)'))),
+        Rule(SgmlLinkExtractor(allow=('/guide/recipes\?page=(\d+)'))),
 
         Rule(SgmlLinkExtractor(allow=('/guide/recipes/(.+)')),
              callback='parse_item'),
