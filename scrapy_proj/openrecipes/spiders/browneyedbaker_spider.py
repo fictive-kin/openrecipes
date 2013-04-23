@@ -45,7 +45,7 @@ class BrownEyedBakerMixin(object):
 
 
 class BrownEyedBakercrawlSpider(CrawlSpider, BrownEyedBakerMixin):
-    name = "browneyedbaker"
+    name = "browneyedbaker.com"
     allowed_domains = ["browneyedbaker.com"]
     start_urls = [
         "http://www.browneyedbaker.com/recipe-index/",
