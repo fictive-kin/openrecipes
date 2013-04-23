@@ -55,7 +55,7 @@ class LovefoodMixin(object):
 
 class LovefoodcrawlSpider(CrawlSpider, LovefoodMixin):
 
-    name = "www.lovefood.com"
+    name = "lovefood.com"
 
     allowed_domains = ["www.lovefood.com"]
 
