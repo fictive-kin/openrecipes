@@ -18,7 +18,7 @@ class PaninihappyMixin(object):
         loader.add_value('image', select_class(hxs, 'post_image').select('@src').extract())
         loader.add_value('description', hxs.select('//meta[@name="description"]/@content').extract())
         loader.add_value('name', select_class(hxs, 'entry-title').select('text()').extract())
-        return loader.load_item()
+        return [loader.load_item()]
 
 
 class PaninihappycrawlSpider(CrawlSpider, PaninihappyMixin):
