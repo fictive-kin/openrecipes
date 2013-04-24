@@ -19,7 +19,7 @@ class TheVintageMixerMixin(object):
 
         image_path = '(//div[@class="entry"]//img/@src)[1]'
         name_path = '//div[@itemprop="name"]/text()'
-        url_path = '//h2[@class="title"]/a/@href'
+        url_path = '//h2[@class="title"]/a/@href | //link[@rel="canonical"]/@href'
 
         yield_path = '//span[@itemprop="servingSize"]/text()'
         total_time_path = '//span[@itemprop="totalTime"]/@content'
