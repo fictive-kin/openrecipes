@@ -48,7 +48,7 @@ class WilliamsSonomaMixin(object):
 
 class WilliamsSonomacrawlSpider(CrawlSpider, WilliamsSonomaMixin):
 
-    name = "www.williams-sonoma.com"
+    name = "williams-sonoma.com"
 
     allowed_domains = ["www.williams-sonoma.com"]
 
