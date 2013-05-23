@@ -32,12 +32,18 @@ def total_by_source(days_back=None):
 
 
 def output_totals(days_in_past, totals):
+
+    sum_all = 0
+
     if (days_in_past):
         print "Last %d day(s) ===========" % days_in_past
     else:
         print "All time ==========="
     for total in totals:
         print "%s: %d" % (total['_id'], total['totalItems'])
+        sum_all = sum_all + total['totalItems']
+
+    print "TOTAL: %d" % sum_all
     print "\n"
 
 
@@ -53,6 +59,8 @@ if __name__ == '__main__':
     conn = pymongo.mongo_client.MongoClient(mongo_uri)
     conn_db = conn[mongo_db]
     conn_coll = conn_db[mongo_coll]
+
+    # totals by source
     days = [1, 7, 30, 0]
     for day in days:
         totals = total_by_source(day)
