@@ -2,6 +2,8 @@ import pymongo
 import os
 import sys
 import timelib
+import argparse
+import json
 script_path = os.path.abspath(os.path.dirname(__file__))
 new_path = os.path.abspath((os.path.join(script_path, '..', 'scrapy_proj')))
 
@@ -47,7 +49,40 @@ def output_totals(days_in_past, totals):
     print "\n"
 
 
+def format_json(days_in_past, totals):
+    sum_all = 0
+    key = None
+
+    source_vals = {}
+
+    if (days_in_past):
+        key = "Last %d day(s)" % days_in_past
+    else:
+        key = "All time"
+    for total in totals:
+        source_vals[total['_id']] = total['totalItems']
+        sum_all = sum_all + total['totalItems']
+
+    source_vals['TOTAL'] = sum_all
+
+    return key, source_vals
+
+
+def get_args():
+    parser = argparse.ArgumentParser(description='Output RecipeItems stats from MongoDB')
+    parser.add_argument('-j', dest='JSON_OUTPUT', action='store_true',
+                       help='output a JSON structure')
+    args = parser.parse_args()
+    return args
+
+
+JSON_OUTPUT = False
+
+
 if __name__ == '__main__':
+
+    args = get_args()
+    JSON_OUTPUT = args.JSON_OUTPUT
 
     # load the settings
     settings = get_project_settings()
@@ -62,6 +97,15 @@ if __name__ == '__main__':
 
     # totals by source
     days = [1, 7, 30, 0]
+    json_dict = {}
     for day in days:
         totals = total_by_source(day)
-        output_totals(day, totals)
+        if JSON_OUTPUT:
+            source_key, source_vals = format_json(day, totals)
+            json_dict[source_key] = source_vals
+        else:
+            output_totals(day, totals)
+
+    if JSON_OUTPUT:
+        print json.dumps(json_dict, sort_keys=True, indent=4,
+                         separators=(',', ': '))
