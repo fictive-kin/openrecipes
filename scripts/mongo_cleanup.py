@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import pymongo
 import os
 import sys
