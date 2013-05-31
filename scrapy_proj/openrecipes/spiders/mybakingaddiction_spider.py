@@ -2,6 +2,22 @@ from scrapy.contrib.spiders import CrawlSpider, Rule
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem, RecipeItemLoader
+import re
+
+RECIPE_THRESHOLD = 2/3
+
+
+def ingredient_heuristic(container):
+    ingredient_regexp = re.compile(r'^(\d+[^\.]|salt|pepper|few|handful|pinch|some|dash)', re.IGNORECASE)
+    text_nodes = container.select('text()')
+    if len(text_nodes) == 0:
+        return 0
+    numbercount = 0
+    for node in text_nodes:
+        if ingredient_regexp.match(node.extract().strip()):
+            numbercount += 1
+
+    return float(numbercount) / len(text_nodes)
 
 
 class MybakingaddictionMixin(object):
@@ -22,7 +38,7 @@ class MybakingaddictionMixin(object):
         #cookTime_path = 'TODO'
         #recipeYield_path = 'TODO'
         #  ingredients is only displaying first item, I assume the /br is messing with it.
-        ingredients_path = 'normalize-space(//*[@class="ingredient"])'
+        ingredients_path = '//*[@class="ingredient"]'
         datePublished = '//span[@class="published"]/text()'
 
         recipes = []
@@ -44,8 +60,10 @@ class MybakingaddictionMixin(object):
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
             for i_scope in ingredient_scopes:
-                ingredient = i_scope.extract('p/br').strip()
-                ingredients.append(ingredient)
+                if ingredient_heuristic(i_scope) > RECIPE_THRESHOLD:
+                    for ingredient in i_scope.select('text()'):
+                        ingredients.append(ingredient.extract().strip())
+
             il.add_value('ingredients', ingredients)
 
             il.add_value('datePublished', r_scope.select(datePublished).extract())
@@ -62,40 +80,13 @@ class MybakingaddictioncrawlSpider(CrawlSpider, MybakingaddictionMixin):
     allowed_domains = ["www.mybakingaddiction.com"]
 
     start_urls = [
-        "http://www.mybakingaddiction.com/appetizers/",
-        "http://www.mybakingaddiction.com/bar-cookies/",
-        "http://www.mybakingaddiction.com/baking-in-jars/",
-        "http://www.mybakingaddiction.com/beverages/",
-        "http://www.mybakingaddiction.com/bread/",
-        "http://www.mybakingaddiction.com/breakfast/",
-        "http://www.mybakingaddiction.com/brownies/",
-        "http://www.mybakingaddiction.com/bundt-cakes/",
-        "http://www.mybakingaddiction.com/cakes/",
-        "http://www.mybakingaddiction.com/cheesecakes/",
-        "http://www.mybakingaddiction.com/chocolate/",
-        "http://www.mybakingaddiction.com/chocolate-chip/",
-        "http://www.mybakingaddiction.com/cookies/",
-        "http://www.mybakingaddiction.com/cupcakes/",
-        "http://www.mybakingaddiction.com/entrees/",
-        "http://www.mybakingaddiction.com/fall/",
-        "http://www.mybakingaddiction.com/frozen-desserts/",
-        "http://www.mybakingaddiction.com/ice-cream/",
-        "http://www.mybakingaddiction.com/lemon-recipes/",
-        "http://www.mybakingaddiction.com/mini_desserts/",
-        "http://www.mybakingaddiction.com/muffins/",
-        "http://www.mybakingaddiction.com/no-bake-desserts/",
-        "http://www.mybakingaddiction.com/peanut-butter/",
-        "http://www.mybakingaddiction.com/pies/",
-        "http://www.mybakingaddiction.com/pumpkin/",
-        "http://www.mybakingaddiction.com/strawberry-desserts/",
-        "http://www.mybakingaddiction.com/summer/",
-        "http://www.mybakingaddiction.com/trifles/"
+        "http://www.mybakingaddiction.com/recipe-index/"
 
 
     ]
 
     rules = (
-        #Rule(SgmlLinkExtractor(allow=('/.+/'))),
+        (SgmlLinkExtractor(allow=('/[^/]+/?'))),
 
         Rule(SgmlLinkExtractor(allow=('/.+/')),
              callback='parse_item'),
