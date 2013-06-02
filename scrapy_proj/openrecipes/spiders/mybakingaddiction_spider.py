@@ -4,21 +4,6 @@ from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem, RecipeItemLoader
 import re
 
-RECIPE_THRESHOLD = 2/3
-
-
-def ingredient_heuristic(container):
-    ingredient_regexp = re.compile(r'^(\d+[^\.]|salt|pepper|few|handful|pinch|some|dash)', re.IGNORECASE)
-    text_nodes = container.select('text()')
-    if len(text_nodes) == 0:
-        return 0
-    numbercount = 0
-    for node in text_nodes:
-        if ingredient_regexp.match(node.extract().strip()):
-            numbercount += 1
-
-    return float(numbercount) / len(text_nodes)
-
 
 class MybakingaddictionMixin(object):
     source = 'mybakingaddiction'
@@ -32,16 +17,19 @@ class MybakingaddictionMixin(object):
         recipes_scopes = hxs.select(base_path)
 
         name_path = '//h1[@class="fn"]/text()'
-        description_path = '//div[@class="format_text entry-content jpibfi_container"]/p/text()'
+        #long descriptions used in website, also the description doesn't appear..
+        description_path = '//*[@class="format_text entry-content jpibfi_container"]/p/text()'
+        #the end image url contains dimensions 150x150, not sure how to remove.
         image_path = '//*[@class="photo"]/@src'
-        #prepTime_path = 'TODO'
-        #cookTime_path = 'TODO'
-        #recipeYield_path = 'TODO'
-        #  ingredients is only displaying first item, I assume the /br is messing with it.
-        ingredients_path = '//*[@class="ingredient"]'
+        #prepTime_path = 'TODO'   None given
+        #cookTime_path = 'TODO'   None given
+        #recipeYield_path = 'TODO'None given
+        ingredients_path = './/*[@class="ingredient"]/p/text()'
         datePublished = '//span[@class="published"]/text()'
 
         recipes = []
+
+        label_regex = re.compile(r'^For ')
 
         for r_scope in recipes_scopes:
             il = RecipeItemLoader(item=RecipeItem())
@@ -60,10 +48,9 @@ class MybakingaddictionMixin(object):
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
             for i_scope in ingredient_scopes:
-                if ingredient_heuristic(i_scope) > RECIPE_THRESHOLD:
-                    for ingredient in i_scope.select('text()'):
-                        ingredients.append(ingredient.extract().strip())
-
+                ingredient = i_scope.extract().strip()
+                if not label_regex.match(ingredient) and not ingredient.endswith(':'):
+                    ingredients.append(ingredient)
             il.add_value('ingredients', ingredients)
 
             il.add_value('datePublished', r_scope.select(datePublished).extract())
@@ -82,11 +69,10 @@ class MybakingaddictioncrawlSpider(CrawlSpider, MybakingaddictionMixin):
     start_urls = [
         "http://www.mybakingaddiction.com/recipe-index/"
 
-
     ]
 
     rules = (
-        (SgmlLinkExtractor(allow=('/[^/]+/?'))),
+        Rule(SgmlLinkExtractor(allow=('/[^/]+/?'))),
 
         Rule(SgmlLinkExtractor(allow=('/.+/')),
              callback='parse_item'),
