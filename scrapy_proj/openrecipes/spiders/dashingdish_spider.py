@@ -19,12 +19,7 @@ class Dashingdish_spiderMixin(object):
         description_path = '//*[@class="entry"]/p//text()'
         image_path = '//*[@class="featured_image"]/img[@class="image"]/@src'
         recipeYield_path = '//*[@class="breakdown"]/tbody/tr[1]/td[1]/text()'
-        ingredients_path = '*//*[@class="ingredients"]'
-        #the site only offers total time, so prep and cook is combined
-        #prepTime_path = ''
-        # timezone warning, that is over my head at this point
-        #cookTime_path = '//*[@class="cook_time"]'
-        # datePublished = 'TODO' not available
+        ingredients_path = '//*[@class="ingredients"]/tr'
 
         recipes = []
 
@@ -38,20 +33,19 @@ class Dashingdish_spiderMixin(object):
             il.add_value('url', response.url)
             il.add_value('description', r_scope.select(description_path).extract())
 
-            # il.add_value('prepTime', r_scope.select(prepTime_path).extract())
-            #il.add_value('cookTime', r_scope.select(cookTime_path).extract())
             il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
-            #il.add_value('ingredients', r_scope.select(ingredients_path).extract())
+
+            # this gives us a list of TRs
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
+
+            # iterate over each TR scope and extract out the TDs + combine
+            # the HTML will stripped in the pipeline
             for i_scope in ingredient_scopes:
-                amount = i_scope.select('//td/strong').extract()
-                name = i_scope.select('//*[@class="ingredients"]/tbody/tr/td/text()').extract()
-                amount = "".join(amount).strip()
-                name = "".join(name).strip()
-                ingredients.append("%s %s" % (amount, name))
+                ingr_row = i_scope.select('td').extract()
+                ingredient_str = " ".join(ingr_row).strip()
+                ingredients.append(ingredient_str)
             il.add_value('ingredients', ingredients)
-            # il.add_value('datePublished', r_scope.select(datePublished).extract())
 
             recipes.append(il.load_item())
 
@@ -69,8 +63,6 @@ class Dashingdish_spidercrawlSpider(CrawlSpider, Dashingdish_spiderMixin):
     ]
 
     rules = (
-        #Rule(SgmlLinkExtractor(allow=('TODO'))),
-
         Rule(SgmlLinkExtractor(allow=('recipe\/.+\/')),
              callback='parse_item'),
     )
