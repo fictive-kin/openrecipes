@@ -5,7 +5,7 @@ from openrecipes.items import RecipeItem, RecipeItemLoader
 
 
 class Loveandoliveoil_Mixin(object):
-    source = 'loveandoliveoil_spider'
+    source = 'loveandoliveoil'
 
     def parse_item(self, response):
 
@@ -51,7 +51,7 @@ class Loveandoliveoil_Mixin(object):
 
 class Loveandoliveoil_crawlSpider(CrawlSpider, Loveandoliveoil_Mixin):
 
-    name = "www.loveandoliveoil.com"
+    name = "loveandoliveoil.com"
 
     allowed_domains = ["www.loveandoliveoil.com"]
 
