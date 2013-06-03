@@ -31,7 +31,7 @@ class Dashingdish_spiderMixin(object):
         for r_scope in recipes_scopes:
             il = RecipeItemLoader(item=RecipeItem())
 
-            #il.add_value('source', self.source)
+            il.add_value('source', self.source)
 
             il.add_value('name', r_scope.select(name_path).extract())
             il.add_value('image', r_scope.select(image_path).extract())
