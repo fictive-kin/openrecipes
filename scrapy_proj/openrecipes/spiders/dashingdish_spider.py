@@ -5,7 +5,7 @@ from openrecipes.items import RecipeItem, RecipeItemLoader
 
 
 class Dashingdish_spiderMixin(object):
-    source = 'dashingdish_spider'
+    source = 'dashingdish'
 
     def parse_item(self, response):
 
