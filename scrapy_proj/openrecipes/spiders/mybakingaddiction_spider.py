@@ -72,8 +72,6 @@ class MybakingaddictioncrawlSpider(CrawlSpider, MybakingaddictionMixin):
     ]
 
     rules = (
-        Rule(SgmlLinkExtractor(allow=('/[^/]+/?'))),
-
         Rule(SgmlLinkExtractor(allow=('/.+/')),
              callback='parse_item'),
     )
