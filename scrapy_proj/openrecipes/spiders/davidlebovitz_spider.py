@@ -41,12 +41,8 @@ class DavidlebovitzMixin(object):
             #il.add_value('prepTime', r_scope.select(prepTime_path).extract())
             #il.add_value('cookTime', r_scope.select(cookTime_path).extract())
 
-            ingredient_scopes = r_scope.select(ingredients_path)
-            ingredients = []
-            for i_scope in ingredient_scopes:
-                pass
-            il.add_value('ingredients', ingredients)
 
+            il.add_value('ingredients', r_scope.select(ingredients_path).extract())
 
             recipes.append(il.load_item())
 
