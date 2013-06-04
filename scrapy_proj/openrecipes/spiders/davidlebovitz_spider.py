@@ -16,14 +16,7 @@ class DavidlebovitzMixin(object):
         recipes_scopes = hxs.select(base_path)
 
         name_path = '//*[@class="title fn"]/text()'
-        #  little iffy on how to do this one
-        #description_path = 'TODO'
         image_path = '//*[@class="photo"]/@src'
-        #  both cook and prep time not available
-        #prepTime_path = 'TODO'
-        #cookTime_path = 'TODO'
-        #  check on diff sites
-        #ingredients_path = '//*[@class="ingredient_list"]'
         ingredients_path = '//ul[@class="ingredient_list"]/li/text()'
 
         recipes = []
@@ -36,11 +29,6 @@ class DavidlebovitzMixin(object):
             il.add_value('name', r_scope.select(name_path).extract())
             il.add_value('image', r_scope.select(image_path).extract())
             il.add_value('url', response.url)
-            #il.add_value('description', r_scope.select(description_path).extract())
-
-            #il.add_value('prepTime', r_scope.select(prepTime_path).extract())
-            #il.add_value('cookTime', r_scope.select(cookTime_path).extract())
-
 
             il.add_value('ingredients', r_scope.select(ingredients_path).extract())
 
