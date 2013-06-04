@@ -62,7 +62,7 @@ class MybakingaddictionMixin(object):
 
 class MybakingaddictioncrawlSpider(CrawlSpider, MybakingaddictionMixin):
 
-    name = "www.mybakingaddiction.com"
+    name = "mybakingaddiction.com"
 
     allowed_domains = ["www.mybakingaddiction.com"]
 
