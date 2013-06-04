@@ -25,7 +25,6 @@ class DavidlebovitzMixin(object):
         #  check on diff sites
         #ingredients_path = '//*[@class="ingredient_list"]'
         ingredients_path = '//ul[@class="ingredient_list"]/li/text()'
-        datePublished = 'normalize-space(//*[@class="postmeta"]/text())'
 
         recipes = []
 
@@ -48,7 +47,6 @@ class DavidlebovitzMixin(object):
                 pass
             il.add_value('ingredients', ingredients)
 
-            il.add_value('datePublished', r_scope.select(datePublished).extract())
 
             recipes.append(il.load_item())
 
