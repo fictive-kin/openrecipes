@@ -66,7 +66,7 @@ class DavidlebovitzcrawlSpider(CrawlSpider, DavidlebovitzMixin):
     ]
 
     rules = (
-        Rule(SgmlLinkExtractor(allow=('/[^/]+/?'))),
+        Rule(SgmlLinkExtractor(allow=('/category/recipes/'))),
 
         Rule(SgmlLinkExtractor(allow=('\/\d\d\d\d\/\d\d\/[a-zA-Z_]+/?')),
              callback='parse_item'),
