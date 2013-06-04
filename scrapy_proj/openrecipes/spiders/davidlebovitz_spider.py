@@ -57,7 +57,7 @@ class DavidlebovitzMixin(object):
 
 class DavidlebovitzcrawlSpider(CrawlSpider, DavidlebovitzMixin):
 
-    name = "www.davidlebovitz.com"
+    name = "davidlebovitz.com"
 
     allowed_domains = ["www.davidlebovitz.com"]
 
