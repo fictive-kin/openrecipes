@@ -23,7 +23,6 @@ class DavidlebovitzMixin(object):
         #prepTime_path = 'TODO'
         #cookTime_path = 'TODO'
         #  check on diff sites
-        recipeYield_path = '//blockquote/p[2]/text()'
         #ingredients_path = '//*[@class="ingredient_list"]'
         ingredients_path = '//ul[@class="ingredient_list"]/li/text()'
         datePublished = 'normalize-space(//*[@class="postmeta"]/text())'
@@ -42,7 +41,6 @@ class DavidlebovitzMixin(object):
 
             #il.add_value('prepTime', r_scope.select(prepTime_path).extract())
             #il.add_value('cookTime', r_scope.select(cookTime_path).extract())
-            il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
 
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
