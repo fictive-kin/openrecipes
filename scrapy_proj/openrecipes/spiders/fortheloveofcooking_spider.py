@@ -24,8 +24,6 @@ class FortheloveofcookingMixin(object):
         cookTime_path = '//*[@class="cooktime"]/text()'
         recipeYield_path = '//*[@class="yield"]/text()'
         ingredients_path = './/div[@class="ingredient"]/p/text()'
-        #the formatting is odd, will need to learn more xpath to be able to select, just date
-        datePublished = '//*[@class="postmeta"]/text()'
 
         recipes = []
 
@@ -52,8 +50,6 @@ class FortheloveofcookingMixin(object):
                 if not label_regex.match(ingredient) and not ingredient.endswith(':'):
                     ingredients.append(ingredient)
             il.add_value('ingredients', ingredients)
-
-            il.add_value('datePublished', r_scope.select(datePublished).extract())
 
             recipes.append(il.load_item())
 
