@@ -62,7 +62,7 @@ class FortheloveofcookingMixin(object):
 
 class FortheloveofcookingcrawlSpider(CrawlSpider, FortheloveofcookingMixin):
 
-    name = "www.fortheloveofcooking.net"
+    name = "fortheloveofcooking.net"
 
     allowed_domains = ["www.fortheloveofcooking.net"]
 
