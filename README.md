@@ -44,7 +44,7 @@ Head over to [the wiki](https://github.com/fictivekin/openrecipes/wiki) to see h
 
 ## Feedback?
 
-We're just trying to do the right thing, so we value your feedback as we go. You can ping [Ed](https://github.com/funkatron), [Chris](https://github.com/shiflett), [Andreas](https://github.com/andbirkebaek), or anyone from [Fictive Kin](https://github.com/fictivekin). General suggestions and feedback to [openrecipes@fictivekin.com](mailto:openrecipes@fictivekin.com) are welcome, too.
+We're just trying to do the right thing, so we value your feedback as we go. You can ping [Ed](https://github.com/funkatron), [Chris](https://github.com/shiflett), [Andreas](https://github.com/andreasb), or anyone from [Fictive Kin](https://github.com/fictivekin). General suggestions and feedback to [openrecipes@fictivekin.com](mailto:openrecipes@fictivekin.com) are welcome, too.
 
 We're also gonna be on IRC, so please feel free to join us if you have any questions or comments. We'll be hanging out in #openrecipes on Freenode. See you there!
 
