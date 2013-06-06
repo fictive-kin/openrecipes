@@ -4,26 +4,25 @@ from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem, RecipeItemLoader
 
 
-class Spider_nameMixin(object):
-    source = 'spider_name'
+class SimplyrecipesMixin(object):
+    source = 'simplyrecipes'
 
     def parse_item(self, response):
 
         hxs = HtmlXPathSelector(response)
 
-        base_path = 'TODO'
+        base_path = '//*[@itemtype="http://schema.org/Recipe"]'
 
         recipes_scopes = hxs.select(base_path)
 
-        name_path = 'TODO'
-        description_path = 'TODO'
-        image_path = 'TODO'
-        prepTime_path = 'TODO'
-        cookTime_path = 'TODO'
-        recipeYield_path = 'TODO'
-        ingredients_path = 'TODO'
-        datePublished = 'TODO'
-
+        name_path = '//*[@class="recipe-callout"]/h2/text()'
+        description_path = './/*[@id="recipe-intronote"]/p/text()'
+        image_path = '//*[@itemprop="image"]/@src'
+        prepTime_path = './/span[@itemprop="prepTime"]/span/@title'
+        cookTime_path = './/span[@itemprop="cookTime"]/span/@title'
+        recipeYield_path = '//*[@itemprop="recipeYield"]/text()'
+        ingredients_path = '//*[@itemprop="ingredients"]/text()'
+        datePublished = '//*[@class="entry-date"]/text()'
         recipes = []
 
         for r_scope in recipes_scopes:
@@ -40,10 +39,12 @@ class Spider_nameMixin(object):
             il.add_value('cookTime', r_scope.select(cookTime_path).extract())
             il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
 
-            ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
-            for i_scope in ingredient_scopes:
-                pass
+            ingredient_scopes = r_scope.select(ingredients_path)
+            for ingredient_scope in ingredient_scopes:
+                ingredient = ingredient_scope.extract().strip()
+                if (ingredient):
+                    ingredients.append(ingredient)
             il.add_value('ingredients', ingredients)
 
             il.add_value('datePublished', r_scope.select(datePublished).extract())
@@ -53,19 +54,19 @@ class Spider_nameMixin(object):
         return recipes
 
 
-class Spider_namecrawlSpider(CrawlSpider, Spider_nameMixin):
+class SimplyrecipescrawlSpider(CrawlSpider, SimplyrecipesMixin):
 
-    name = "START_URL"
+    name = "simplyrecipes.com"
 
-    allowed_domains = ["START_URL"]
+    allowed_domains = ["simplyrecipes.com"]
 
     start_urls = [
-        "START_URL",
+        "http://www.simplyrecipes.com/index/",
     ]
 
     rules = (
-        Rule(SgmlLinkExtractor(allow=('TODO'))),
+        Rule(SgmlLinkExtractor(allow=('/recipes/ingredient/[a-z-]+/'))),
 
-        Rule(SgmlLinkExtractor(allow=('TODO')),
+        Rule(SgmlLinkExtractor(allow=('/recipes/[a-z_]+/')),
              callback='parse_item'),
     )
