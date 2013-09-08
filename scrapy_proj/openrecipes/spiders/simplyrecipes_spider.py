@@ -19,8 +19,8 @@ class SimplyrecipesMixin(object):
         # we use this to run XPath commands against the HTML in the response
         hxs = HtmlXPathSelector(response)
 
-        # this is the base XPath string for the element that contains the recipe
-        # info
+        # this is the base XPath string for the element that contains the
+        # recipe info
         base_path = """//article[@itemtype="http://schema.org/Recipe"]"""
 
         # the select() method will return a list of HtmlXPathSelector objects.
@@ -35,8 +35,8 @@ class SimplyrecipesMixin(object):
         image_path = '//meta[@property="og:image"][1]/@content'
         prepTime_path = '//span[@itemprop="prepTime"]/@content'
         cookTime_path = '//span[@itemprop="cookTime"]/@content'
-        recipeYield_path = '//span[@itemprop="recipeYield"]/text()' 
-        ingredients_path = '//li[@itemprop="ingredients"]' 
+        recipeYield_path = '//span[@itemprop="recipeYield"]/text()'
+        ingredients_path = '//li[@itemprop="ingredients"]'
         datePublished = '//time[@itemprop="datePublished"]/@datetime'
 
         # init an empty list
@@ -49,7 +49,6 @@ class SimplyrecipesMixin(object):
 
             # Extract core properties of recipe
             il.add_value('source', self.source)
-
             il.add_value('name', r_scope.select(name_path).extract())
             il.add_value('image', r_scope.select(image_path).extract())
             il.add_value('url', r_scope.select(url_path).extract())
@@ -57,13 +56,13 @@ class SimplyrecipesMixin(object):
             il.add_value('prepTime', r_scope.select(prepTime_path).extract())
             il.add_value('cookTime', r_scope.select(cookTime_path).extract())
             il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
-              
+
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
 
-            # Loop through ingredients to extract each ingredient    
+            # Loop through ingredients to extract each ingredient
             for i_scope in ingredient_scopes:
-                ingredient = i_scope.select('text()').extract()    
+                ingredient = i_scope.select('text()').extract()
                 ingredients.append("%s" % ingredient)
 
             il.add_value('ingredients', ingredients)

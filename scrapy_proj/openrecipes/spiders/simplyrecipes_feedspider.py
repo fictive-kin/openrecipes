@@ -1,10 +1,10 @@
 from scrapy.spider import BaseSpider
 from scrapy.http import Request
 from scrapy.selector import XmlXPathSelector
-from openrecipes.spiders.thepioneerwoman_spider import ThepioneerwomanMixin
+from openrecipes.spiders.simplyrecipes_spider import SimplyrecipesMixin
 
 
-class SimplyrecipesfeedSpider(BaseSpider, ThepioneerwomanMixin):
+class SimplyrecipesfeedSpider(BaseSpider, SimplyrecipesMixin):
     """
     This parses the RSS feed for simplyrecipes.com, grabs the original
     links to each entry, and scrapes just those pages. This should be used
@@ -18,7 +18,7 @@ class SimplyrecipesfeedSpider(BaseSpider, ThepioneerwomanMixin):
         "feedproxy.google.com"
     ]
     start_urls = [
-        "http://feeds.feedburner.com/pwcooks",
+        "http://feeds.feedburner.com/elise/simplyrecipes",
     ]
 
     def parse(self, response):
