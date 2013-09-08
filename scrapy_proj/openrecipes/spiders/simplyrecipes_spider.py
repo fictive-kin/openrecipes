@@ -4,7 +4,7 @@ from scrapy.selector import HtmlXPathSelector
 from openrecipes.items import RecipeItem, RecipeItemLoader
 
 
-class .SimplyrecipesMixin(object):
+class SimplyrecipesMixin(object):
 
     """
     Using this as a mixin lets us reuse the parse_item method more easily
@@ -21,7 +21,7 @@ class .SimplyrecipesMixin(object):
 
         # this is the base XPath string for the element that contains the recipe
         # info
-        base_path = """//div[@itemtype="http://data-vocabulary.org/Recipe"]"""
+        base_path = """//article[@itemtype="http://schema.org/Recipe"]"""
 
         # the select() method will return a list of HtmlXPathSelector objects.
         # On this site we will almost certainly either get back just one, if
@@ -33,11 +33,11 @@ class .SimplyrecipesMixin(object):
         description_path = '//meta[@property="og:description"]/@content'
         url_path = '//meta[@property="og:url"]/@content'
         image_path = '//meta[@property="og:image"][1]/@content'
-        prepTime_path = '*//*[@itemprop="prepTime"]/@datetime'
-        cookTime_path = '*//*[@itemprop="cookTime"]/@datetime'
-        recipeYield_path = '*//*[@itemprop="yield"]/text()'
-        ingredients_path = '*//*[@itemprop="ingredient"]'
-        datePublished = '*/*[@itemprop="published"]/@datetime'
+        prepTime_path = '//span[@itemprop="prepTime"]/@content'
+        cookTime_path = '//span[@itemprop="cookTime"]/@content'
+        recipeYield_path = '//span[@itemprop="recipeYield"]/text()' 
+        ingredients_path = '//li[@itemprop="ingredients"]' 
+        datePublished = '//time[@itemprop="datePublished"]/@datetime'
 
         # init an empty list
         recipes = []
@@ -47,29 +47,25 @@ class .SimplyrecipesMixin(object):
             # make an empty RecipeItemLoader
             il = RecipeItemLoader(item=RecipeItem())
 
+            # Extract core properties of recipe
             il.add_value('source', self.source)
 
             il.add_value('name', r_scope.select(name_path).extract())
             il.add_value('image', r_scope.select(image_path).extract())
             il.add_value('url', r_scope.select(url_path).extract())
             il.add_value('description', r_scope.select(description_path).extract())
-
             il.add_value('prepTime', r_scope.select(prepTime_path).extract())
             il.add_value('cookTime', r_scope.select(cookTime_path).extract())
             il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
-
-            # ingredients require more work on this site to extract. We first
-            # get the base elements, and then loop through to pull out each
-            # "amount" and "name." Then we build a single string to represent
-            # each one and append it to the array of ingredients
+              
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
+
+            # Loop through ingredients to extract each ingredient    
             for i_scope in ingredient_scopes:
-                amount = i_scope.select('*[@itemprop="amount"]/text()').extract()
-                name = i_scope.select('*[@itemprop="name"]/text()').extract()
-                amount = "".join(amount).strip()
-                name = "".join(name).strip()
-                ingredients.append("%s %s" % (amount, name))
+                ingredient = i_scope.select('text()').extract()    
+                ingredients.append("%s" % ingredient)
+
             il.add_value('ingredients', ingredients)
 
             il.add_value('datePublished', r_scope.select(datePublished).extract())
@@ -95,18 +91,18 @@ class SimplyrecipescrawlSpider(CrawlSpider, SimplyrecipesMixin):
     # the set of URLs the crawler with start with. We're starting on the first
     # page of the site's recipe archive
     start_urls = [
-        "http://thepioneerwoman.com/cooking/category/all-pw-recipes/?posts_per_page=60",
+        "http://www.simplyrecipes.com",
     ]
 
     # a tuple of Rules that are used to extract links from the HTML page
     rules = (
         # this rule has no callback, so these links will be followed and mined
         # for more URLs. This lets us page through the recipe archives
-        Rule(SgmlLinkExtractor(allow=('/cooking/category/all-pw-recipes/page/\d+/'))),
+        Rule(SgmlLinkExtractor(allow=('/index/*.'))),
 
         # this rule is for recipe posts themselves. The callback argument will
         # process the HTML on the page, extract the recipe information, and
         # return a RecipeItem object
-        Rule(SgmlLinkExtractor(allow=('cooking\/\d\d\d\d\/\d\d\/[a-zA-Z_]+/?')),
+        Rule(SgmlLinkExtractor(allow=('/recipes/*.')),
              callback='parse_item'),
     )
