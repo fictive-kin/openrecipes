@@ -27,7 +27,7 @@ class EpicuriousMixin(object):
         image_path = '//meta[@property="og:image"][1]/@content'
         time_path = './/p[@class="summary_data"][contains(text(), "Prep Time")]/text()'
         recipeYield_path = '//span[@class="yield"]/text()'
-        ingredients_path = '*//*[@class="ingredient"]'
+        ingredients_path = '*//li[@class="ingredient"]'
         datePublished_path = '//p[@id="mag_info"]/text()'
 
         recipes = []
@@ -59,14 +59,14 @@ class EpicuriousMixin(object):
 
             il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
 
-            # the ingredients are pretty well formatted here, but we do need
-            # to trim some trailing whitespace
+            # We need to select the text in the span element
             ingredient_scopes = r_scope.select(ingredients_path)
             ingredients = []
             for i_scope in ingredient_scopes:
-                ingredient = i_scope.select('text()').extract()
+                ingredient = i_scope.select('span/text()').extract()
                 ingredient = "".join(ingredient)
                 ingredients.append(ingredient)
+
             il.add_value('ingredients', ingredients)
 
             # Date Published is formatted as [Category] | MMM YYYY
