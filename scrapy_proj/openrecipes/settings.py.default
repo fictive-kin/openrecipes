@@ -15,8 +15,8 @@ NEWSPIDER_MODULE = 'openrecipes.spiders'
 ITEM_PIPELINES = [
     'openrecipes.pipelines.RejectinvalidPipeline',
     'openrecipes.pipelines.DuplicaterecipePipeline',
-    # uncomment if you want to insert results into MongoDB
-    # 'openrecipes.pipelines.MongoDBPipeline',
+    # this will insert results into MongoDB
+    'openrecipes.pipelines.MongoDBPipeline',
 ]
 
 # keep this low to avoid hammering the source site
