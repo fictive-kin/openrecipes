@@ -59,14 +59,18 @@ class TastyKitchenMixin(object):
             il.add_value('recipeYield', r_scope.select(recipeYield_path).extract())
             il.add_value('datePublished', r_scope.select(datePublished_path).extract())
 
-            # Simpler to grab the amount and name spans separately,
-            # then combine them into a string.
             ingredient_scopes = r_scope.select(ingredients_path)
-            amount = ingredient_scopes.select(ingredients_amounts_path).extract()
-            name = ingredient_scopes.select(ingredients_names_path).extract()
-            ingredients = [" ".join(ing).encode('utf-8') for ing in zip(amount, name)]
-
+            ingredients = []
+            # Grabs the amount and name of ingredients and combine them
+            for i_scope in ingredient_scopes:
+                amount = i_scope.select(ingredients_amounts_path).extract()
+                name = i_scope.select(ingredients_names_path).extract()
+                amount = "".join(amount).strip()
+                name = "".join(name).strip()
+                if not name.isupper():
+                    ingredients.append("%s %s" % (amount, name))
             il.add_value('ingredients', ingredients)
+
 
             # stick this RecipeItem in the array of recipes we will return
             recipes.append(il.load_item())
